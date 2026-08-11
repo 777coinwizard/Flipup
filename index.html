@@ -1,94 +1,184 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>FLIP UP — Prototype</title>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
+<meta name="theme-color" content="#071009"/>
+<title>FLIP UP — Multiplayer Beta</title>
 <style>
-:root{--bg:#070a08;--panel:#0d120f;--panel2:#121a15;--line:#233126;--text:#f5fff7;--muted:#8ea596;--green:#54ff83;--green2:#18c84f;--gold:#f4d35e;--red:#ff6464;--shadow:0 18px 60px rgba(0,0,0,.38)}
-*{box-sizing:border-box} body{margin:0;background:radial-gradient(circle at 50% -10%,#17331e 0,#09100b 30%,var(--bg) 68%);color:var(--text);font-family:Inter,ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Arial;min-height:100vh}
-button,input{font:inherit}.wrap{max-width:1200px;margin:0 auto;padding:20px}.topbar{display:flex;gap:12px;align-items:center;justify-content:space-between;margin-bottom:18px}.brand{display:flex;align-items:center;gap:12px}.logo{width:46px;height:46px;border-radius:14px;display:grid;place-items:center;font-size:27px;background:linear-gradient(145deg,#1a3b22,#0d1510);border:1px solid #2d6338;box-shadow:0 0 36px rgba(84,255,131,.12)}h1{font-size:24px;margin:0;letter-spacing:.5px}.tag{font-size:12px;color:var(--muted)}.statrow{display:flex;gap:10px;flex-wrap:wrap}.pill{border:1px solid var(--line);background:rgba(14,20,16,.8);border-radius:14px;padding:10px 14px;font-weight:750}.pill small{display:block;color:var(--muted);font-size:10px;font-weight:700;letter-spacing:.8px}.pill .burn{color:#ff9b65}.grid{display:grid;grid-template-columns:1.45fr .75fr;gap:18px}.card{background:linear-gradient(180deg,rgba(17,25,20,.96),rgba(10,15,12,.96));border:1px solid var(--line);border-radius:24px;box-shadow:var(--shadow)}.hero{padding:22px;position:relative;overflow:hidden}.hero:before{content:"";position:absolute;inset:auto -80px -100px auto;width:320px;height:320px;border-radius:50%;background:radial-gradient(circle,rgba(84,255,131,.08),transparent 68%)}.sectiontitle{display:flex;justify-content:space-between;gap:10px;align-items:flex-start}.live{font-size:11px;color:#0b130d;background:var(--green);font-weight:900;padding:5px 8px;border-radius:999px;letter-spacing:.8px}.round{color:var(--muted);font-size:12px}.timer{font-size:52px;font-weight:950;letter-spacing:-2px;margin:12px 0 2px}.sub{color:var(--muted);font-size:13px}.stage{height:260px;margin:18px 0;border-radius:22px;border:1px solid #243128;background:radial-gradient(circle at 50% 40%,#1a3220 0,#101711 46%,#090d0a 100%);display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}.moon{position:absolute;width:90px;height:90px;border-radius:50%;background:rgba(244,211,94,.12);filter:blur(.2px);top:22px;right:40px}.lep{font-size:105px;filter:drop-shadow(0 12px 18px rgba(0,0,0,.45));transition:.25s;transform-origin:center bottom}.lep.bounce{animation:bounce .5s ease}.lep.win{animation:spin .8s ease}.speech{position:absolute;top:18px;left:18px;background:#f7fff8;color:#101a12;padding:10px 13px;border-radius:14px;font-weight:900;font-size:13px;max-width:230px}.hands{position:absolute;bottom:18px;display:flex;gap:95px;font-size:55px}.hands span{filter:drop-shadow(0 8px 12px rgba(0,0,0,.4))}.choices{display:grid;grid-template-columns:1fr 1fr;gap:12px}.side{border:1px solid #304437;background:#111a14;border-radius:18px;padding:16px;cursor:pointer;color:var(--text);font-weight:900;font-size:18px;transition:.18s}.side:hover{transform:translateY(-2px);border-color:#4f8f5f}.side.active{border-color:var(--green);box-shadow:0 0 0 2px rgba(84,255,131,.12) inset;background:#132319}.side small{display:block;color:var(--muted);font-weight:700;font-size:11px;margin-top:4px}.betbox{display:flex;gap:10px;margin-top:12px;flex-wrap:wrap}.chip{border:1px solid #2e4233;background:#101812;color:#dffff0;border-radius:12px;padding:10px 12px;font-weight:800;cursor:pointer}.chip:hover,.chip.active{border-color:var(--green)}.cta{width:100%;margin-top:12px;padding:14px 16px;border:0;border-radius:14px;background:linear-gradient(180deg,var(--green),#31d65f);color:#061009;font-weight:950;cursor:pointer;font-size:16px}.cta:disabled{opacity:.4;cursor:not-allowed}.feed{padding:18px}.feed h3,.games h3{margin:0 0 12px}.log{height:575px;overflow:auto;display:flex;flex-direction:column;gap:8px}.event{border:1px solid #1f2c23;background:#0c120e;padding:10px 12px;border-radius:12px;font-size:12px;line-height:1.35}.event b{color:var(--green)}.games{margin-top:18px;padding:18px}.gamegrid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.game{border:1px solid #26362b;background:#0d140f;border-radius:18px;padding:16px;min-height:170px}.ico{font-size:38px}.game h4{font-size:17px;margin:6px 0}.game p{color:var(--muted);font-size:12px;min-height:32px}.smallbtn{border:1px solid #31513a;background:#142019;color:var(--text);border-radius:11px;padding:10px 12px;font-weight:850;cursor:pointer;width:100%}.smallbtn:hover{border-color:var(--green)}.modal{position:fixed;inset:0;background:rgba(0,0,0,.72);display:none;align-items:center;justify-content:center;padding:20px;z-index:30}.modal.show{display:flex}.modalcard{width:min(520px,100%);background:#0d140f;border:1px solid #304236;border-radius:24px;padding:20px;box-shadow:0 30px 100px #000}.modalhead{display:flex;align-items:center;justify-content:space-between}.x{background:transparent;border:0;color:#aaa;font-size:24px;cursor:pointer}.players{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:14px 0}.player{border:1px solid #253429;border-radius:15px;padding:12px;text-align:center}.bigresult{text-align:center;font-size:56px;min-height:75px;margin:10px 0}.notice{font-size:12px;color:var(--muted);text-align:center}.rps{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:10px 0}.rps button{font-size:29px;background:#111a14;color:white;border:1px solid #293b2e;border-radius:14px;padding:13px;cursor:pointer}.rps button.active{border-color:var(--green)}.footer{padding:24px 0 8px;color:#607066;text-align:center;font-size:11px}@keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-22px) scale(1.04)}}@keyframes spin{0%{transform:rotate(0)}50%{transform:rotate(10deg) scale(1.1)}100%{transform:rotate(0)}}
-@media(max-width:860px){.wrap{padding:10px}.topbar{align-items:flex-start}.grid{grid-template-columns:1fr}.log{height:210px}.gamegrid{grid-template-columns:1fr}.timer{font-size:44px}.statrow{display:grid;grid-template-columns:1fr 1fr;width:100%;margin-top:10px}.topbar{flex-direction:column}.pill{padding:8px 10px;font-size:12px}.pill:first-child{grid-column:1/-1}.hands{gap:54px}.stage{height:220px;margin:12px 0}.lep{font-size:88px}.speech{font-size:12px;max-width:190px}.hero{padding:14px}.choices{gap:8px}.side{padding:14px 8px;font-size:16px}.betbox{display:grid;grid-template-columns:repeat(5,1fr);gap:6px}.chip{padding:10px 5px;font-size:12px}.cta{min-height:52px;font-size:17px}.games{padding:14px}.modal{padding:8px;align-items:flex-end}.modalcard{border-radius:24px 24px 0 0;padding:16px;max-height:92vh;overflow:auto}.smallbtn{min-height:48px}.rps button{min-height:64px}.players{gap:6px}.bigresult{font-size:44px}.game{min-height:auto}.feed{padding:14px}}
+:root{--bg:#060907;--panel:#0d140f;--panel2:#111b14;--line:#26372b;--text:#f4fff6;--muted:#8da093;--green:#55ff82;--green2:#20cf55;--red:#ff6262;--gold:#ffd56a}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 50% -10%,#193a22,#08100a 34%,#050806 75%);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Arial,sans-serif;min-height:100vh}button,input{font:inherit}
+.wrap{max-width:1080px;margin:auto;padding:14px}.top{display:flex;justify-content:space-between;gap:12px;align-items:flex-start;flex-wrap:wrap}.brand{display:flex;gap:10px;align-items:center}.logo{width:48px;height:48px;border-radius:15px;background:#122117;border:1px solid #31623c;display:grid;place-items:center;font-size:27px}.brand h1{font-size:24px;margin:0}.tiny{font-size:11px;color:var(--muted)}
+.stats{display:flex;gap:8px;flex-wrap:wrap}.stat{padding:9px 11px;background:#0d140f;border:1px solid var(--line);border-radius:12px;font-size:12px;font-weight:800}.stat small{display:block;color:var(--muted);font-size:9px;letter-spacing:.7px}.burn{color:#ff9c65}
+.card{margin-top:14px;background:linear-gradient(180deg,#101812,#0a100c);border:1px solid var(--line);border-radius:22px;padding:16px;box-shadow:0 20px 70px rgba(0,0,0,.25)}
+.herohead{display:flex;justify-content:space-between;gap:12px}.live{background:var(--green);color:#061009;border-radius:99px;padding:4px 7px;font-size:10px;font-weight:950}.timer{font-size:48px;font-weight:950;letter-spacing:-2px;margin-top:5px}.stage{height:220px;margin:14px 0;border:1px solid #24382a;border-radius:20px;background:radial-gradient(circle,#1b3722,#0c130e 68%);display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}.lep{font-size:88px}.speech{position:absolute;top:13px;left:13px;background:white;color:#0b140d;padding:9px 11px;border-radius:12px;font-size:12px;font-weight:900}.fists{position:absolute;bottom:15px;font-size:48px;display:flex;gap:58px}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:8px}.side,.chip,.btn,.gamebtn,.option{border:1px solid #31503a;background:#111a14;color:white;border-radius:14px;font-weight:900;cursor:pointer}.side{padding:14px 8px;font-size:17px}.side.on,.chip.on,.option.on{border-color:var(--green);box-shadow:0 0 0 2px rgba(85,255,130,.1) inset}.side small{display:block;font-size:10px;color:var(--muted);margin-top:4px}.chips{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;margin-top:9px}.chip{padding:10px 3px;font-size:12px}.btn{width:100%;padding:14px;margin-top:9px;background:linear-gradient(var(--green),#29d65b);color:#061009;border:0;font-size:16px}.btn:disabled{opacity:.45}.notice{text-align:center;color:var(--muted);font-size:11px;margin-top:8px}
+.gamegrid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.game{padding:14px;border:1px solid #27392d;border-radius:17px;background:#0c130e}.game .ico{font-size:34px}.game h3{margin:5px 0}.game p{font-size:11px;color:var(--muted);min-height:30px}.gamebtn{padding:11px;width:100%}
+.joinbox{display:grid;grid-template-columns:1fr auto;gap:8px;margin-top:12px}.joinbox input,.field{width:100%;border:1px solid #2d4033;background:#090f0b;color:white;border-radius:12px;padding:12px;outline:none;text-transform:uppercase}.joinbox button{padding:0 18px}
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.76);display:none;align-items:center;justify-content:center;padding:12px;z-index:20}.modal.show{display:flex}.modalcard{width:min(520px,100%);max-height:92vh;overflow:auto;background:#0d140f;border:1px solid #32473a;border-radius:22px;padding:16px}.modalhead{display:flex;justify-content:space-between;align-items:center}.close{background:none;border:0;color:#aaa;font-size:28px}.roomcode{font-size:34px;letter-spacing:5px;font-weight:950;text-align:center;color:var(--green);padding:12px}.status{text-align:center;color:var(--muted);font-size:12px}.players{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:12px 0}.player{padding:12px;border:1px solid #293b2e;border-radius:14px;text-align:center}.player b{display:block}.big{font-size:54px;text-align:center;min-height:72px;display:grid;place-items:center}.options{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin:10px 0}.option{padding:13px 6px}.copy{background:#16231a;border:1px solid #385640;color:white;border-radius:12px;padding:10px 12px;font-weight:850;width:100%}.divider{height:1px;background:#1f2e24;margin:14px 0}.result{padding:12px;border:1px solid #2b4030;background:#0a110c;border-radius:13px;text-align:center;font-weight:850}.ok{color:var(--green)}.err{color:var(--red)}
+@media(max-width:700px){.wrap{padding:9px}.stats{width:100%;display:grid;grid-template-columns:1fr 1fr}.stats .stat:first-child{grid-column:1/-1}.gamegrid{grid-template-columns:1fr}.timer{font-size:42px}.stage{height:205px}.chips{grid-template-columns:repeat(5,1fr)}.modal{align-items:flex-end;padding:0}.modalcard{border-radius:22px 22px 0 0;width:100%}.game p{min-height:0}}
 </style>
 </head>
 <body>
 <div class="wrap">
-  <div class="topbar">
-    <div class="brand"><div class="logo">🍀</div><div><h1>FLIP UP</h1><div class="tag">PICK. FLIP. STACK. — playable prototype</div></div></div>
-    <div class="statrow">
-      <div class="pill"><small>YOUR STACK</small><span id="balance">100,000</span> FLIP</div>
-      <div class="pill"><small>PROTOCOL RESERVE</small><span id="reserve">25,000,000</span></div>
-      <div class="pill"><small>TOTAL BURNED</small><span class="burn" id="burned">0</span> 🔥</div>
+  <div class="top">
+    <div class="brand"><div class="logo">🍀</div><div><h1>FLIP UP</h1><div class="tiny">PICK. FLIP. STACK. — multiplayer beta</div></div></div>
+    <div class="stats">
+      <div class="stat"><small>YOUR TEST STACK</small><span id="bal">100,000</span> FLIP</div>
+      <div class="stat"><small>PROTOCOL RESERVE</small><span id="reserve">25,000,000</span></div>
+      <div class="stat"><small>TOTAL BURNED</small><span class="burn" id="burned">0</span> 🔥</div>
     </div>
   </div>
 
-  <div class="grid">
-    <section class="card hero">
-      <div class="sectiontitle"><div><span class="live">● LIVE</span><div class="timer" id="timer">00:05</div><div class="sub">Global FLIP UP round <span id="round">#1</span></div></div><div class="round">2% fee on losing stake<br>75% of fee burned forever</div></div>
-      <div class="stage"><div class="moon"></div><div class="speech" id="speech">Pick a hand. Don't overthink it.</div><div class="lep" id="lep">🧑‍🦰</div><div class="hands"><span>👊</span><span>👊</span></div></div>
-      <div class="choices">
-        <button class="side" data-side="LEFT">👈 LEFT<small><span id="leftPot">312,000</span> FLIP public pot</small></button>
-        <button class="side" data-side="RIGHT">RIGHT 👉<small><span id="rightPot">287,000</span> FLIP public pot</small></button>
-      </div>
-      <div class="betbox"><button class="chip active" data-bet="1000">1K</button><button class="chip" data-bet="5000">5K</button><button class="chip" data-bet="10000">10K</button><button class="chip" data-bet="25000">25K</button><button class="chip" data-bet="50000">50K</button></div>
-      <button class="cta" id="placeBet" disabled>CHOOSE LEFT OR RIGHT</button>
-      <div class="notice" style="margin-top:9px">Prototype uses simulated players and fake FLIP. The reserve automatically balances the round.</div>
-    </section>
+  <section class="card">
+    <div class="herohead"><div><span class="live">● LIVE TEST</span><div class="timer" id="timer">00:05</div><div class="tiny">Global FLIP UP — 5 second beta rounds</div></div><div class="tiny" style="text-align:right">2% fee on losing stake<br>75% of fee burned</div></div>
+    <div class="stage"><div class="speech" id="speech">Pick a hand.</div><div class="lep">🧑‍🦰</div><div class="fists"><span>👊</span><span>👊</span></div></div>
+    <div class="two">
+      <button class="side" data-side="LEFT">👈 LEFT<small><span id="lp">312,000</span> FLIP</small></button>
+      <button class="side" data-side="RIGHT">RIGHT 👉<small><span id="rp">287,000</span> FLIP</small></button>
+    </div>
+    <div class="chips" id="globalChips">
+      <button class="chip on" data-v="1000">1K</button><button class="chip" data-v="5000">5K</button><button class="chip" data-v="10000">10K</button><button class="chip" data-v="25000">25K</button><button class="chip" data-v="50000">50K</button>
+    </div>
+    <button id="betBtn" class="btn" disabled>CHOOSE LEFT OR RIGHT</button>
+    <div class="notice">Fake FLIP only. Global round is still simulated locally; multiplayer arena below uses Supabase realtime.</div>
+  </section>
 
-    <aside class="card feed"><h3>⚡ Live activity</h3><div class="log" id="log"></div></aside>
-  </div>
-
-  <section class="card games"><h3>QUICK GAMES — play with your friend</h3><div class="gamegrid">
-    <div class="game"><div class="ico">🪙</div><h4>1v1 FLIP</h4><p>50/50. Player 1 picks heads or tails. Winner takes the pot minus the game fee.</p><button class="smallbtn" onclick="openGame('flip')">PLAY 1v1 FLIP</button></div>
-    <div class="game"><div class="ico">🎲</div><h4>DICE</h4><p>Both players roll. Highest number wins. Ties automatically roll again.</p><button class="smallbtn" onclick="openGame('dice')">ROLL FOR FLIP</button></div>
-    <div class="game"><div class="ico">✊</div><h4>RPS</h4><p>Rock. Paper. Scissors. Both players secretly choose, then reveal together.</p><button class="smallbtn" onclick="openGame('rps')">RPS SHOOT</button></div>
-  </div></section>
-  <div class="footer">FLIP UP TESTNET CONCEPT • NO REAL MONEY • NO BLOCKCHAIN CONNECTED</div>
+  <section class="card">
+    <h2 style="margin:0 0 4px">⚔️ 1v1 ARENA</h2>
+    <div class="tiny">Create a room, send your friend the code, and play from two separate phones.</div>
+    <div class="gamegrid" style="margin-top:12px">
+      <div class="game"><div class="ico">🪙</div><h3>1v1 FLIP</h3><p>Creator picks heads or tails. Opponent gets the other side.</p><button class="gamebtn" onclick="createFlow('flip')">CREATE FLIP</button></div>
+      <div class="game"><div class="ico">🎲</div><h3>DICE</h3><p>Both players roll. Highest roll wins. Ties reroll.</p><button class="gamebtn" onclick="createFlow('dice')">CREATE DICE</button></div>
+      <div class="game"><div class="ico">✊</div><h3>RPS</h3><p>Both players choose. Prototype reveal is realtime; secure commit/reveal comes later.</p><button class="gamebtn" onclick="createFlow('rps')">CREATE RPS</button></div>
+    </div>
+    <div class="divider"></div>
+    <div class="tiny"><b>JOIN A FRIEND</b></div>
+    <div class="joinbox"><input id="joinCode" maxlength="6" placeholder="ROOM CODE"/><button class="gamebtn" onclick="joinFlow()">JOIN</button></div>
+  </section>
 </div>
 
-<div class="modal" id="modal"><div class="modalcard"><div class="modalhead"><div><b id="modalTitle">1v1 FLIP</b><div class="tag">Pass the phone/laptop between Player 1 and Player 2</div></div><button class="x" onclick="closeModal()">×</button></div><div id="modalBody"></div></div></div>
+<div class="modal" id="modal"><div class="modalcard">
+  <div class="modalhead"><div><b id="mtitle">GAME</b><div class="tiny" id="msub">Realtime test room</div></div><button class="close" onclick="leaveModal()">×</button></div>
+  <div id="mbody"></div>
+</div></div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
-let balance=100000,reserve=25000000,burned=0,round=1,leftPot=312000,rightPot=287000,choice=null,bet=1000,betPlaced=null,timeLeft=5;
-const fmt=n=>Math.floor(n).toLocaleString();
-const el=id=>document.getElementById(id);
-function sync(){el('balance').textContent=fmt(balance);el('reserve').textContent=fmt(reserve);el('burned').textContent=fmt(burned);el('leftPot').textContent=fmt(leftPot);el('rightPot').textContent=fmt(rightPot);el('round').textContent='#'+round}
-function addLog(html){const d=document.createElement('div');d.className='event';d.innerHTML=html;el('log').prepend(d);while(el('log').children.length>30)el('log').lastChild.remove()}
-['LEFT','RIGHT'].forEach(s=>document.querySelector('[data-side="'+s+'"]').onclick=()=>{choice=s;document.querySelectorAll('.side').forEach(x=>x.classList.toggle('active',x.dataset.side===s));el('placeBet').disabled=false;el('placeBet').textContent=`BET ${fmt(bet)} FLIP ON ${s}`});
-document.querySelectorAll('.chip').forEach(c=>c.onclick=()=>{bet=+c.dataset.bet;document.querySelectorAll('.chip').forEach(x=>x.classList.toggle('active',x===c));if(choice)el('placeBet').textContent=`BET ${fmt(bet)} FLIP ON ${choice}`});
-el('placeBet').onclick=()=>{if(!choice||betPlaced||balance<bet)return;balance-=bet;betPlaced={choice,bet};choice==='LEFT'?leftPot+=bet:rightPot+=bet;el('placeBet').disabled=true;el('placeBet').textContent='BET LOCKED ✓';addLog(`<b>You</b> locked ${fmt(bet)} FLIP on <b>${choice}</b>`);sync()};
-function reveal(){const winner=Math.random()<.5?'LEFT':'RIGHT';const imbalance=Math.abs(leftPot-rightPot);reserve+=0;el('speech').textContent=winner+' WINS!';el('lep').classList.add('win');setTimeout(()=>el('lep').classList.remove('win'),900);if(betPlaced){if(betPlaced.choice===winner){const fee=Math.floor(betPlaced.bet*.02),burn=Math.floor(fee*.75),treasury=fee-burn,payout=betPlaced.bet*2-fee;balance+=payout;burned+=burn;reserve-=Math.max(0,betPlaced.bet-fee);addLog(`🍀 <b>YOU WON!</b> ${fmt(betPlaced.bet)} → <b>${fmt(payout)} FLIP</b> • 🔥 ${fmt(burn)} burned`)}else{const fee=Math.floor(betPlaced.bet*.02),burn=Math.floor(fee*.75);burned+=burn;reserve+=betPlaced.bet-fee;addLog(`💀 You lost ${fmt(betPlaced.bet)} FLIP • 🔥 ${fmt(burn)} burned`)} }
-addLog(`Round ${round}: <b>${winner}</b> revealed • reserve balanced ${fmt(imbalance)} FLIP of public imbalance`);setTimeout(newRound,2500);sync()}
-function newRound(){round++;timeLeft=5;resolving=false;betPlaced=null;choice=null;document.querySelectorAll('.side').forEach(x=>x.classList.remove('active'));el('placeBet').disabled=true;el('placeBet').textContent='CHOOSE LEFT OR RIGHT';el('speech').textContent=['Pick a hand. Don\'t overthink it.','Feeling lucky?','Small stack. Big flip.','Left? Right? Choose.'][Math.floor(Math.random()*4)];leftPot=Math.floor(200000+Math.random()*250000);rightPot=Math.floor(200000+Math.random()*250000);sync()}
-let resolving=false;
-setInterval(()=>{
-  if(resolving) return;
-  timeLeft--;
-  if(timeLeft<=0){
-    timeLeft=0;
-    resolving=true;
-    el('timer').textContent='00:00';
-    reveal();
-    return;
+const SUPABASE_URL="https://llvoaimskkdafsgvqmrx.supabase.co";
+const SUPABASE_KEY="sb_publishable_DdmyLOBvEUyPlZlqgOk-3A_g1Y6gn0L";
+const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
+
+const $=id=>document.getElementById(id), fmt=n=>Math.floor(Number(n||0)).toLocaleString();
+let balance=Number(localStorage.getItem('flipup_balance')||100000), burned=Number(localStorage.getItem('flipup_burned')||0), reserve=25000000;
+let gChoice=null,gBet=1000,gLocked=null,time=5,resolving=false,leftPot=312000,rightPot=287000;
+let currentRoom=null,currentChannel=null,myRole=null,myName=localStorage.getItem('flipup_name')||'';
+const playerId=localStorage.getItem('flipup_player_id')||crypto.randomUUID();
+localStorage.setItem('flipup_player_id',playerId);
+
+function syncTop(){ $('bal').textContent=fmt(balance);$('burned').textContent=fmt(burned);$('reserve').textContent=fmt(reserve);$('lp').textContent=fmt(leftPot);$('rp').textContent=fmt(rightPot);localStorage.setItem('flipup_balance',balance);localStorage.setItem('flipup_burned',burned)}
+document.querySelectorAll('[data-side]').forEach(b=>b.onclick=()=>{gChoice=b.dataset.side;document.querySelectorAll('[data-side]').forEach(x=>x.classList.toggle('on',x===b));$('betBtn').disabled=false;$('betBtn').textContent=`BET ${fmt(gBet)} FLIP ON ${gChoice}`});
+document.querySelectorAll('#globalChips .chip').forEach(b=>b.onclick=()=>{gBet=+b.dataset.v;document.querySelectorAll('#globalChips .chip').forEach(x=>x.classList.toggle('on',x===b));if(gChoice)$('betBtn').textContent=`BET ${fmt(gBet)} FLIP ON ${gChoice}`});
+$('betBtn').onclick=()=>{if(!gChoice||gLocked||balance<gBet)return;balance-=gBet;gLocked={side:gChoice,stake:gBet};if(gChoice==='LEFT')leftPot+=gBet;else rightPot+=gBet;$('betBtn').disabled=true;$('betBtn').textContent='BET LOCKED ✓';syncTop()};
+function globalReveal(){resolving=true;const win=Math.random()<.5?'LEFT':'RIGHT';$('speech').textContent=win+' WINS!';if(gLocked){const fee=Math.floor(gLocked.stake*.02),burn=Math.floor(fee*.75),payout=gLocked.stake*2-fee;burned+=burn;if(gLocked.side===win)balance+=payout}syncTop();setTimeout(()=>{time=5;resolving=false;gLocked=null;gChoice=null;leftPot=200000+Math.floor(Math.random()*240000);rightPot=200000+Math.floor(Math.random()*240000);document.querySelectorAll('[data-side]').forEach(x=>x.classList.remove('on'));$('betBtn').disabled=true;$('betBtn').textContent='CHOOSE LEFT OR RIGHT';$('speech').textContent='Pick a hand.';syncTop()},1200)}
+setInterval(()=>{if(resolving)return;time--;if(time<=0){$('timer').textContent='00:00';globalReveal();return}$('timer').textContent='00:0'+time},1000);
+
+function roomCode(){const chars='ABCDEFGHJKLMNPQRSTUVWXYZ23456789';let s='';for(let i=0;i<5;i++)s+=chars[Math.floor(Math.random()*chars.length)];return s}
+function stakeButtons(){return `<div class="tiny" style="margin-top:12px"><b>WAGER PER PLAYER</b></div><div class="chips" id="stakeChips"><button class="chip on" data-stake="1000">1K</button><button class="chip" data-stake="5000">5K</button><button class="chip" data-stake="10000">10K</button><button class="chip" data-stake="25000">25K</button><button class="chip" data-stake="50000">50K</button></div>`}
+function chosenStake(){return +(document.querySelector('#stakeChips .chip.on')?.dataset.stake||1000)}
+function bindStake(){document.querySelectorAll('#stakeChips .chip').forEach(b=>b.onclick=()=>{document.querySelectorAll('#stakeChips .chip').forEach(x=>x.classList.remove('on'));b.classList.add('on')})}
+function nameField(){return `<input class="field" id="pname" maxlength="18" placeholder="YOUR NAME" value="${(myName||'').replaceAll('"','&quot;')}">`}
+function openModal(){ $('modal').classList.add('show') }
+async function leaveModal(){if(currentChannel){await sb.removeChannel(currentChannel);currentChannel=null}currentRoom=null;myRole=null;$('modal').classList.remove('show')}
+function createFlow(type){openModal();$('mtitle').textContent='CREATE '+type.toUpperCase();$('msub').textContent='Fake FLIP • realtime multiplayer';$('mbody').innerHTML=`${nameField()}${stakeButtons()}<button class="btn" onclick="createRoom('${type}')">CREATE ROOM</button><div class="notice">Your friend will join with a 5-character room code.</div>`;bindStake()}
+async function createRoom(type){
+  const name=$('pname').value.trim()||'Player 1';myName=name;localStorage.setItem('flipup_name',name);const wager=chosenStake();if(balance<wager)return alert('Not enough TEST FLIP.');
+  const code=roomCode();
+  const {data,error}=await sb.from('games').insert({room_code:code,game_type:type,wager,status:'waiting',player1:name}).select().single();
+  if(error){console.error(error);return alert('Could not create room: '+error.message)}
+  currentRoom=data;myRole='player1';renderRoom();subscribeRoom(code);
+}
+async function joinFlow(){
+  const code=$('joinCode').value.trim().toUpperCase();if(!code)return;
+  openModal();$('mtitle').textContent='JOIN '+code;$('msub').textContent='Enter your name';$('mbody').innerHTML=`${nameField()}<button class="btn" onclick="joinRoom('${code}')">JOIN ROOM</button>`;
+}
+async function joinRoom(code){
+  const name=$('pname').value.trim()||'Player 2';myName=name;localStorage.setItem('flipup_name',name);
+  const {data:room,error}=await sb.from('games').select('*').eq('room_code',code).single();
+  if(error||!room)return alert('Room not found.');
+  if(room.player2)return alert('That room already has two players.');
+  if(balance<Number(room.wager))return alert('Not enough TEST FLIP.');
+  const {data,error:upErr}=await sb.from('games').update({player2:name,status:'active'}).eq('id',room.id).is('player2',null).select().single();
+  if(upErr){console.error(upErr);return alert('Could not join: '+upErr.message)}
+  currentRoom=data;myRole='player2';renderRoom();subscribeRoom(code);
+}
+function subscribeRoom(code){
+  if(currentChannel)sb.removeChannel(currentChannel);
+  currentChannel=sb.channel('room-'+code).on('postgres_changes',{event:'UPDATE',schema:'public',table:'games',filter:'room_code=eq.'+code},payload=>{currentRoom=payload.new;renderRoom();maybeResolve()}).subscribe();
+}
+async function refreshRoom(){if(!currentRoom)return;const {data}=await sb.from('games').select('*').eq('id',currentRoom.id).single();if(data){currentRoom=data;renderRoom();maybeResolve()}}
+function renderRoom(){
+  const r=currentRoom;if(!r)return;
+  $('mtitle').textContent=({flip:'🪙 1v1 FLIP',dice:'🎲 DICE',rps:'✊ RPS'})[r.game_type]||'GAME';
+  $('msub').textContent=`${fmt(r.wager)} FLIP each • 2% fee on losing stake`;
+  let body=`<div class="roomcode">${r.room_code}</div><button class="copy" onclick="copyRoom()">COPY / SHARE ROOM CODE</button>
+  <div class="players"><div class="player"><b>${escapeHtml(r.player1)}</b><span class="tiny">PLAYER 1</span></div><div class="player"><b>${r.player2?escapeHtml(r.player2):'WAITING…'}</b><span class="tiny">PLAYER 2</span></div></div>`;
+  if(!r.player2) body+=`<div class="status">Waiting for your friend to join on another phone…</div>`;
+  else if(r.result) body+=resultHtml(r);
+  else if(r.game_type==='flip') body+=flipControls(r);
+  else if(r.game_type==='dice') body+=diceControls(r);
+  else body+=rpsControls(r);
+  $('mbody').innerHTML=body;
+}
+function escapeHtml(s){return String(s||'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]))}
+async function copyRoom(){const text=currentRoom.room_code;try{await navigator.clipboard.writeText(text)}catch(e){}if(navigator.share){try{await navigator.share({title:'FLIP UP challenge',text:`Join my FLIP UP room: ${text}`,url:location.origin})}catch(e){}}}
+function flipControls(r){
+  if(myRole==='player1'&&!r.player1_choice)return `<div class="status">Pick your side. Your friend gets the opposite.</div><div class="two" style="margin-top:10px"><button class="option" onclick="setFlip('HEADS')">HEADS</button><button class="option" onclick="setFlip('TAILS')">TAILS</button></div>`;
+  if(!r.player1_choice)return `<div class="status">Waiting for ${escapeHtml(r.player1)} to pick heads or tails…</div>`;
+  return `<div class="big">🪙</div><div class="status">Sides locked. Flipping…</div>`;
+}
+async function setFlip(v){await sb.from('games').update({player1_choice:v,player2_choice:v==='HEADS'?'TAILS':'HEADS'}).eq('id',currentRoom.id);setTimeout(refreshRoom,150)}
+function diceControls(r){return `<div class="big">🎲</div><div class="status">Both players are in. Rolling…</div>`}
+function rpsControls(r){
+  const mine=myRole==='player1'?r.player1_choice:r.player2_choice;
+  if(mine)return `<div class="big">🤫</div><div class="status">Choice locked. Waiting for opponent…</div>`;
+  return `<div class="status">Choose secretly:</div><div class="options"><button class="option" onclick="setRps('ROCK')">✊<br>ROCK</button><button class="option" onclick="setRps('PAPER')">✋<br>PAPER</button><button class="option" onclick="setRps('SCISSORS')">✌️<br>SCISSORS</button></div>`;
+}
+async function setRps(v){const col=myRole==='player1'?'player1_choice':'player2_choice';await sb.from('games').update({[col]:v}).eq('id',currentRoom.id);setTimeout(refreshRoom,150)}
+function resultHtml(r){
+  let icon=r.game_type==='dice'?'🎲':r.game_type==='rps'?'⚔️':'🪙';
+  return `<div class="big">${icon}</div><div class="result"><div class="ok">${escapeHtml(r.result)}</div><div style="margin-top:5px">🏆 ${escapeHtml(r.winner||'Winner')}</div><div class="tiny" style="margin-top:8px">Winner payout: ${fmt(Number(r.wager)*2-Math.floor(Number(r.wager)*.02))} FLIP • 🔥 ${fmt(Math.floor(Number(r.wager)*.02*.75))} burned</div></div><button class="btn" onclick="leaveModal()">DONE</button>`;
+}
+async function maybeResolve(){
+  const r=currentRoom;if(!r||r.result||!r.player2)return;
+  // Prototype only: creator's browser acts as resolver. Real-money version must use on-chain/verifiable logic.
+  if(myRole!=='player1')return;
+  if(r.game_type==='flip'&&r.player1_choice){
+    const side=Math.random()<.5?'HEADS':'TAILS';const winner=side===r.player1_choice?r.player1:r.player2;
+    await finishGame(side+' WINS',winner);
   }
-  const m=String(Math.floor(timeLeft/60)).padStart(2,'0'),sec=String(timeLeft%60).padStart(2,'0');
-  el('timer').textContent=m+':'+sec;
-},1000);
-setInterval(()=>{if(timeLeft<=1||resolving)return;const side=Math.random()<.5?'LEFT':'RIGHT',amt=[1000,5000,10000,25000][Math.floor(Math.random()*4)];side==='LEFT'?leftPot+=amt:rightPot+=amt;addLog(`0x${Math.random().toString(16).slice(2,6)}… bet <b>${fmt(amt)}</b> on ${side}`);sync()},3500);
-function closeModal(){el('modal').classList.remove('show')}
-function settlePvp(stake,winnerName){const losing=stake,fee=Math.floor(losing*.02),burn=Math.floor(fee*.75),payout=stake*2-fee;burned+=burn;sync();return {fee,burn,payout,text:`${winnerName} wins ${fmt(payout)} FLIP • 🔥 ${fmt(burn)} burned`}}
-function openGame(type){el('modal').classList.add('show');if(type==='flip') renderFlip();if(type==='dice') renderDice();if(type==='rps') renderRps()}
-function stakeSelect(){return `<div class="betbox"><button class="chip" onclick="this.parentElement.querySelectorAll('.chip').forEach(x=>x.classList.remove('active'));this.classList.add('active')" data-pvp="1000">1K</button><button class="chip active" onclick="this.parentElement.querySelectorAll('.chip').forEach(x=>x.classList.remove('active'));this.classList.add('active')" data-pvp="5000">5K</button><button class="chip" onclick="this.parentElement.querySelectorAll('.chip').forEach(x=>x.classList.remove('active'));this.classList.add('active')" data-pvp="10000">10K</button><button class="chip" onclick="this.parentElement.querySelectorAll('.chip').forEach(x=>x.classList.remove('active'));this.classList.add('active')" data-pvp="25000">25K</button></div>`}
-function pvpStake(){const a=el('modalBody').querySelector('.chip.active');return +(a?.dataset.pvp||5000)}
-function renderFlip(){el('modalTitle').textContent='🪙 1v1 FLIP';el('modalBody').innerHTML=`${stakeSelect()}<div class="players"><div class="player"><b>PLAYER 1</b><div style="margin:8px 0"><button class="smallbtn" onclick="p1Flip='HEADS';this.parentElement.querySelectorAll('button').forEach(x=>x.style.borderColor='');this.style.borderColor='#54ff83'">HEADS</button><button class="smallbtn" style="margin-top:6px" onclick="p1Flip='TAILS';this.parentElement.querySelectorAll('button').forEach(x=>x.style.borderColor='');this.style.borderColor='#54ff83'">TAILS</button></div></div><div class="player"><b>PLAYER 2</b><div class="tag" style="margin-top:16px">Gets the opposite side automatically</div></div></div><div class="bigresult" id="pvpResult">🪙</div><button class="cta" onclick="runFlip()">FLIP IT</button><div class="notice" id="pvpNotice">Both players stake the selected amount.</div>`}
-window.p1Flip='HEADS';
-function runFlip(){const stake=pvpStake(),result=Math.random()<.5?'HEADS':'TAILS',winner=result===window.p1Flip?'PLAYER 1':'PLAYER 2',s=settlePvp(stake,winner);el('pvpResult').textContent='🪙';let n=0;const i=setInterval(()=>{el('pvpResult').textContent=n++%2?'TAILS':'HEADS'},90);setTimeout(()=>{clearInterval(i);el('pvpResult').textContent=result;el('pvpNotice').textContent=s.text},950)}
-function renderDice(){el('modalTitle').textContent='🎲 DICE';el('modalBody').innerHTML=`${stakeSelect()}<div class="players"><div class="player"><b>PLAYER 1</b><div class="bigresult" id="d1">🎲</div></div><div class="player"><b>PLAYER 2</b><div class="bigresult" id="d2">🎲</div></div></div><button class="cta" onclick="runDice()">ROLL</button><div class="notice" id="pvpNotice">Highest roll wins. Ties reroll.</div>`}
-function runDice(){const stake=pvpStake();let a,b;do{a=1+Math.floor(Math.random()*6);b=1+Math.floor(Math.random()*6)}while(a===b);let n=0;const i=setInterval(()=>{el('d1').textContent=1+Math.floor(Math.random()*6);el('d2').textContent=1+Math.floor(Math.random()*6);n++;if(n>9){clearInterval(i);el('d1').textContent=a;el('d2').textContent=b;const winner=a>b?'PLAYER 1':'PLAYER 2',s=settlePvp(stake,winner);el('pvpNotice').textContent=s.text}},90)}
-let rps1=null,rps2=null,rpsTurn=1;
-function renderRps(){rps1=rps2=null;rpsTurn=1;el('modalTitle').textContent='✊ RPS';el('modalBody').innerHTML=`${stakeSelect()}<div class="player" style="margin-top:14px"><b id="rpsWho">PLAYER 1 — CHOOSE SECRETLY</b><div class="rps"><button onclick="chooseRps('ROCK')">✊</button><button onclick="chooseRps('PAPER')">✋</button><button onclick="chooseRps('SCISSORS')">✌️</button></div><div class="bigresult" id="rpsResult">🤫</div></div><div class="notice" id="pvpNotice">Choose, then pass the device without showing your move.</div>`}
-function chooseRps(v){if(rpsTurn===1){rps1=v;rpsTurn=2;el('rpsWho').textContent='PASS DEVICE — PLAYER 2 CHOOSE';el('rpsResult').textContent='🙈'}else{rps2=v;resolveRps()}}
-function resolveRps(){const stake=pvpStake();if(rps1===rps2){el('rpsResult').textContent=`${rps1} vs ${rps2} — TIE`;el('pvpNotice').textContent='Tie. Choose again.';setTimeout(()=>{rps1=rps2=null;rpsTurn=1;el('rpsWho').textContent='PLAYER 1 — CHOOSE SECRETLY';el('rpsResult').textContent='🤫'},1300);return}const beats={ROCK:'SCISSORS',PAPER:'ROCK',SCISSORS:'PAPER'},winner=beats[rps1]===rps2?'PLAYER 1':'PLAYER 2',s=settlePvp(stake,winner);el('rpsResult').textContent=`${rps1} vs ${rps2}`;el('pvpNotice').textContent=s.text}
-addLog('🍀 <b>FLIP UP prototype online.</b> 100,000 TEST FLIP loaded.');addLog('🔥 75% of each game fee is simulated as permanently burned.');sync();
+  if(r.game_type==='dice'){
+    let a,b;do{a=1+Math.floor(Math.random()*6);b=1+Math.floor(Math.random()*6)}while(a===b);
+    await finishGame(`${a} vs ${b}`,a>b?r.player1:r.player2);
+  }
+  if(r.game_type==='rps'&&r.player1_choice&&r.player2_choice){
+    if(r.player1_choice===r.player2_choice){await sb.from('games').update({player1_choice:null,player2_choice:null}).eq('id',r.id);return}
+    const beats={ROCK:'SCISSORS',PAPER:'ROCK',SCISSORS:'PAPER'};
+    const winner=beats[r.player1_choice]===r.player2_choice?r.player1:r.player2;
+    await finishGame(`${r.player1_choice} vs ${r.player2_choice}`,winner);
+  }
+}
+async function finishGame(result,winner){
+  const r=currentRoom;const {data,error}=await sb.from('games').update({result,winner,status:'finished'}).eq('id',r.id).is('result',null).select().single();
+  if(!error&&data){currentRoom=data;applyLocalSettlement(data);renderRoom()}
+}
+function applyLocalSettlement(r){
+  const key='settled_'+r.id;if(sessionStorage.getItem(key))return;sessionStorage.setItem(key,'1');
+  const stake=Number(r.wager),fee=Math.floor(stake*.02),burn=Math.floor(fee*.75),payout=stake*2-fee;
+  balance-=stake;if(r.winner===myName)balance+=payout;burned+=burn;syncTop();
+}
+document.addEventListener('visibilitychange',()=>{if(!document.hidden&&currentRoom)refreshRoom()});
+syncTop();
 </script>
 </body>
 </html>
