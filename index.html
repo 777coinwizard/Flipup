@@ -1,332 +1,66 @@
 <!doctype html>
-<html lang="en">
-<head>
-<meta charset="utf-8"/>
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
-<meta name="theme-color" content="#050816"/>
-<title>FLIP UP</title>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#040617"><title>FLIP UP — Beta</title>
 <style>
-:root{
-  --bg:#030611;
-  --panel:#071020;
-  --panel2:#0a1024;
-  --cyan:#34d6ff;
-  --blue:#4e7cff;
-  --pink:#ff39d4;
-  --purple:#a94cff;
-  --green:#39ff72;
-  --red:#ff4068;
-  --text:#f8f8ff;
-  --muted:#9daccc;
-  --line:rgba(92,115,255,.25);
-}
-*{box-sizing:border-box}
-html{scroll-behavior:smooth}
-body{
-  margin:0;
-  font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
-  background:
-    radial-gradient(circle at 50% -20%,rgba(59,86,255,.20),transparent 35%),
-    radial-gradient(circle at 15% 20%,rgba(255,57,212,.12),transparent 30%),
-    #030611;
-  color:var(--text);
-  overflow-x:hidden;
-}
-body:before{
-  content:"";
-  position:fixed;inset:0;pointer-events:none;
-  background-image:
-    linear-gradient(rgba(76,102,255,.05) 1px, transparent 1px),
-    linear-gradient(90deg,rgba(76,102,255,.05) 1px, transparent 1px);
-  background-size:36px 36px;
-  mask-image:linear-gradient(to bottom,#000,transparent 80%);
-}
-a{text-decoration:none;color:inherit}
-button,input{font:inherit}
-.shell{width:min(1180px,100%);margin:auto;padding:0 18px}
-header{
-  position:sticky;top:0;z-index:50;
-  background:rgba(3,6,17,.78);
-  backdrop-filter:blur(20px);
-  border-bottom:1px solid rgba(93,70,255,.20);
-}
-.nav{
-  min-height:78px;display:flex;align-items:center;justify-content:space-between;gap:18px;
-}
-.logo{
-  font-size:31px;font-weight:1000;letter-spacing:-1.8px;
-  background:linear-gradient(90deg,#ff43dd,#8c52ff 45%,#39d7ff);
-  -webkit-background-clip:text;background-clip:text;color:transparent;
-  text-shadow:0 0 28px rgba(255,57,212,.26);
-}
-.balance{
-  display:flex;align-items:center;gap:10px;
-  border:1px solid rgba(51,210,255,.22);
-  background:rgba(6,13,29,.72);
-  border-radius:14px;padding:11px 15px;font-weight:850;
-}
-.balance b{font-size:18px}
-.balance .flip{color:var(--green)}
-.nav-actions{display:flex;gap:10px;align-items:center}
-.wallet{
-  color:white;font-weight:900;
-  background:linear-gradient(180deg,#1b1a58,#0b1030);
-  border:1px solid #7054ff;
-  box-shadow:0 0 22px rgba(93,75,255,.22);
-  border-radius:12px;padding:12px 20px;
-}
-.menu{
-  width:44px;height:44px;border:0;background:transparent;color:white;font-size:25px;
-}
-.hero{
-  min-height:690px;
-  display:flex;align-items:center;
-  position:relative;overflow:hidden;
-  border-bottom:1px solid rgba(89,96,255,.16);
-}
-.hero:before{
-  content:"";
-  position:absolute;inset:0;
-  background:
-    linear-gradient(180deg,rgba(3,6,17,.10),rgba(3,6,17,.72)),
-    url("assets/flipup-cyberpunk.png") center 8%/cover no-repeat;
-  filter:saturate(1.1) contrast(1.03);
-  opacity:.48;
-}
-.hero:after{
-  content:"";position:absolute;inset:auto 0 0;height:240px;
-  background:linear-gradient(transparent,#030611);
-}
-.hero-content{
-  position:relative;z-index:2;text-align:center;margin:auto;padding:90px 0 70px;
-}
-.hero-logo{
-  font-size:clamp(70px,13vw,158px);
-  line-height:.85;
-  font-style:italic;
-  font-weight:1000;
-  letter-spacing:-8px;
-  background:linear-gradient(90deg,#ff45df 10%,#a955ff 44%,#31d9ff 74%,#70f6ff);
-  -webkit-background-clip:text;background-clip:text;color:transparent;
-  filter:drop-shadow(0 0 20px rgba(255,38,209,.38));
-}
-.hero-tag{
-  margin-top:22px;
-  font-size:clamp(22px,3vw,38px);
-  font-weight:950;
-  font-style:italic;
-  letter-spacing:1px;
-}
-.hero-sub{font-size:18px;color:#c6cce0;margin-top:8px}
-.ctas{display:flex;gap:18px;justify-content:center;margin-top:34px;flex-wrap:wrap}
-.cta{
-  min-width:280px;padding:18px 26px;border-radius:14px;font-weight:950;font-size:18px;
-  background:rgba(8,12,32,.77);
-}
-.cta.pink{
-  border:1px solid var(--pink);
-  box-shadow:0 0 26px rgba(255,57,212,.28), inset 0 0 18px rgba(255,57,212,.10);
-}
-.cta.blue{
-  border:1px solid var(--cyan);
-  box-shadow:0 0 26px rgba(52,214,255,.22), inset 0 0 18px rgba(52,214,255,.08);
-}
-.cta small{display:block;font-size:12px;color:#bac4de;margin-top:4px}
-.section{padding:44px 0}
-.section h2{text-align:center;font-size:26px;letter-spacing:.5px;margin:0 0 24px}
-.games{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
-.game{
-  border:1px solid rgba(79,92,255,.23);
-  background:linear-gradient(180deg,rgba(8,13,34,.92),rgba(5,9,24,.95));
-  border-radius:16px;padding:22px;min-height:235px;position:relative;overflow:hidden;
-}
-.game:after{
-  content:"";position:absolute;width:170px;height:170px;border-radius:50%;
-  right:-70px;bottom:-90px;filter:blur(3px);opacity:.22;
-}
-.game.flip:after{background:var(--pink)}
-.game.dice:after{background:var(--cyan)}
-.game.rps:after{background:var(--green)}
-.game .icon{font-size:48px}
-.game h3{font-size:28px;margin:14px 0 10px}
-.game p{color:#a9b5d2;line-height:1.5;min-height:48px}
-.play{
-  width:100%;padding:13px;border-radius:10px;
-  background:rgba(9,15,38,.78);color:white;font-weight:950;
-}
-.flip .play{border:1px solid var(--pink);box-shadow:0 0 18px rgba(255,57,212,.16)}
-.dice .play{border:1px solid var(--cyan);box-shadow:0 0 18px rgba(52,214,255,.14)}
-.rps .play{border:1px solid var(--green);box-shadow:0 0 18px rgba(57,255,114,.13)}
-.winloss{display:grid;grid-template-columns:1fr 1fr;gap:18px}
-.outcome{
-  min-height:280px;border-radius:16px;padding:25px;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;
-  position:relative;overflow:hidden;
-}
-.outcome:before{
-  content:"";position:absolute;inset:0;opacity:.28;
-  background-image:url("assets/flipup-cyberpunk.png");
-  background-size:cover;background-position:center 70%;
-}
-.outcome.win{border:1px solid rgba(57,255,114,.42);background:radial-gradient(circle,#123c20,#06120b 72%)}
-.outcome.loss{border:1px solid rgba(255,64,104,.42);background:radial-gradient(circle,#431421,#15070b 72%)}
-.outcome>*{position:relative;z-index:2}
-.outcome .big{font-size:54px;font-weight:1000;font-style:italic}
-.outcome.win .big{color:var(--green);text-shadow:0 0 24px rgba(57,255,114,.5)}
-.outcome.loss .big{color:var(--red);text-shadow:0 0 24px rgba(255,64,104,.5)}
-.coin{
-  width:98px;height:98px;border-radius:50%;margin:18px 0;
-  display:grid;place-items:center;font-size:42px;font-weight:1000;
-  border:4px solid rgba(255,255,255,.12);
-}
-.win .coin{background:radial-gradient(circle,#7dff8b,#1bd94d 58%,#075e23);box-shadow:0 0 34px rgba(57,255,114,.32)}
-.loss .coin{background:radial-gradient(circle,#ff7b89,#d72d4b 58%,#68101f);box-shadow:0 0 34px rgba(255,64,104,.28)}
-.amount{font-size:23px;font-weight:950}
-.features{
-  display:grid;grid-template-columns:repeat(3,1fr);gap:0;border:1px solid rgba(80,94,255,.18);
-  border-radius:14px;background:rgba(5,10,28,.75);overflow:hidden;
-}
-.feature{padding:22px;display:flex;gap:14px;align-items:flex-start}
-.feature+.feature{border-left:1px solid rgba(80,94,255,.15)}
-.feature .ico{font-size:36px}
-.feature h4{margin:0 0 5px}
-.feature p{margin:0;color:#a8b1c8;line-height:1.45}
-footer{
-  border-top:1px solid rgba(91,75,255,.16);
-  margin-top:28px;padding:30px 0 40px;
-}
-.foot{display:flex;justify-content:space-between;gap:20px;align-items:center;flex-wrap:wrap}
-.social{display:flex;gap:15px;font-size:24px}
-.links{display:flex;gap:22px;color:#62dfff;font-size:13px;font-weight:800}
-@media(max-width:820px){
-  .balance{display:none}
-  .hero{min-height:610px}
-  .hero-logo{letter-spacing:-5px}
-  .games,.features{grid-template-columns:1fr}
-  .feature+.feature{border-left:0;border-top:1px solid rgba(80,94,255,.15)}
-  .winloss{grid-template-columns:1fr}
-}
-@media(max-width:560px){
-  .shell{padding:0 12px}
-  .nav{min-height:66px}
-  .logo{font-size:27px}
-  .wallet{padding:10px 13px;font-size:13px}
-  .hero{min-height:560px}
-  .hero-content{padding-top:72px}
-  .hero-logo{font-size:72px;letter-spacing:-4px}
-  .hero-tag{font-size:20px}
-  .hero-sub{font-size:14px}
-  .cta{min-width:100%}
-}
-</style>
-</head>
-<body>
+:root{--bg:#030511;--p:#ff39d4;--c:#35dcff;--g:#46ff80;--r:#ff4968;--t:#f7f8ff;--m:#9ca9c9;--line:rgba(91,103,255,.28)}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 50% -10%,#17114a 0,#07091c 28%,#030511 65%);color:var(--t);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;min-height:100vh}button,input{font:inherit}.wrap{max-width:980px;margin:auto;padding:12px}.nav{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:8px 0}.logo{font-size:28px;font-weight:1000;font-style:italic;background:linear-gradient(90deg,var(--p),#9c55ff,var(--c));-webkit-background-clip:text;color:transparent}.bal{border:1px solid #3553a8;background:#080d25;border-radius:12px;padding:10px 12px;font-weight:900}.bal b{color:var(--g)}
+.hero,.card{border:1px solid var(--line);background:linear-gradient(180deg,rgba(11,15,40,.94),rgba(5,8,24,.97));border-radius:22px;box-shadow:0 22px 70px #0008}.hero{padding:18px;overflow:hidden;position:relative}.hero:before{content:"";position:absolute;width:260px;height:260px;border-radius:50%;background:#ff25d322;filter:blur(30px);right:-100px;top:-100px}.head{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;position:relative}.live{color:#ff6fe1;font-size:10px;font-weight:1000;letter-spacing:1px}.timer{font-size:50px;font-weight:1000;letter-spacing:-3px}.sub{color:var(--m);font-size:11px}.stage{height:245px;margin:14px 0;border:1px solid #29306a;border-radius:20px;display:grid;place-items:center;position:relative;overflow:hidden;background:radial-gradient(circle,#171d55,#080b22 65%)}.coin{width:110px;height:110px;border-radius:50%;display:grid;place-items:center;font-size:35px;font-weight:1000;background:radial-gradient(circle at 32% 25%,#fff 0 5%,#ff6be4 12%,#8e55ff 50%,#24c9ff);box-shadow:0 0 45px #a748ff88;color:#09091c;border:5px solid #ffffff22}.coin.flip{animation:flip .85s ease-in-out}@keyframes flip{to{transform:rotateY(1800deg) scale(1.08)}}.resultfx{position:absolute;inset:0;display:none;place-items:center;text-align:center;font-size:38px;font-weight:1000;z-index:5}.resultfx.show{display:grid;animation:pop .55s ease}.resultfx.win{background:radial-gradient(circle,#55ff8df2,#07883ff0)}.resultfx.lose{background:radial-gradient(circle,#ff5570f2,#7d0c28f0)}@keyframes pop{0%{transform:scale(.7);opacity:0}70%{transform:scale(1.08)}100%{transform:scale(1);opacity:1}}
+.sides{display:grid;grid-template-columns:1fr 1fr;gap:8px}.side,.btn,.smallbtn,.choice{border:1px solid #3a478d;background:#0b1030;color:white;border-radius:13px;font-weight:900}.side{padding:14px}.side.on{border-color:var(--p);box-shadow:0 0 24px #ff39d433}.betrow{display:grid;grid-template-columns:1fr auto;gap:8px;margin-top:9px}input{width:100%;background:#060a20;border:1px solid #303d7d;color:white;border-radius:12px;padding:13px;outline:none}.smallbtn{padding:0 14px}.btn{width:100%;padding:14px;margin-top:9px;background:linear-gradient(90deg,#ff43da,#8b52ff,#34d8ff);border:0}.btn:disabled{opacity:.42}.notice{text-align:center;color:var(--m);font-size:10px;margin-top:8px}.card{padding:16px;margin-top:14px}.games{display:grid;grid-template-columns:repeat(3,1fr);gap:9px}.game{border:1px solid #252f68;border-radius:16px;padding:13px;background:#070b24}.game .ico{font-size:32px}.game h3{margin:5px 0}.game p{color:var(--m);font-size:11px;min-height:34px}.game button{width:100%;padding:10px}.join{display:grid;grid-template-columns:1fr auto;gap:8px;margin-top:12px}.modal{position:fixed;inset:0;background:#000c;display:none;align-items:center;justify-content:center;padding:12px;z-index:20}.modal.show{display:flex}.modalbox{width:min(500px,100%);max-height:92vh;overflow:auto;background:#080c24;border:1px solid #394583;border-radius:20px;padding:16px}.mh{display:flex;justify-content:space-between}.x{background:none;border:0;color:white;font-size:26px}.room{text-align:center;font-size:34px;letter-spacing:5px;color:var(--c);font-weight:1000;margin:12px}.players{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:10px 0}.player,.wager,.out{border:1px solid #29346e;border-radius:13px;padding:12px;text-align:center}.wager strong{font-size:26px;color:#ffd86c}.choices{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-top:10px}.choice{padding:12px 5px}.green{color:var(--g)}.red{color:var(--r)}
+@media(max-width:650px){.games{grid-template-columns:1fr}.timer{font-size:44px}.stage{height:220px}.modal{align-items:flex-end;padding:0}.modalbox{border-radius:20px 20px 0 0}.bal{font-size:12px}}
+</style></head><body>
+<div class="wrap">
+ <div class="nav"><div class="logo">FLIP UP</div><div class="bal">TEST STACK: <b id="bal">100,000 FLIP</b></div></div>
+ <section class="hero">
+  <div class="head"><div><div class="live">● LIVE FLIP UP</div><div class="timer" id="timer">00:05</div><div class="sub">ONE BET PER ROUND • 1–10,000 FLIP • WIN RETURNS 2×</div></div><div class="sub" style="text-align:right">BETA / FAKE FLIP<br><span id="burn">0</span> BURNED 🔥</div></div>
+  <div class="stage"><div class="coin" id="coin">FU</div><div class="resultfx" id="fx"></div></div>
+  <div class="sides"><button class="side" data-side="LEFT">◀ LEFT</button><button class="side" data-side="RIGHT">RIGHT ▶</button></div>
+  <div class="betrow"><input id="amount" type="number" inputmode="numeric" min="1" max="10000" value="1000"><button class="smallbtn" id="max">MAX 10K</button></div>
+  <button class="btn" id="bet" disabled>CHOOSE LEFT OR RIGHT</button>
+  <div class="notice" id="notice">Bet is deducted immediately when locked. One bet only until the next round.</div>
+ </section>
 
-<header>
-  <div class="shell nav">
-    <div class="logo">FLIPUP</div>
-    <div class="balance">BALANCE 🪙 <b>2,450.00</b> <span class="flip">FLIP</span></div>
-    <div class="nav-actions">
-      <button class="wallet">WALLET</button>
-      <button class="menu">☰</button>
-    </div>
+ <section class="card">
+  <h2 style="margin:0">⚔️ 1v1 ARENA</h2><div class="sub">Creator sets 1–10,000 FLIP. Opponent must accept the exact wager.</div>
+  <div class="games" style="margin-top:12px">
+   <div class="game"><div class="ico">🪙</div><h3>FLIP</h3><p>Heads vs tails. Winner receives 2× the locked wager.</p><button class="smallbtn" onclick="createFlow('flip')">CREATE</button></div>
+   <div class="game"><div class="ico">🎲</div><h3>DICE</h3><p>Highest roll wins. Ties reroll automatically.</p><button class="smallbtn" onclick="createFlow('dice')">CREATE</button></div>
+   <div class="game"><div class="ico">✊</div><h3>RPS</h3><p>Both choose. Rock, paper, scissors. Ties replay.</p><button class="smallbtn" onclick="createFlow('rps')">CREATE</button></div>
   </div>
-</header>
-
-<main>
-  <section class="hero">
-    <div class="shell hero-content">
-      <div class="hero-logo">FLIP UP</div>
-      <div class="hero-tag">CRYPTO. SKILL. LUCK.</div>
-      <div class="hero-sub">Real players. Real stakes. Real excitement.</div>
-
-      <div class="ctas">
-        <a href="#live" class="cta pink">⚡ LIVE FLIP UP<small>5-SECOND ROUNDS</small></a>
-        <a href="#arena" class="cta blue">⚔ 1V1 ARENA<small>CHALLENGE A FRIEND</small></a>
-      </div>
-    </div>
-  </section>
-
-  <section class="section" id="arena">
-    <div class="shell">
-      <h2>CHOOSE YOUR GAME</h2>
-      <div class="games">
-        <article class="game flip">
-          <div class="icon">🪙</div>
-          <h3>FLIP</h3>
-          <p>50% heads. 50% tails. One clean flip.</p>
-          <button class="play" onclick="demo('FLIP')">PLAY NOW</button>
-        </article>
-
-        <article class="game dice">
-          <div class="icon">🎲</div>
-          <h3>DICE</h3>
-          <p>Roll head-to-head. Highest number takes the round.</p>
-          <button class="play" onclick="demo('DICE')">PLAY NOW</button>
-        </article>
-
-        <article class="game rps">
-          <div class="icon">✊</div>
-          <h3>RPS</h3>
-          <p>Rock. Paper. Scissors. Fast 1v1 battles.</p>
-          <button class="play" onclick="demo('RPS')">PLAY NOW</button>
-        </article>
-      </div>
-    </div>
-  </section>
-
-  <section class="section" id="live">
-    <div class="shell">
-      <h2>WIN BIG. WIN FLIP.</h2>
-      <div class="winloss">
-        <div class="outcome win">
-          <div class="big">YOU WON!</div>
-          <div class="coin">↑</div>
-          <div class="amount">+2,500.00 FLIP</div>
-        </div>
-        <div class="outcome loss">
-          <div class="big">YOU LOST</div>
-          <div class="coin">×</div>
-          <div class="amount">-1,000.00 FLIP</div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section class="section">
-    <div class="shell">
-      <div class="features">
-        <div class="feature">
-          <div class="ico">🛡️</div>
-          <div><h4>FAIR & TRANSPARENT</h4><p>Designed for verifiable on-chain gameplay.</p></div>
-        </div>
-        <div class="feature">
-          <div class="ico">⚡</div>
-          <div><h4>FAST & EXCITING</h4><p>5-second test rounds and instant-feeling play.</p></div>
-        </div>
-        <div class="feature">
-          <div class="ico">👥</div>
-          <div><h4>REAL PLAYERS</h4><p>Compete head-to-head or enter live rounds.</p></div>
-        </div>
-      </div>
-    </div>
-  </section>
-</main>
-
-<footer>
-  <div class="shell foot">
-    <div>
-      <div class="logo">FLIPUP</div>
-      <div style="font-size:12px;color:#8b98b7;margin-top:4px">Beta prototype</div>
-    </div>
-    <div class="social"><span>𝕏</span><span>👾</span><span>✈️</span></div>
-    <div class="links"><a href="#">HOW TO PLAY</a><a href="#">LEADERBOARD</a><a href="#">TERMS</a></div>
-  </div>
-</footer>
-
+  <div class="join"><input id="joinCode" maxlength="5" placeholder="ENTER ROOM CODE"><button class="smallbtn" onclick="joinFlow()">JOIN</button></div>
+ </section>
+</div>
+<div class="modal" id="modal"><div class="modalbox"><div class="mh"><b id="mtitle">GAME</b><button class="x" onclick="closeModal()">×</button></div><div id="mbody"></div></div></div>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
-function demo(game){
-  alert(game + " selected — next step is wiring this new design into the live FLIP UP multiplayer game logic.");
-}
-</script>
-</body>
-</html>
+const URL="https://llvoaimskkdafsgvqmrx.supabase.co",KEY="sb_publishable_DdmyLOBvEUyPlZlqgOk-3A_g1Y6gn0L",sb=window.supabase.createClient(URL,KEY),$=x=>document.getElementById(x),fmt=x=>Math.floor(Number(x||0)).toLocaleString();
+let balance=Number(localStorage.getItem('fu_bal')||100000),burned=Number(localStorage.getItem('fu_burn')||0),side=null,locked=null,t=5,resolving=false;
+let room=null,role=null,ch=null,name=localStorage.getItem('fu_name')||'';
+function save(){localStorage.setItem('fu_bal',balance);localStorage.setItem('fu_burn',burned);$('bal').textContent=fmt(balance)+' FLIP';$('burn').textContent=fmt(burned)}
+function amt(){let v=Math.floor(Number($('amount').value||0));v=Math.max(1,Math.min(10000,v));$('amount').value=v;return v}
+document.querySelectorAll('.side').forEach(b=>b.onclick=()=>{if(locked||resolving)return;side=b.dataset.side;document.querySelectorAll('.side').forEach(x=>x.classList.toggle('on',x===b));$('bet').disabled=false;$('bet').textContent='BET '+fmt(amt())+' ON '+side});
+$('amount').oninput=()=>{if(side&&!locked)$('bet').textContent='BET '+fmt(amt())+' ON '+side};$('max').onclick=()=>{$('amount').value=10000;if(side)$('bet').textContent='BET 10,000 ON '+side};
+$('bet').onclick=()=>{if(!side||locked||resolving)return;let a=amt();if(a>balance)return $('notice').textContent='Not enough TEST FLIP.';balance-=a;locked={side,stake:a};save();$('bet').disabled=true;$('amount').disabled=true;$('max').disabled=true;document.querySelectorAll('.side').forEach(x=>x.disabled=true);$('bet').textContent=fmt(a)+' FLIP LOCKED ✓';$('notice').textContent='Locked on '+side+'. Waiting for flip…'};
+function flash(win,a){let f=$('fx');f.className='resultfx show '+(win?'win':'lose');f.innerHTML=win?'🏆<br>YOU WON<br>+'+fmt(a)+' NET':'💀<br>YOU LOST<br>-'+fmt(a);setTimeout(()=>f.className='resultfx',1100)}
+function resolveLive(){resolving=true;$('coin').classList.add('flip');let w=Math.random()<.5?'LEFT':'RIGHT';setTimeout(()=>{if(locked){let a=locked.stake;if(locked.side===w){balance+=a*2;flash(true,a)}else flash(false,a);burned+=Math.floor(a*.02*.75);save()}$('notice').textContent=w+' WON THIS ROUND.'},700);setTimeout(()=>{t=5;resolving=false;locked=null;side=null;$('coin').classList.remove('flip');$('amount').disabled=false;$('max').disabled=false;document.querySelectorAll('.side').forEach(x=>{x.disabled=false;x.classList.remove('on')});$('bet').disabled=true;$('bet').textContent='CHOOSE LEFT OR RIGHT';$('notice').textContent='New round. One bet available.'},1600)}
+setInterval(()=>{if(resolving)return;t--;$('timer').textContent='00:0'+Math.max(t,0);if(t<=0)resolveLive()},1000);
+function code(){let c='ABCDEFGHJKLMNPQRSTUVWXYZ23456789',s='';for(let i=0;i<5;i++)s+=c[Math.floor(Math.random()*c.length)];return s}
+function esc(s){return String(s||'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]))}
+function openM(){$('modal').classList.add('show')}async function closeModal(){if(ch){await sb.removeChannel(ch);ch=null}room=null;role=null;$('modal').classList.remove('show')}
+function createFlow(type){openM();$('mtitle').textContent='CREATE '+type.toUpperCase();$('mbody').innerHTML='<input id="nm" placeholder="YOUR NAME" value="'+esc(name)+'"><div style="height:8px"></div><input id="rw" type="number" inputmode="numeric" min="1" max="10000" value="1000" placeholder="WAGER"><button class="btn" onclick="createRoom(\''+type+'\')">CREATE ROOM</button>'}
+async function createRoom(type){name=$('nm').value.trim()||'Player 1';localStorage.setItem('fu_name',name);let w=Math.floor(Number($('rw').value));if(w<1||w>10000)return alert('Wager must be 1–10,000.');if(w>balance)return alert('Not enough TEST FLIP.');let {data,error}=await sb.from('games').insert({room_code:code(),game_type:type,wager:w,status:'waiting',player1:name}).select().single();if(error)return alert(error.message);balance-=w;save();localStorage.setItem('lock_'+data.id,w);room=data;role='player1';render();sub(room.room_code)}
+async function joinFlow(){let c=$('joinCode').value.trim().toUpperCase();if(!c)return;let {data,error}=await sb.from('games').select('*').eq('room_code',c).single();if(error||!data)return alert('Room not found.');openM();$('mtitle').textContent='JOIN '+c;$('mbody').innerHTML='<input id="nm" placeholder="YOUR NAME" value="'+esc(name)+'"><div class="wager">EXACT WAGER<br><strong>'+fmt(data.wager)+' FLIP</strong></div><button class="btn" onclick="joinRoom(\''+c+'\')">ACCEPT & LOCK '+fmt(data.wager)+' FLIP</button>'}
+async function joinRoom(c){name=$('nm').value.trim()||'Player 2';localStorage.setItem('fu_name',name);let {data:r}=await sb.from('games').select('*').eq('room_code',c).single();if(!r||r.player2)return alert('Room unavailable.');if(Number(r.wager)>balance)return alert('Not enough TEST FLIP.');let {data,error}=await sb.from('games').update({player2:name,status:'active'}).eq('id',r.id).is('player2',null).select().single();if(error)return alert(error.message);balance-=Number(data.wager);save();localStorage.setItem('lock_'+data.id,data.wager);room=data;role='player2';render();sub(c);setTimeout(refresh,150)}
+function sub(c){if(ch)sb.removeChannel(ch);ch=sb.channel('fu-'+c).on('postgres_changes',{event:'UPDATE',schema:'public',table:'games',filter:'room_code=eq.'+c},p=>{room=p.new;render();resolveDuel();settle()}).subscribe()}
+async function refresh(){if(!room)return;let {data}=await sb.from('games').select('*').eq('id',room.id).single();if(data){room=data;render();resolveDuel();settle()}}
+function render(){let r=room;if(!r)return;$('mtitle').textContent=r.game_type.toUpperCase()+' DUEL';let h='<div class="room">'+r.room_code+'</div><div class="wager">LOCKED WAGER<br><strong>'+fmt(r.wager)+' FLIP EACH</strong></div><div class="players"><div class="player">'+esc(r.player1)+'</div><div class="player">'+(r.player2?esc(r.player2):'WAITING…')+'</div></div>';if(!r.player2)h+='<div class="sub" style="text-align:center">Send your friend the room code.</div>';else if(r.result)h+=result(r);else if(r.game_type==='flip')h+=flipUI(r);else if(r.game_type==='dice')h+='<div class="out">🎲 ROLLING…</div>';else h+=rpsUI(r);$('mbody').innerHTML=h}
+function flipUI(r){if(role==='player1'&&!r.player1_choice)return '<div class="choices"><button class="choice" onclick="pickFlip(\'HEADS\')">HEADS</button><button class="choice" onclick="pickFlip(\'TAILS\')">TAILS</button></div>';return '<div class="out">🪙 FLIPPING…</div>'}
+async function pickFlip(v){await sb.from('games').update({player1_choice:v,player2_choice:v==='HEADS'?'TAILS':'HEADS'}).eq('id',room.id);setTimeout(refresh,120)}
+function rpsUI(r){let mine=role==='player1'?r.player1_choice:r.player2_choice;if(mine)return '<div class="out">🤫 CHOICE LOCKED — WAITING…</div>';return '<div class="choices"><button class="choice" onclick="pickRPS(\'ROCK\')">✊ ROCK</button><button class="choice" onclick="pickRPS(\'PAPER\')">✋ PAPER</button><button class="choice" onclick="pickRPS(\'SCISSORS\')">✌️ SCISSORS</button></div>'}
+async function pickRPS(v){let col=role==='player1'?'player1_choice':'player2_choice';await sb.from('games').update({[col]:v}).eq('id',room.id);setTimeout(refresh,120)}
+function result(r){let win=r.winner===name;return '<div class="out"><div class="'+(win?'green':'red')+'" style="font-size:28px;font-weight:1000">'+(win?'🏆 YOU WON':'💀 YOU LOST')+'</div><div>'+esc(r.result)+'</div><div>Winner: '+esc(r.winner)+'</div></div>'}
+async function resolveDuel(){let r=room;if(!r||r.result||!r.player2||role!=='player1')return;if(r.game_type==='flip'&&r.player1_choice){let s=Math.random()<.5?'HEADS':'TAILS';return finish(s+' WINS',s===r.player1_choice?r.player1:r.player2)}if(r.game_type==='dice'){let a,b;do{a=1+Math.floor(Math.random()*6);b=1+Math.floor(Math.random()*6)}while(a===b);return finish(a+' vs '+b,a>b?r.player1:r.player2)}if(r.game_type==='rps'&&r.player1_choice&&r.player2_choice){if(r.player1_choice===r.player2_choice){await sb.from('games').update({player1_choice:null,player2_choice:null}).eq('id',r.id);return}let beats={ROCK:'SCISSORS',PAPER:'ROCK',SCISSORS:'PAPER'};return finish(r.player1_choice+' vs '+r.player2_choice,beats[r.player1_choice]===r.player2_choice?r.player1:r.player2)}}
+async function finish(res,winner){let {data}=await sb.from('games').update({result:res,winner,status:'finished'}).eq('id',room.id).is('result',null).select().single();if(data){room=data;render();settle()}}
+function settle(){let r=room;if(!r||!r.result)return;let k='settled_'+r.id;if(localStorage.getItem(k))return;if(!localStorage.getItem('lock_'+r.id))return;if(r.winner===name)balance+=Number(r.wager)*2;burned+=Math.floor(Number(r.wager)*.02*.75);localStorage.setItem(k,'1');localStorage.removeItem('lock_'+r.id);save()}
+document.addEventListener('visibilitychange',()=>{if(!document.hidden&&room)refresh()});save();
+</script></body></html>
