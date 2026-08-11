@@ -31,36 +31,163 @@
  </section>
 </div>
 <div class="modal" id="modal"><div class="modalbox"><div class="mh"><b id="mtitle">GAME</b><button class="x" onclick="closeModal()">×</button></div><div id="mbody"></div></div></div>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
 <script>
-const URL="https://llvoaimskkdafsgvqmrx.supabase.co",KEY="sb_publishable_DdmyLOBvEUyPlZlqgOk-3A_g1Y6gn0L",sb=window.supabase.createClient(URL,KEY),$=x=>document.getElementById(x),fmt=x=>Math.floor(Number(x||0)).toLocaleString();
-let balance=Number(localStorage.getItem('fu_bal')||100000),burned=Number(localStorage.getItem('fu_burn')||0),side=null,locked=null,t=5,resolving=false;
-let room=null,role=null,ch=null,name=localStorage.getItem('fu_name')||'';
-function save(){localStorage.setItem('fu_bal',balance);localStorage.setItem('fu_burn',burned);$('bal').textContent=fmt(balance)+' FLIP';$('burn').textContent=fmt(burned)}
-function amt(){let v=Math.floor(Number($('amount').value||0));v=Math.max(1,Math.min(10000,v));$('amount').value=v;return v}
-document.querySelectorAll('.side').forEach(b=>b.onclick=()=>{if(locked||resolving)return;side=b.dataset.side;document.querySelectorAll('.side').forEach(x=>x.classList.toggle('on',x===b));$('bet').disabled=false;$('bet').textContent='BET '+fmt(amt())+' ON '+side});
-$('amount').oninput=()=>{if(side&&!locked)$('bet').textContent='BET '+fmt(amt())+' ON '+side};$('max').onclick=()=>{$('amount').value=10000;if(side)$('bet').textContent='BET 10,000 ON '+side};
-$('bet').onclick=()=>{if(!side||locked||resolving)return;let a=amt();if(a>balance)return $('notice').textContent='Not enough TEST FLIP.';balance-=a;locked={side,stake:a};save();$('bet').disabled=true;$('amount').disabled=true;$('max').disabled=true;document.querySelectorAll('.side').forEach(x=>x.disabled=true);$('bet').textContent=fmt(a)+' FLIP LOCKED ✓';$('notice').textContent='Locked on '+side+'. Waiting for flip…'};
-function flash(win,a){let f=$('fx');f.className='resultfx show '+(win?'win':'lose');f.innerHTML=win?'🏆<br>YOU WON<br>+'+fmt(a)+' NET':'💀<br>YOU LOST<br>-'+fmt(a);setTimeout(()=>f.className='resultfx',1100)}
-function resolveLive(){resolving=true;$('coin').classList.add('flip');let w=Math.random()<.5?'LEFT':'RIGHT';setTimeout(()=>{if(locked){let a=locked.stake;if(locked.side===w){balance+=a*2;flash(true,a)}else flash(false,a);burned+=Math.floor(a*.02*.75);save()}$('notice').textContent=w+' WON THIS ROUND.'},700);setTimeout(()=>{t=5;resolving=false;locked=null;side=null;$('coin').classList.remove('flip');$('amount').disabled=false;$('max').disabled=false;document.querySelectorAll('.side').forEach(x=>{x.disabled=false;x.classList.remove('on')});$('bet').disabled=true;$('bet').textContent='CHOOSE LEFT OR RIGHT';$('notice').textContent='New round. One bet available.'},1600)}
+// CORE LIVE GAME — works even if multiplayer fails to load
+const $=id=>document.getElementById(id), fmt=n=>Math.floor(Number(n||0)).toLocaleString();
+let balance=Number(localStorage.getItem('fu_bal')||100000), burned=Number(localStorage.getItem('fu_burn')||0);
+let side=null, locked=null, t=5, resolving=false;
+
+function saveCore(){
+  localStorage.setItem('fu_bal',balance);
+  localStorage.setItem('fu_burn',burned);
+  $('bal').textContent=fmt(balance)+' FLIP';
+  $('burn').textContent=fmt(burned);
+}
+function getAmt(){
+  let v=Math.floor(Number($('amount').value||0));
+  v=Math.max(1,Math.min(10000,v));
+  $('amount').value=v;
+  return v;
+}
+function chooseSide(s){
+  if(locked||resolving)return;
+  side=s;
+  document.querySelectorAll('.side').forEach(b=>b.classList.toggle('on',b.dataset.side===s));
+  $('bet').disabled=false;
+  $('bet').textContent='BET '+fmt(getAmt())+' ON '+s;
+}
+document.querySelectorAll('.side').forEach(b=>{
+  b.addEventListener('click',()=>chooseSide(b.dataset.side));
+  b.addEventListener('touchend',e=>{e.preventDefault();chooseSide(b.dataset.side)},{passive:false});
+});
+$('amount').addEventListener('input',()=>{if(side&&!locked)$('bet').textContent='BET '+fmt(getAmt())+' ON '+side});
+$('max').addEventListener('click',()=>{$('amount').value=10000;if(side&&!locked)$('bet').textContent='BET 10,000 ON '+side});
+$('bet').addEventListener('click',()=>{
+  if(!side||locked||resolving)return;
+  const a=getAmt();
+  if(a>balance){$('notice').textContent='Not enough TEST FLIP.';return}
+  balance-=a; locked={side,stake:a}; saveCore();
+  $('bet').disabled=true; $('amount').disabled=true; $('max').disabled=true;
+  document.querySelectorAll('.side').forEach(x=>x.disabled=true);
+  $('bet').textContent=fmt(a)+' FLIP LOCKED ✓';
+  $('notice').textContent='Locked on '+side+'. Waiting for flip…';
+});
+function flash(win,a,winner){
+  const f=$('fx');
+  f.className='resultfx show '+(win?'win':'lose');
+  f.innerHTML=win
+    ? '🚀<br>YOU WON<br>+'+fmt(a)+' FLIP NET<br><span style="font-size:12px">'+winner+' WON • '+fmt(a*2)+' PAID</span>'
+    : '💥<br>YOU LOST<br>-'+fmt(a)+' FLIP<br><span style="font-size:12px">'+winner+' WON</span>';
+  setTimeout(()=>f.className='resultfx',1200);
+}
+function resolveLive(){
+  if(resolving)return;
+  resolving=true; $('coin').classList.add('flip');
+  const winner=Math.random()<.5?'LEFT':'RIGHT';
+  setTimeout(()=>{
+    if(locked){
+      const a=locked.stake, won=locked.side===winner;
+      if(won)balance+=a*2;
+      burned+=Math.floor(a*.02*.75);
+      saveCore(); flash(won,a,winner);
+    } else $('notice').textContent=winner+' WON — no bet this round.';
+  },650);
+  setTimeout(()=>{
+    t=5; resolving=false; locked=null; side=null;
+    $('coin').classList.remove('flip'); $('amount').disabled=false; $('max').disabled=false;
+    document.querySelectorAll('.side').forEach(x=>{x.disabled=false;x.classList.remove('on')});
+    $('bet').disabled=true; $('bet').textContent='CHOOSE LEFT OR RIGHT';
+    $('notice').textContent='New round. One bet available.'; $('timer').textContent='00:05';
+  },1700);
+}
 setInterval(()=>{if(resolving)return;t--;$('timer').textContent='00:0'+Math.max(t,0);if(t<=0)resolveLive()},1000);
-function code(){let c='ABCDEFGHJKLMNPQRSTUVWXYZ23456789',s='';for(let i=0;i<5;i++)s+=c[Math.floor(Math.random()*c.length)];return s}
+saveCore();
+
+// MULTIPLAYER — loads separately so it cannot break live betting
+const SUPABASE_URL='https://llvoaimskkdafsgvqmrx.supabase.co';
+const SUPABASE_KEY='sb_publishable_DdmyLOBvEUyPlZlqgOk-3A_g1Y6gn0L';
+let sb=null,room=null,role=null,ch=null,playerName=localStorage.getItem('fu_name')||'';
+
 function esc(s){return String(s||'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]))}
-function openM(){$('modal').classList.add('show')}async function closeModal(){if(ch){await sb.removeChannel(ch);ch=null}room=null;role=null;$('modal').classList.remove('show')}
-function createFlow(type){openM();$('mtitle').textContent='CREATE '+type.toUpperCase();$('mbody').innerHTML='<input id="nm" placeholder="YOUR NAME" value="'+esc(name)+'"><div style="height:8px"></div><input id="rw" type="number" inputmode="numeric" min="1" max="10000" value="1000" placeholder="WAGER"><button class="btn" onclick="createRoom(\''+type+'\')">CREATE ROOM</button>'}
-async function createRoom(type){name=$('nm').value.trim()||'Player 1';localStorage.setItem('fu_name',name);let w=Math.floor(Number($('rw').value));if(w<1||w>10000)return alert('Wager must be 1–10,000.');if(w>balance)return alert('Not enough TEST FLIP.');let {data,error}=await sb.from('games').insert({room_code:code(),game_type:type,wager:w,status:'waiting',player1:name}).select().single();if(error)return alert(error.message);balance-=w;save();localStorage.setItem('lock_'+data.id,w);room=data;role='player1';render();sub(room.room_code)}
-async function joinFlow(){let c=$('joinCode').value.trim().toUpperCase();if(!c)return;let {data,error}=await sb.from('games').select('*').eq('room_code',c).single();if(error||!data)return alert('Room not found.');openM();$('mtitle').textContent='JOIN '+c;$('mbody').innerHTML='<input id="nm" placeholder="YOUR NAME" value="'+esc(name)+'"><div class="wager">EXACT WAGER<br><strong>'+fmt(data.wager)+' FLIP</strong></div><button class="btn" onclick="joinRoom(\''+c+'\')">ACCEPT & LOCK '+fmt(data.wager)+' FLIP</button>'}
-async function joinRoom(c){name=$('nm').value.trim()||'Player 2';localStorage.setItem('fu_name',name);let {data:r}=await sb.from('games').select('*').eq('room_code',c).single();if(!r||r.player2)return alert('Room unavailable.');if(Number(r.wager)>balance)return alert('Not enough TEST FLIP.');let {data,error}=await sb.from('games').update({player2:name,status:'active'}).eq('id',r.id).is('player2',null).select().single();if(error)return alert(error.message);balance-=Number(data.wager);save();localStorage.setItem('lock_'+data.id,data.wager);room=data;role='player2';render();sub(c);setTimeout(refresh,150)}
-function sub(c){if(ch)sb.removeChannel(ch);ch=sb.channel('fu-'+c).on('postgres_changes',{event:'UPDATE',schema:'public',table:'games',filter:'room_code=eq.'+c},p=>{room=p.new;render();resolveDuel();settle()}).subscribe()}
-async function refresh(){if(!room)return;let {data}=await sb.from('games').select('*').eq('id',room.id).single();if(data){room=data;render();resolveDuel();settle()}}
-function render(){let r=room;if(!r)return;$('mtitle').textContent=r.game_type.toUpperCase()+' DUEL';let h='<div class="room">'+r.room_code+'</div><div class="wager">LOCKED WAGER<br><strong>'+fmt(r.wager)+' FLIP EACH</strong></div><div class="players"><div class="player">'+esc(r.player1)+'</div><div class="player">'+(r.player2?esc(r.player2):'WAITING…')+'</div></div>';if(!r.player2)h+='<div class="sub" style="text-align:center">Send your friend the room code.</div>';else if(r.result)h+=result(r);else if(r.game_type==='flip')h+=flipUI(r);else if(r.game_type==='dice')h+='<div class="out">🎲 ROLLING…</div>';else h+=rpsUI(r);$('mbody').innerHTML=h}
+function openM(){$('modal').classList.add('show')}
+async function closeModal(){if(ch&&sb){try{await sb.removeChannel(ch)}catch(e){}}ch=null;room=null;role=null;$('modal').classList.remove('show')}
+function ensureMP(){if(!sb){alert('Multiplayer is still connecting. Wait 1–2 seconds and try again.');return false}return true}
+function roomCode(){const c='ABCDEFGHJKLMNPQRSTUVWXYZ23456789';let s='';for(let i=0;i<5;i++)s+=c[Math.floor(Math.random()*c.length)];return s}
+
+function createFlow(type){
+  if(!ensureMP())return;
+  openM(); $('mtitle').textContent='CREATE '+type.toUpperCase();
+  $('mbody').innerHTML='<input id="nm" placeholder="YOUR NAME" value="'+esc(playerName)+'"><div style="height:8px"></div><input id="rw" type="number" inputmode="numeric" min="1" max="10000" value="1000"><button class="btn" onclick="createRoom(\''+type+'\')">CREATE ROOM</button>';
+}
+async function createRoom(type){
+  playerName=$('nm').value.trim()||'Player 1'; localStorage.setItem('fu_name',playerName);
+  let w=Math.floor(Number($('rw').value||0));
+  if(w<1||w>10000)return alert('Wager must be 1–10,000.');
+  if(w>balance)return alert('Not enough TEST FLIP.');
+  const {data,error}=await sb.from('games').insert({room_code:roomCode(),game_type:type,wager:w,status:'waiting',player1:playerName}).select().single();
+  if(error)return alert('Create failed: '+error.message);
+  balance-=w;saveCore();localStorage.setItem('lock_'+data.id,String(w));room=data;role='player1';renderRoom();subscribeRoom(room.room_code);
+}
+async function joinFlow(){
+  if(!ensureMP())return;
+  const c=$('joinCode').value.trim().toUpperCase(); if(!c)return;
+  const {data,error}=await sb.from('games').select('*').eq('room_code',c).single();
+  if(error||!data)return alert('Room not found.');
+  openM();$('mtitle').textContent='JOIN '+c;
+  $('mbody').innerHTML='<input id="nm" placeholder="YOUR NAME" value="'+esc(playerName)+'"><div class="wager">EXACT WAGER<br><strong>'+fmt(data.wager)+' FLIP</strong></div><button class="btn" onclick="joinRoom(\''+c+'\')">ACCEPT & LOCK '+fmt(data.wager)+' FLIP</button>';
+}
+async function joinRoom(c){
+  playerName=$('nm').value.trim()||'Player 2';localStorage.setItem('fu_name',playerName);
+  const {data:r}=await sb.from('games').select('*').eq('room_code',c).single();
+  if(!r||r.player2)return alert('Room unavailable.');
+  if(Number(r.wager)>balance)return alert('Not enough TEST FLIP.');
+  const {data,error}=await sb.from('games').update({player2:playerName,status:'active'}).eq('id',r.id).is('player2',null).select().single();
+  if(error)return alert('Join failed: '+error.message);
+  balance-=Number(data.wager);saveCore();localStorage.setItem('lock_'+data.id,String(data.wager));room=data;role='player2';renderRoom();subscribeRoom(c);setTimeout(refreshRoom,150);
+}
+function subscribeRoom(c){
+  if(ch)sb.removeChannel(ch);
+  ch=sb.channel('fu-'+c).on('postgres_changes',{event:'UPDATE',schema:'public',table:'games',filter:'room_code=eq.'+c},p=>{room=p.new;renderRoom();resolveDuel();settleDuel()}).subscribe();
+}
+async function refreshRoom(){if(!room)return;const {data}=await sb.from('games').select('*').eq('id',room.id).single();if(data){room=data;renderRoom();resolveDuel();settleDuel()}}
+function renderRoom(){
+  if(!room)return; const r=room;
+  $('mtitle').textContent=r.game_type.toUpperCase()+' DUEL';
+  let h='<div class="room">'+r.room_code+'</div><div class="wager">LOCKED WAGER<br><strong>'+fmt(r.wager)+' FLIP EACH</strong></div><div class="players"><div class="player">'+esc(r.player1)+'</div><div class="player">'+(r.player2?esc(r.player2):'WAITING…')+'</div></div>';
+  if(!r.player2)h+='<div class="sub" style="text-align:center">Send your friend the room code.</div>';
+  else if(r.result)h+=duelResult(r);
+  else if(r.game_type==='flip')h+=flipUI(r);
+  else if(r.game_type==='dice')h+='<div class="out">🎲 ROLLING…</div>';
+  else h+=rpsUI(r);
+  $('mbody').innerHTML=h;
+}
 function flipUI(r){if(role==='player1'&&!r.player1_choice)return '<div class="choices"><button class="choice" onclick="pickFlip(\'HEADS\')">HEADS</button><button class="choice" onclick="pickFlip(\'TAILS\')">TAILS</button></div>';return '<div class="out">🪙 FLIPPING…</div>'}
-async function pickFlip(v){await sb.from('games').update({player1_choice:v,player2_choice:v==='HEADS'?'TAILS':'HEADS'}).eq('id',room.id);setTimeout(refresh,120)}
-function rpsUI(r){let mine=role==='player1'?r.player1_choice:r.player2_choice;if(mine)return '<div class="out">🤫 CHOICE LOCKED — WAITING…</div>';return '<div class="choices"><button class="choice" onclick="pickRPS(\'ROCK\')">✊ ROCK</button><button class="choice" onclick="pickRPS(\'PAPER\')">✋ PAPER</button><button class="choice" onclick="pickRPS(\'SCISSORS\')">✌️ SCISSORS</button></div>'}
-async function pickRPS(v){let col=role==='player1'?'player1_choice':'player2_choice';await sb.from('games').update({[col]:v}).eq('id',room.id);setTimeout(refresh,120)}
-function result(r){let win=r.winner===name;return '<div class="out"><div class="'+(win?'green':'red')+'" style="font-size:28px;font-weight:1000">'+(win?'🏆 YOU WON':'💀 YOU LOST')+'</div><div>'+esc(r.result)+'</div><div>Winner: '+esc(r.winner)+'</div></div>'}
-async function resolveDuel(){let r=room;if(!r||r.result||!r.player2||role!=='player1')return;if(r.game_type==='flip'&&r.player1_choice){let s=Math.random()<.5?'HEADS':'TAILS';return finish(s+' WINS',s===r.player1_choice?r.player1:r.player2)}if(r.game_type==='dice'){let a,b;do{a=1+Math.floor(Math.random()*6);b=1+Math.floor(Math.random()*6)}while(a===b);return finish(a+' vs '+b,a>b?r.player1:r.player2)}if(r.game_type==='rps'&&r.player1_choice&&r.player2_choice){if(r.player1_choice===r.player2_choice){await sb.from('games').update({player1_choice:null,player2_choice:null}).eq('id',r.id);return}let beats={ROCK:'SCISSORS',PAPER:'ROCK',SCISSORS:'PAPER'};return finish(r.player1_choice+' vs '+r.player2_choice,beats[r.player1_choice]===r.player2_choice?r.player1:r.player2)}}
-async function finish(res,winner){let {data}=await sb.from('games').update({result:res,winner,status:'finished'}).eq('id',room.id).is('result',null).select().single();if(data){room=data;render();settle()}}
-function settle(){let r=room;if(!r||!r.result)return;let k='settled_'+r.id;if(localStorage.getItem(k))return;if(!localStorage.getItem('lock_'+r.id))return;if(r.winner===name)balance+=Number(r.wager)*2;burned+=Math.floor(Number(r.wager)*.02*.75);localStorage.setItem(k,'1');localStorage.removeItem('lock_'+r.id);save()}
-document.addEventListener('visibilitychange',()=>{if(!document.hidden&&room)refresh()});save();
-</script></body></html>
+async function pickFlip(v){await sb.from('games').update({player1_choice:v,player2_choice:v==='HEADS'?'TAILS':'HEADS'}).eq('id',room.id);setTimeout(refreshRoom,120)}
+function rpsUI(r){const mine=role==='player1'?r.player1_choice:r.player2_choice;if(mine)return '<div class="out">🤫 CHOICE LOCKED — WAITING…</div>';return '<div class="choices"><button class="choice" onclick="pickRPS(\'ROCK\')">✊ ROCK</button><button class="choice" onclick="pickRPS(\'PAPER\')">✋ PAPER</button><button class="choice" onclick="pickRPS(\'SCISSORS\')">✌️ SCISSORS</button></div>'}
+async function pickRPS(v){const col=role==='player1'?'player1_choice':'player2_choice';await sb.from('games').update({[col]:v}).eq('id',room.id);setTimeout(refreshRoom,120)}
+function duelResult(r){const won=r.winner===playerName;return '<div class="out"><div class="'+(won?'green':'red')+'" style="font-size:28px;font-weight:1000">'+(won?'🏆 YOU WON':'💀 YOU LOST')+'</div><div>'+esc(r.result)+'</div><div>Winner: '+esc(r.winner)+'</div></div>'}
+async function resolveDuel(){
+  const r=room;if(!r||r.result||!r.player2||role!=='player1')return;
+  if(r.game_type==='flip'&&r.player1_choice){const s=Math.random()<.5?'HEADS':'TAILS';return finishDuel(s+' WINS',s===r.player1_choice?r.player1:r.player2)}
+  if(r.game_type==='dice'){let a,b;do{a=1+Math.floor(Math.random()*6);b=1+Math.floor(Math.random()*6)}while(a===b);return finishDuel(a+' vs '+b,a>b?r.player1:r.player2)}
+  if(r.game_type==='rps'&&r.player1_choice&&r.player2_choice){
+    if(r.player1_choice===r.player2_choice){await sb.from('games').update({player1_choice:null,player2_choice:null}).eq('id',r.id);return}
+    const beats={ROCK:'SCISSORS',PAPER:'ROCK',SCISSORS:'PAPER'};
+    return finishDuel(r.player1_choice+' vs '+r.player2_choice,beats[r.player1_choice]===r.player2_choice?r.player1:r.player2)
+  }
+}
+async function finishDuel(result,winner){const {data}=await sb.from('games').update({result,winner,status:'finished'}).eq('id',room.id).is('result',null).select().single();if(data){room=data;renderRoom();settleDuel()}}
+function settleDuel(){const r=room;if(!r||!r.result)return;const done='settled_'+r.id;if(localStorage.getItem(done)||!localStorage.getItem('lock_'+r.id))return;if(r.winner===playerName)balance+=Number(r.wager)*2;burned+=Math.floor(Number(r.wager)*.02*.75);localStorage.setItem(done,'1');localStorage.removeItem('lock_'+r.id);saveCore()}
+document.addEventListener('visibilitychange',()=>{if(!document.hidden&&room&&sb)refreshRoom()});
+
+(function(){
+  const s=document.createElement('script');
+  s.src='https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2';
+  s.async=true;
+  s.onload=()=>{try{sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);console.log('Multiplayer ready')}catch(e){console.error(e)}};
+  s.onerror=()=>console.error('Supabase CDN failed; live game remains functional.');
+  document.head.appendChild(s);
+})();
+</script>
+</body></html>
