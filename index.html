@@ -236,6 +236,243 @@ button,input{font:inherit}button{-webkit-tap-highlight-color:transparent}.wrap{m
   .weaponPickVisual{height:130px}
 }
 
+
+/* ===== V19 CLEAN ANIMATION ENGINE ===== */
+
+/* Coin: constant rotational speed, abrupt stop, immediate winner */
+.coin3d.v19SpinF{animation:v19SpinF 1.55s linear forwards}
+.coin3d.v19SpinU{animation:v19SpinU 1.55s linear forwards}
+.coin3d.v19FaceF{animation:none!important;transform:rotateY(1800deg)!important}
+.coin3d.v19FaceU{animation:none!important;transform:rotateY(1980deg)!important}
+.coin3d.v19WinnerGlow{
+  animation:v19Glow .42s ease-in-out infinite alternate!important;
+}
+@keyframes v19SpinF{
+  from{transform:translateY(0) rotateY(0deg)}
+  48%{transform:translateY(-58px) rotateY(900deg)}
+  to{transform:translateY(0) rotateY(1800deg)}
+}
+@keyframes v19SpinU{
+  from{transform:translateY(0) rotateY(0deg)}
+  48%{transform:translateY(-58px) rotateY(990deg)}
+  to{transform:translateY(0) rotateY(1980deg)}
+}
+@keyframes v19Glow{
+  from{filter:drop-shadow(0 0 12px rgba(255,255,255,.8)) drop-shadow(0 0 28px #43dcffaa)}
+  to{filter:drop-shadow(0 0 22px #fff) drop-shadow(0 0 50px #ff4bd8) drop-shadow(0 0 78px #43dcff)}
+}
+.coinAnnouncement.v19{
+  left:12px;right:12px;top:50%;bottom:auto;
+  transform:translateY(-50%);
+  font-size:42px;letter-spacing:-1px;
+  padding:18px 12px;
+  color:#fff;
+  background:rgba(5,8,26,.68);
+  border:1px solid rgba(255,255,255,.22);
+  text-shadow:0 0 9px #fff,0 0 20px #ff4bd8,0 0 36px #43dcff;
+  box-shadow:0 0 30px rgba(67,220,255,.22);
+  animation:v19WinnerPop .24s cubic-bezier(.2,1.4,.3,1);
+}
+@keyframes v19WinnerPop{
+  from{opacity:0;transform:translateY(-50%) scale(.62)}
+  to{opacity:1;transform:translateY(-50%) scale(1)}
+}
+
+/* ---- true 3D dice engine ---- */
+.diceStage{
+  min-height:370px;
+  display:grid;grid-template-columns:1fr 1fr;gap:18px;
+  padding:18px;margin-top:10px;
+  border:1px solid rgba(67,220,255,.30);
+  border-radius:20px;
+  background:
+    radial-gradient(circle at 22% 15%,rgba(255,75,216,.12),transparent 29%),
+    radial-gradient(circle at 80% 82%,rgba(67,220,255,.11),transparent 31%),
+    linear-gradient(180deg,#0c1232,#06091d 82%);
+  perspective:1400px;
+  overflow:hidden;
+}
+.diceBlock{
+  border:1px solid rgba(255,255,255,.07);
+  border-radius:17px;
+  background:linear-gradient(180deg,rgba(7,12,34,.78),rgba(4,8,25,.55));
+  padding:16px 10px 18px;text-align:center;
+}
+.dicePair{
+  min-height:205px;
+  display:flex;justify-content:center;align-items:center;gap:28px;
+  perspective:1200px;
+}
+.realDie{
+  --s:92px;
+  width:var(--s);height:var(--s);
+  position:relative;
+  transform-style:preserve-3d;
+  transform:rotateX(-18deg) rotateY(18deg);
+  filter:drop-shadow(0 18px 22px rgba(0,0,0,.50));
+  will-change:transform;
+}
+.realFace{
+  position:absolute;inset:0;border-radius:15px;
+  display:grid;place-items:center;
+  background:
+    radial-gradient(circle at 25% 20%,rgba(255,255,255,.20),transparent 25%),
+    linear-gradient(145deg,#263677,#0d1439 58%,#080b22);
+  border:2px solid rgba(91,231,255,.34);
+  box-shadow:
+    inset 0 0 24px rgba(110,140,255,.24),
+    inset 0 0 3px rgba(255,255,255,.20),
+    0 0 15px rgba(67,220,255,.16);
+  backface-visibility:hidden;
+}
+.face1{transform:translateZ(calc(var(--s)/2))}
+.face6{transform:rotateY(180deg) translateZ(calc(var(--s)/2))}
+.face2{transform:rotateY(90deg) translateZ(calc(var(--s)/2))}
+.face5{transform:rotateY(-90deg) translateZ(calc(var(--s)/2))}
+.face3{transform:rotateX(90deg) translateZ(calc(var(--s)/2))}
+.face4{transform:rotateX(-90deg) translateZ(calc(var(--s)/2))}
+.neonPips{
+  width:62px;height:62px;
+  display:grid;grid-template:repeat(3,1fr)/repeat(3,1fr)
+}
+.neonPip{
+  width:12px;height:12px;border-radius:50%;
+  align-self:center;justify-self:center;
+  background:#effeff;
+  box-shadow:0 0 8px #43dcff,0 0 16px #43dcff,0 0 23px rgba(255,75,216,.42)
+}
+.n11{grid-area:2/2}
+.n21{grid-area:1/1}.n22{grid-area:3/3}
+.n31{grid-area:1/1}.n32{grid-area:2/2}.n33{grid-area:3/3}
+.n41{grid-area:1/1}.n42{grid-area:1/3}.n43{grid-area:3/1}.n44{grid-area:3/3}
+.n51{grid-area:1/1}.n52{grid-area:1/3}.n53{grid-area:2/2}.n54{grid-area:3/1}.n55{grid-area:3/3}
+.fuDiceLogo{
+  width:53px;height:53px;border-radius:50%;position:relative;
+  background:
+    radial-gradient(circle at 31% 24%,#fff 0 4%,transparent 5%),
+    radial-gradient(circle at center,#111630 0 42%,#070c21 43% 50%,transparent 51%),
+    conic-gradient(from 215deg,#ff55d8,#a761ff 38%,#45dcff 72%,#7bf5ba 91%,#ff55d8);
+  border:1px solid rgba(255,255,255,.42);
+  box-shadow:0 0 14px #ff4bd899,0 0 26px #43dcff88;
+}
+.fuDiceLogo:before{
+  content:"";position:absolute;left:13px;top:11px;width:20px;height:20px;
+  border:2px solid #fff;border-left-color:transparent;border-radius:50%;
+  transform:rotate(35deg);box-shadow:0 0 8px #fff8
+}
+.fuDiceLogo:after{
+  content:"↗";position:absolute;right:6px;bottom:5px;
+  font-size:12px;font-weight:1000;color:#fff;text-shadow:0 0 9px #43dcff
+}
+.diceScore{
+  margin-top:10px;font-size:13px;font-weight:1000;
+  color:#e7edff;letter-spacing:.2px
+}
+.dieResultPulse{animation:dieResultPulse .55s ease}
+@keyframes dieResultPulse{
+  50%{filter:drop-shadow(0 0 18px #fff) drop-shadow(0 0 35px #43dcff)}
+}
+
+/* ---- DUEL: built-in premium neon art, no remote images ---- */
+.weaponPickVisual{
+  height:170px;
+  display:grid;place-items:center;
+  background:
+    radial-gradient(circle at 50% 52%,rgba(67,220,255,.16),transparent 40%),
+    linear-gradient(180deg,#111940,#070b22);
+}
+.weaponPickVisual img{display:none!important}
+.weaponImgFallback{
+  position:static!important;display:grid!important;
+  width:100%;height:100%;
+  padding:15px 24px;
+  background:transparent!important;
+}
+.weaponImgFallback svg{width:100%;height:100%;max-height:145px}
+.weaponPickCard.selected .weaponImgFallback{
+  filter:drop-shadow(0 0 13px rgba(67,220,255,.52)) drop-shadow(0 0 22px rgba(255,75,216,.26))
+}
+.duelArtStroke{
+  fill:none;stroke:url(#duelStrokeGradient);
+  stroke-width:4;stroke-linecap:round;stroke-linejoin:round;
+  filter:drop-shadow(0 0 4px #43dcff) drop-shadow(0 0 8px #ff4bd8);
+}
+.duelMetal{
+  fill:url(#duelMetalGradient);
+  stroke:#7beaff;stroke-width:2;
+  filter:drop-shadow(0 0 5px #43dcff);
+}
+.duelCore{
+  fill:#ff58da;
+  filter:drop-shadow(0 0 5px #ff4bd8) drop-shadow(0 0 10px #43dcff);
+}
+.weaponShape{
+  width:150px;height:150px;top:55px
+}
+.weaponShape.left{left:14px}.weaponShape.right{right:14px}
+.weaponShape svg{width:100%;height:100%}
+.weaponShape.axe{animation:v19Axe 1s cubic-bezier(.2,.78,.18,1)}
+.weaponShape.lance{animation:v19Lance 1s cubic-bezier(.2,.78,.18,1)}
+.weaponShape.sword{animation:v19Sword 1s cubic-bezier(.2,.78,.18,1)}
+.weaponShape.right.axe{animation-name:v19AxeR}
+.weaponShape.right.lance{animation-name:v19LanceR}
+.weaponShape.right.sword{animation-name:v19SwordR}
+@keyframes v19Axe{
+  0%{transform:translateY(-70px) rotate(-48deg) scale(.78)}
+  58%{transform:translateY(16px) rotate(24deg) scale(1.16)}
+  78%{transform:translateY(-5px) rotate(-8deg)}
+  100%{transform:none}
+}
+@keyframes v19Lance{
+  0%{transform:translateX(-110px) scale(.8)}
+  58%{transform:translateX(42px) scale(1.18)}
+  78%{transform:translateX(-10px)}
+  100%{transform:none}
+}
+@keyframes v19Sword{
+  0%{transform:translateY(-76px) rotate(-38deg) scale(.78)}
+  50%{transform:translateY(20px) rotate(28deg) scale(1.18)}
+  72%{transform:translateY(-7px) rotate(-9deg)}
+  100%{transform:none}
+}
+@keyframes v19AxeR{
+  0%{transform:scaleX(-1) translateY(-70px) rotate(-48deg) scale(.78)}
+  58%{transform:scaleX(-1) translateY(16px) rotate(24deg) scale(1.16)}
+  78%{transform:scaleX(-1) translateY(-5px) rotate(-8deg)}
+  100%{transform:scaleX(-1)}
+}
+@keyframes v19LanceR{
+  0%{transform:scaleX(-1) translateX(-110px) scale(.8)}
+  58%{transform:scaleX(-1) translateX(42px) scale(1.18)}
+  78%{transform:scaleX(-1) translateX(-10px)}
+  100%{transform:scaleX(-1)}
+}
+@keyframes v19SwordR{
+  0%{transform:scaleX(-1) translateY(-76px) rotate(-38deg) scale(.78)}
+  50%{transform:scaleX(-1) translateY(20px) rotate(28deg) scale(1.18)}
+  72%{transform:scaleX(-1) translateY(-7px) rotate(-9deg)}
+  100%{transform:scaleX(-1)}
+}
+.duelImpact{
+  position:absolute;left:50%;top:50%;width:10px;height:10px;border-radius:50%;
+  margin:-5px;opacity:0;
+  background:#fff;
+  box-shadow:0 0 14px #fff,0 0 34px #43dcff,0 0 58px #ff4bd8
+}
+.duelImpact.show{animation:duelImpact .65s ease}
+@keyframes duelImpact{
+  0%{opacity:0;transform:scale(.2)}
+  45%{opacity:1;transform:scale(2)}
+  100%{opacity:0;transform:scale(7)}
+}
+
+@media(max-width:700px){
+  .diceStage{grid-template-columns:1fr}
+  .realDie{--s:84px}
+  .weaponPickVisual{height:145px}
+  .weaponShape{width:125px;height:125px}
+}
+
 </style>
 </head>
 <body>
@@ -319,14 +556,17 @@ $('bet').onclick=()=>{
 };
 function setCoin(el,w){
   if(!el)return;
-  el.className='coin3d '+(w==='F'?'v16SpinF':'v16SpinU');
-  setTimeout(()=>{el.className='coin3d '+(w==='F'?'v16F':'v16U')+' v16Glow';el.dataset.winner=w},1750)
+  el.className='coin3d '+(w==='F'?'v19SpinF':'v19SpinU');
+  setTimeout(()=>{
+    el.className='coin3d '+(w==='F'?'v19FaceF':'v19FaceU')+' v19WinnerGlow';
+    el.dataset.winner=w;
+  },1550);
 }
 function resetCoin(el){if(!el)return;delete el.dataset.winner;el.className='coin3d idle'}
 function showCoinWinner(stage,w){
   if(!stage)return;
   let a=stage.querySelector('.coinAnnouncement');
-  if(!a){a=document.createElement('div');a.className='coinAnnouncement';stage.appendChild(a)}
+  if(!a){a=document.createElement('div');a.className='coinAnnouncement v19';stage.appendChild(a)}
   a.textContent=w+' WINS';
 }
 function clearCoinWinner(stage){const a=stage&&stage.querySelector('.coinAnnouncement');if(a)a.remove()}
@@ -334,55 +574,36 @@ function flashBalance(){const b=document.querySelector('.balance');if(!b)return;
 function liveFX(won,a,w){const f=$('fx');f.className='resultfx show '+(won?'win':'lose');f.innerHTML=(won?'🚀<br>YOU WON<br>+':'💥<br>YOU LOST<br>-')+fmt(a)+' FLIP<br><span style="font-size:12px">'+w+' WINS</span>';setTimeout(()=>{f.className='resultfx';f.innerHTML=''},1450)}
 function resolveLive(roundId){
   if(resolving || lastResolvedRound===roundId)return;
-  resolving=true;
-  lastResolvedRound=roundId;
-
+  resolving=true;lastResolvedRound=roundId;
   const w=liveWinnerForRound(roundId),stage=$('coin').parentElement;
-  clearCoinWinner(stage);
-  setCoin($('coin'),w);
-
-  $('amount').disabled=true;
-  $('max').disabled=true;
+  clearCoinWinner(stage);setCoin($('coin'),w);
+  $('amount').disabled=true;$('max').disabled=true;
   document.querySelectorAll('.side').forEach(x=>x.disabled=true);
   $('bet').disabled=true;
   $('notice').textContent='ROUND '+roundId+' • FLIPPING…';
 
   setTimeout(()=>{
-    $('notice').textContent='LANDED ON '+w;
-  },1800);
-
-  setTimeout(()=>{
     showCoinWinner(stage,w);
     $('notice').textContent=w+' WINS • ROUND '+roundId;
-  },3800);
+  },1560);
 
   setTimeout(()=>{
     if(liveBet && liveBet.roundId===roundId){
       const a=liveBet.stake,won=liveBet.side===w;
       if(won)balance+=a*2;
       burned+=Math.floor(a*.02*.75);
-      save();
-      flashBalance();
-      liveFX(won,a,w);
+      save();flashBalance();liveFX(won,a,w);
     }
-  },4500);
+  },2450);
 
   setTimeout(()=>{
-    resolving=false;
-    liveBet=null;
-    liveSide=null;
-    clearCoinWinner(stage);
-    resetCoin($('coin'));
-    $('amount').disabled=false;
-    $('max').disabled=false;
-    document.querySelectorAll('.side').forEach(x=>{
-      x.disabled=false;
-      x.classList.remove('on');
-    });
-    $('bet').disabled=true;
-    $('bet').textContent='CHOOSE F OR U';
+    resolving=false;liveBet=null;liveSide=null;
+    clearCoinWinner(stage);resetCoin($('coin'));
+    $('amount').disabled=false;$('max').disabled=false;
+    document.querySelectorAll('.side').forEach(x=>{x.disabled=false;x.classList.remove('on')});
+    $('bet').disabled=true;$('bet').textContent='CHOOSE F OR U';
     $('notice').textContent='LIVE ROUND OPEN • PICK AND CONFIRM';
-  },5400);
+  },3900);
 }
 function syncLiveClock(){
   const now=Date.now();
@@ -425,39 +646,106 @@ function diceLabel(v){return Number(v)===6?'FU':String(v)}
 function diceScore(pair){const vals=pair.map(Number),fu=vals.filter(v=>v===6).length,total=vals.reduce((a,v)=>a+v,0);return {fu,total}}
 function comparePairs(a,b){const A=diceScore(a),B=diceScore(b);if(A.fu!==B.fu)return A.fu>B.fu?1:-1;if(A.total!==B.total)return A.total>B.total?1:-1;return 0}
 function pairText(p){return p.map(diceLabel).join(' + ')}
-function v16Pips(n){
-  const m={1:['a1'],2:['b1','b2'],3:['c1','c2','c3'],4:['d1','d2','d3','d4'],5:['e1','e2','e3','e4','e5']};
-  return '<div class="v16Pips">'+(m[Number(n)]||[]).map(c=>'<i class="v16Pip '+c+'"></i>').join('')+'</div>'
+function neonPips(n){
+  const m={1:['n11'],2:['n21','n22'],3:['n31','n32','n33'],4:['n41','n42','n43','n44'],5:['n51','n52','n53','n54','n55']};
+  return '<div class="neonPips">'+(m[Number(n)]||[]).map(c=>'<i class="neonPip '+c+'"></i>').join('')+'</div>';
 }
-function v16Face(n){return Number(n)===6?'<div class="v16FuLogo" aria-label="FU logo"></div>':v16Pips(n)}
-function v16Cube(front,rolling=false,variant='A'){
-  const f=front==='?'?1:Number(front);
-  const rest=[1,2,3,4,5,6].filter(v=>v!==f),vals=[f,...rest];
-  return '<div class="v16Cube '+(rolling?(variant==='A'?'rollA':'rollB'):'')+'">'+
-    '<div class="v16Face v16Front">'+v16Face(vals[0])+'</div>'+
-    '<div class="v16Face v16Back">'+v16Face(vals[1])+'</div>'+
-    '<div class="v16Face v16Right">'+v16Face(vals[2])+'</div>'+
-    '<div class="v16Face v16Left">'+v16Face(vals[3])+'</div>'+
-    '<div class="v16Face v16Top">'+v16Face(vals[4])+'</div>'+
-    '<div class="v16Face v16Bottom">'+v16Face(vals[5])+'</div>'+
-  '</div>'
+function dieFaceContent(n){return Number(n)===6?'<div class="fuDiceLogo" aria-label="FU face"></div>':neonPips(n)}
+function realDieMarkup(value,id){
+  return '<div class="realDie" id="'+id+'" data-value="'+value+'">'+
+    '<div class="realFace face1">'+dieFaceContent(1)+'</div>'+
+    '<div class="realFace face6">'+dieFaceContent(6)+'</div>'+
+    '<div class="realFace face2">'+dieFaceContent(2)+'</div>'+
+    '<div class="realFace face5">'+dieFaceContent(5)+'</div>'+
+    '<div class="realFace face3">'+dieFaceContent(3)+'</div>'+
+    '<div class="realFace face4">'+dieFaceContent(4)+'</div>'+
+  '</div>';
+}
+function finalDieTransform(v){
+  const map={
+    1:'rotateX(-18deg) rotateY(18deg)',
+    2:'rotateX(-18deg) rotateY(-72deg)',
+    3:'rotateX(-108deg) rotateY(12deg)',
+    4:'rotateX(72deg) rotateY(12deg)',
+    5:'rotateX(-18deg) rotateY(108deg)',
+    6:'rotateX(-18deg) rotateY(198deg)'
+  };
+  return map[Number(v)]||map[1];
+}
+function animateRealDie(id,value,variant=0){
+  const el=document.getElementById(id);
+  if(!el)return;
+  const end=finalDieTransform(value);
+  const spin=variant%2===0
+    ?[
+      {transform:'rotateX(-18deg) rotateY(18deg) rotateZ(0deg) translateY(0)'},
+      {transform:'rotateX(380deg) rotateY(520deg) rotateZ(160deg) translateY(-72px)',offset:.24},
+      {transform:'rotateX(800deg) rotateY(980deg) rotateZ(350deg) translateY(-24px)',offset:.60},
+      {transform:'rotateX(1090deg) rotateY(1370deg) rotateZ(520deg) translateY(8px)',offset:.84},
+      {transform:end,offset:1}
+    ]
+    :[
+      {transform:'rotateX(-18deg) rotateY(18deg) rotateZ(0deg) translateY(0)'},
+      {transform:'rotateX(-420deg) rotateY(480deg) rotateZ(-170deg) translateY(-62px)',offset:.24},
+      {transform:'rotateX(-850deg) rotateY(960deg) rotateZ(-370deg) translateY(-20px)',offset:.60},
+      {transform:'rotateX(-1120deg) rotateY(1340deg) rotateZ(-530deg) translateY(8px)',offset:.84},
+      {transform:end,offset:1}
+    ];
+  const anim=el.animate(spin,{duration:1850,easing:'cubic-bezier(.15,.70,.18,1)',fill:'forwards'});
+  anim.onfinish=()=>{el.style.transform=end;el.classList.add('dieResultPulse')};
 }
 function diceStage(a=['?','?'],b=['?','?'],ra=false,rb=false){
- return '<div class="diceStage">'+
-  '<div class="diceBlock"><div class="sub" style="margin-bottom:9px">PLAYER 1</div><div class="dicePair">'+v16Cube(a[0],ra,'A')+v16Cube(a[1],ra,'B')+'</div>'+(a[0]!=='?'?'<div class="diceScore">'+pairText(a)+'</div>':'')+'</div>'+
-  '<div class="diceBlock"><div class="sub" style="margin-bottom:9px">PLAYER 2</div><div class="dicePair">'+v16Cube(b[0],rb,'B')+v16Cube(b[1],rb,'A')+'</div>'+(b[0]!=='?'?'<div class="diceScore">'+pairText(b)+'</div>':'')+'</div>'+
- '</div>'
+  const av=[a[0]==='?'?1:a[0],a[1]==='?'?1:a[1]];
+  const bv=[b[0]==='?'?1:b[0],b[1]==='?'?1:b[1]];
+  const uid='d'+Date.now()+Math.floor(Math.random()*9999);
+  const ids=[uid+'a',uid+'b',uid+'c',uid+'d'];
+  setTimeout(()=>{
+    const vals=[av[0],av[1],bv[0],bv[1]];
+    vals.forEach((v,i)=>{
+      const el=document.getElementById(ids[i]);
+      if(el){
+        if((i<2&&ra)||(i>=2&&rb))animateRealDie(ids[i],v,i);
+        else el.style.transform=finalDieTransform(v);
+      }
+    });
+  },20);
+  return '<div class="diceStage">'+
+    '<div class="diceBlock"><div class="sub" style="margin-bottom:9px">PLAYER 1</div><div class="dicePair">'+realDieMarkup(av[0],ids[0])+realDieMarkup(av[1],ids[1])+'</div>'+(a[0]!=='?'?'<div class="diceScore">'+pairText(a)+'</div>':'')+'</div>'+
+    '<div class="diceBlock"><div class="sub" style="margin-bottom:9px">PLAYER 2</div><div class="dicePair">'+realDieMarkup(bv[0],ids[2])+realDieMarkup(bv[1],ids[3])+'</div>'+(b[0]!=='?'?'<div class="diceScore">'+pairText(b)+'</div>':'')+'</div>'+
+  '</div>';
 }
 function parseDice(v){if(!v||!String(v).startsWith('DICE:'))return null;const p=String(v).slice(5).split(',').map(Number);return p.length===2?p:null}
 
 // RPS
 function weaponClass(v){return String(v||'').toLowerCase()}
 function weaponArt(v){
- if(v==='AXE')return '<svg viewBox="0 0 100 100"><path class="weaponStroke" d="M51 16L56 84"/><path class="weaponFill" d="M45 20Q61 8 78 20Q72 39 55 43L44 34Z"/><path class="weaponStroke" d="M50 44L40 82"/></svg>';
- if(v==='LANCE')return '<svg viewBox="0 0 100 100"><path class="weaponStroke" d="M17 78L78 17"/><path class="weaponFill" d="M75 15L89 11L85 25Z"/><path class="weaponStroke" d="M24 72L33 81"/></svg>';
- return '<svg viewBox="0 0 100 100"><path class="weaponStroke" d="M50 12L52 72"/><path class="weaponFill" d="M50 8L57 20L51 27L44 20Z"/><path class="weaponStroke" d="M33 70L69 70M42 82L60 82"/></svg>'
+  const defs='<defs><linearGradient id="duelStrokeGradient" x1="0" x2="1"><stop stop-color="#61eaff"/><stop offset=".5" stop-color="#9a6dff"/><stop offset="1" stop-color="#ff66df"/></linearGradient><linearGradient id="duelMetalGradient" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#dffcff"/><stop offset=".25" stop-color="#4fe1ff"/><stop offset=".55" stop-color="#596dff"/><stop offset=".8" stop-color="#ff5ad9"/><stop offset="1" stop-color="#141a47"/></linearGradient></defs>';
+  if(v==='AXE')return '<svg viewBox="0 0 180 120">'+defs+
+    '<path class="duelArtStroke" d="M91 23 L72 105"/>'+
+    '<path class="duelMetal" d="M83 29 C105 5 143 8 164 30 C151 58 123 65 94 51 Z"/>'+
+    '<path class="duelMetal" d="M86 34 C68 15 48 16 30 28 C39 49 56 58 79 52 Z"/>'+
+    '<path class="duelArtStroke" d="M76 86 L62 107 M82 62 L103 66"/>'+
+    '<circle class="duelCore" cx="89" cy="40" r="6"/>'+
+    '<path class="duelArtStroke" d="M109 22 L142 27 M45 30 L68 33"/>'+
+    '</svg>';
+  if(v==='LANCE')return '<svg viewBox="0 0 180 120">'+defs+
+    '<path class="duelArtStroke" d="M24 94 L137 27"/>'+
+    '<path class="duelMetal" d="M132 26 L171 12 L154 47 Z"/>'+
+    '<path class="duelMetal" d="M95 45 L115 32 L124 44 L104 57 Z"/>'+
+    '<path class="duelArtStroke" d="M39 85 L51 100 M48 78 L62 94"/>'+
+    '<circle class="duelCore" cx="118" cy="39" r="5"/>'+
+    '<path class="duelArtStroke" d="M140 25 L157 20"/>'+
+    '</svg>';
+  return '<svg viewBox="0 0 180 120">'+defs+
+    '<path class="duelMetal" d="M87 8 L100 21 L92 82 L81 82 L74 21 Z"/>'+
+    '<path class="duelArtStroke" d="M87 10 L87 80"/>'+
+    '<path class="duelMetal" d="M55 80 L119 80 L114 91 L60 91 Z"/>'+
+    '<path class="duelMetal" d="M78 91 L96 91 L101 108 L73 108 Z"/>'+
+    '<circle class="duelCore" cx="87" cy="84" r="6"/>'+
+    '<path class="duelArtStroke" d="M80 23 L87 13 L94 23 M66 86 L108 86"/>'+
+    '</svg>';
 }
-function weaponStage(a,b){return '<div class="weaponStage"><div class="weaponShape left '+weaponClass(a)+'">'+weaponArt(a)+'</div><div class="weaponVS">VS</div><div class="weaponShape right '+weaponClass(b)+'">'+weaponArt(b)+'</div></div>'}
+function weaponStage(a,b){return '<div class="weaponStage"><div class="weaponShape left '+weaponClass(a)+'">'+weaponArt(a)+'</div><div class="weaponVS">VS</div><div class="weaponShape right '+weaponClass(b)+'">'+weaponArt(b)+'</div><div class="duelImpact show"></div></div>'}
 function weaponImg(v){
   if(v==='AXE')return 'https://runware.ai/docs/assets/image-cannyaxe3.BtCqcXTL_Z1HAMiW.jpg';
   if(v==='LANCE')return 'https://img.magnific.com/premium-psd/futuristic-spear-weapon_191095-62409.jpg?q=80&semt=ais_hybrid&w=740';
@@ -470,11 +758,7 @@ function weaponBeatsText(v){
 }
 function weaponPickCard(v,selected,handler){
   return '<button class="weaponPickCard '+(selected===v?'selected':'')+'" onclick="'+handler+'(\''+v+'\')">'+
-    '<div class="weaponPickVisual">'+
-      '<img src="'+weaponImg(v)+'" alt="'+v+' cyberpunk weapon" onerror="this.style.display=\'none\';this.nextElementSibling.style.display=\'grid\'">'+
-      '<div class="weaponImgFallback">'+weaponArt(v)+'</div>'+
-      '<div class="weaponSelectTick">'+(selected===v?'✓':'')+'</div>'+
-    '</div>'+
+    '<div class="weaponPickVisual"><div class="weaponImgFallback">'+weaponArt(v)+'</div><div class="weaponSelectTick">'+(selected===v?'✓':'')+'</div></div>'+
     '<div class="weaponPickMeta"><div class="weaponPickName">'+v+'</div><div class="weaponPickRule">'+weaponBeatsText(v)+'</div></div>'+
   '</button>';
 }
