@@ -42,6 +42,186 @@ button,input{font:inherit}button{-webkit-tap-highlight-color:transparent}.wrap{m
 @keyframes announce{from{opacity:0;transform:translateY(15px) scale(.95)}to{opacity:1;transform:none}}
 .balancePulse{animation:balpulse .8s ease}@keyframes balpulse{50%{transform:scale(1.08);box-shadow:0 0 28px rgba(82,255,140,.4)}}
 
+
+/* ===== WINNER FACE LOCK ===== */
+.coin3d.lockF{
+  animation:none !important;
+  transform:rotateY(1440deg) !important;
+}
+.coin3d.lockU{
+  animation:none !important;
+  transform:rotateY(1620deg) !important;
+}
+.coin3d.winHalo{
+  position:relative;
+  z-index:3;
+  animation:winnerHaloPulse .75s ease-in-out infinite alternate !important;
+}
+.coin3d.winHalo:after{
+  box-shadow:
+    inset 0 0 0 7px rgba(255,255,255,.04),
+    inset 0 0 0 9px rgba(9,12,31,.34),
+    inset 0 0 34px rgba(255,255,255,.09),
+    0 0 18px rgba(255,255,255,.85),
+    0 0 42px rgba(255,75,216,.95),
+    0 0 72px rgba(67,220,255,.8) !important;
+}
+@keyframes winnerHaloPulse{
+  from{filter:drop-shadow(0 0 10px rgba(255,255,255,.7)) drop-shadow(0 0 24px rgba(255,75,216,.5))}
+  to{filter:drop-shadow(0 0 20px rgba(255,255,255,1)) drop-shadow(0 0 46px rgba(255,75,216,.95)) drop-shadow(0 0 72px rgba(67,220,255,.85))}
+}
+
+
+/* ===== V12 MIAMI NEON 3D DICE ===== */
+.diceStage{
+  min-height:330px;
+  border:1px solid rgba(67,220,255,.28);
+  border-radius:20px;
+  background:
+    radial-gradient(circle at 50% 20%,rgba(255,75,216,.10),transparent 32%),
+    radial-gradient(circle at 50% 75%,rgba(67,220,255,.08),transparent 36%),
+    linear-gradient(180deg,#0b1230,#06091b 78%);
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:18px;
+  padding:18px;
+  margin-top:10px;
+  perspective:1100px;
+  overflow:hidden;
+  position:relative;
+}
+.diceStage:before{
+  content:"";
+  position:absolute;left:7%;right:7%;bottom:26px;height:34px;border-radius:50%;
+  background:radial-gradient(ellipse,rgba(67,220,255,.22),rgba(255,75,216,.08) 45%,transparent 70%);
+  filter:blur(16px);
+}
+.diceBlock{
+  text-align:center;
+  border:1px solid rgba(255,255,255,.06);
+  border-radius:16px;
+  padding:16px 12px 14px;
+  background:linear-gradient(180deg,rgba(7,12,33,.72),rgba(5,9,26,.52));
+  position:relative;
+  overflow:hidden;
+}
+.diceBlock:after{
+  content:"";position:absolute;inset:0;pointer-events:none;
+  background:linear-gradient(130deg,transparent 30%,rgba(255,255,255,.035) 48%,transparent 67%);
+}
+.dicePair{
+  display:flex;justify-content:center;align-items:center;gap:16px;
+  min-height:150px;
+  perspective:1000px;
+}
+.die3d{
+  width:78px;height:78px;
+  position:relative;
+  transform-style:preserve-3d;
+  transform:rotateX(-18deg) rotateY(24deg);
+  filter:drop-shadow(0 12px 18px rgba(0,0,0,.45));
+}
+.die3d.rollA{animation:miamiRollA 1.65s cubic-bezier(.16,.74,.18,1)}
+.die3d.rollB{animation:miamiRollB 1.65s cubic-bezier(.16,.74,.18,1)}
+.dieFace{
+  position:absolute;
+  width:78px;height:78px;
+  border-radius:18px;
+  border:1px solid rgba(255,255,255,.24);
+  background:
+    radial-gradient(circle at 28% 23%,rgba(255,255,255,.15),transparent 28%),
+    linear-gradient(145deg,#1b255a,#0a0f2f 58%,#090b22);
+  box-shadow:
+    inset 0 0 18px rgba(116,140,255,.22),
+    inset 0 0 0 1px rgba(255,255,255,.03),
+    0 0 18px rgba(67,220,255,.12);
+  display:grid;
+  place-items:center;
+  color:#f7f9ff;
+  overflow:hidden;
+}
+.dieFace:before{
+  content:"";position:absolute;inset:0;
+  background:linear-gradient(130deg,transparent 25%,rgba(255,255,255,.06) 47%,transparent 66%);
+}
+.dieFace.front{transform:translateZ(39px)}
+.dieFace.back{transform:rotateY(180deg) translateZ(39px)}
+.dieFace.right{transform:rotateY(90deg) translateZ(39px)}
+.dieFace.left{transform:rotateY(-90deg) translateZ(39px)}
+.dieFace.top{transform:rotateX(90deg) translateZ(39px)}
+.dieFace.bottom{transform:rotateX(-90deg) translateZ(39px)}
+
+.pipGrid{width:54px;height:54px;display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:repeat(3,1fr);position:relative;z-index:2}
+.pip{width:10px;height:10px;border-radius:50%;align-self:center;justify-self:center;background:linear-gradient(#e7fbff,#7ce8ff);box-shadow:0 0 8px rgba(67,220,255,.9),0 0 14px rgba(255,75,216,.45)}
+.p1{grid-column:2;grid-row:2}.p2a{grid-column:1;grid-row:1}.p2b{grid-column:3;grid-row:3}
+.p3a{grid-column:1;grid-row:1}.p3b{grid-column:2;grid-row:2}.p3c{grid-column:3;grid-row:3}
+.p4a{grid-column:1;grid-row:1}.p4b{grid-column:3;grid-row:1}.p4c{grid-column:1;grid-row:3}.p4d{grid-column:3;grid-row:3}
+.p5a{grid-column:1;grid-row:1}.p5b{grid-column:3;grid-row:1}.p5c{grid-column:2;grid-row:2}.p5d{grid-column:1;grid-row:3}.p5e{grid-column:3;grid-row:3}
+
+.fuEmblem{
+  width:42px;height:42px;border-radius:50%;
+  display:grid;place-items:center;
+  position:relative;z-index:3;
+  background:
+    radial-gradient(circle at 31% 24%,rgba(255,255,255,.95) 0 4%,transparent 5%),
+    radial-gradient(circle at center,#11162f 0 41%,#080d22 42% 49%,transparent 50%),
+    conic-gradient(from 215deg,#ff55d8,#a761ff 38%,#45dcff 72%,#7bf5ba 91%,#ff55d8);
+  border:1px solid rgba(255,255,255,.34);
+  box-shadow:0 0 12px rgba(255,75,216,.50),0 0 20px rgba(67,220,255,.40),inset 0 0 12px rgba(255,255,255,.08);
+}
+.fuEmblem:before{
+  content:"";
+  width:17px;height:17px;
+  border-radius:50%;
+  border:2px solid #f6f8ff;
+  border-left-color:transparent;
+  transform:rotate(35deg);
+  box-shadow:0 0 8px rgba(255,255,255,.55);
+}
+.fuEmblem:after{
+  content:"↗";
+  position:absolute;
+  font-size:10px;font-weight:1000;
+  color:#f7f9ff;
+  right:6px;bottom:5px;
+  text-shadow:0 0 8px rgba(67,220,255,.8);
+}
+
+@keyframes miamiRollA{
+  0%{transform:translateY(0) rotateX(-18deg) rotateY(24deg) rotateZ(0) scale(1)}
+  18%{transform:translateY(-58px) rotateX(240deg) rotateY(320deg) rotateZ(80deg) scale(1.08)}
+  44%{transform:translateY(-24px) rotateX(520deg) rotateY(650deg) rotateZ(220deg) scale(1.04)}
+  66%{transform:translateY(10px) rotateX(760deg) rotateY(920deg) rotateZ(360deg) scale(.98)}
+  82%{transform:translateY(-7px) rotateX(880deg) rotateY(1060deg) rotateZ(430deg) scale(1.01)}
+  100%{transform:translateY(0) rotateX(900deg) rotateY(1080deg) rotateZ(450deg) scale(1)}
+}
+@keyframes miamiRollB{
+  0%{transform:translateY(0) rotateX(-20deg) rotateY(-22deg) rotateZ(0) scale(1)}
+  18%{transform:translateY(-48px) rotateX(-260deg) rotateY(300deg) rotateZ(-100deg) scale(1.09)}
+  44%{transform:translateY(-18px) rotateX(-560deg) rotateY(620deg) rotateZ(-240deg) scale(1.04)}
+  66%{transform:translateY(12px) rotateX(-780deg) rotateY(900deg) rotateZ(-380deg) scale(.98)}
+  82%{transform:translateY(-5px) rotateX(-900deg) rotateY(1040deg) rotateZ(-440deg) scale(1.01)}
+  100%{transform:translateY(0) rotateX(-900deg) rotateY(1080deg) rotateZ(-450deg) scale(1)}
+}
+.die3d.settle{animation:dieSettle .55s ease}
+@keyframes dieSettle{
+  0%{transform:translateY(-8px) rotateX(-10deg) rotateY(18deg) scale(1.03)}
+  55%{transform:translateY(5px) rotateX(-18deg) rotateY(24deg) scale(.985)}
+  100%{transform:translateY(0) rotateX(-18deg) rotateY(24deg) scale(1)}
+}
+.diceScore{margin-top:9px;font-size:11px;font-weight:1000;color:#d8e2ff;letter-spacing:.2px}
+@media(max-width:700px){
+  .diceStage{grid-template-columns:1fr;min-height:0}
+  .die3d{width:72px;height:72px}
+  .dieFace{width:72px;height:72px}
+  .dieFace.front{transform:translateZ(36px)}
+  .dieFace.back{transform:rotateY(180deg) translateZ(36px)}
+  .dieFace.right{transform:rotateY(90deg) translateZ(36px)}
+  .dieFace.left{transform:rotateY(-90deg) translateZ(36px)}
+  .dieFace.top{transform:rotateX(90deg) translateZ(36px)}
+  .dieFace.bottom{transform:rotateX(-90deg) translateZ(36px)}
+}
+
 </style>
 </head>
 <body>
@@ -86,28 +266,13 @@ function chooseLive(s){if(liveBet||resolving)return;liveSide=s;document.querySel
 document.querySelectorAll('.side').forEach(b=>{b.onclick=()=>chooseLive(b.dataset.side);b.addEventListener('touchend',e=>{e.preventDefault();chooseLive(b.dataset.side)},{passive:false})});
 $('amount').oninput=()=>{if(liveSide&&!liveBet)$('bet').textContent='CONFIRM '+liveSide+' • '+fmt(getLiveAmt())+' FLIP'};$('max').onclick=()=>{$('amount').value=10000;if(liveSide&&!liveBet)$('bet').textContent='CONFIRM '+liveSide+' • 10,000 FLIP'};
 $('bet').onclick=()=>{if(!liveSide||liveBet||resolving)return;const a=getLiveAmt();if(a>balance)return $('notice').textContent='Not enough TEST FLIP.';balance-=a;liveBet={side:liveSide,stake:a};save();$('bet').disabled=true;$('amount').disabled=true;$('max').disabled=true;document.querySelectorAll('.side').forEach(x=>x.disabled=true);$('bet').textContent=fmt(a)+' FLIP LOCKED ✓';$('notice').textContent=liveSide+' confirmed.'};
-function setCoin(el,w){if(!el)return;el.className='coin3d '+(w==='F'?'spinF':'spinU');setTimeout(()=>{el.className='coin3d '+(w==='F'?'landF':'landU')+' holdGlow'},1750)}
-function resetCoin(el){if(el)el.className='coin3d idle'}
-function pulseBalance(){const b=document.querySelector('.balance');if(!b)return;b.classList.remove('balancePulse');void b.offsetWidth;b.classList.add('balancePulse');setTimeout(()=>b.classList.remove('balancePulse'),850)}
-function announceIn(stage,text){if(!stage)return;let a=stage.querySelector('.winnerAnnounce');if(!a){a=document.createElement('div');a.className='winnerAnnounce';stage.appendChild(a)}a.textContent=text}
-
-function liveFX(won,a,w){const f=$('fx');f.className='resultfx show '+(won?'win':'lose');f.innerHTML=(won?'🚀<br>YOU WON<br>+':'💥<br>YOU LOST<br>-')+fmt(a)+' FLIP<br><span style="font-size:12px">'+w+' WINS</span>';setTimeout(()=>{f.className='resultfx';f.innerHTML=''},1450)}
-function resolveLive(){
- if(resolving)return;resolving=true;
- const w=Math.random()<.5?'F':'U',stage=$('coin').parentElement;
- setCoin($('coin'),w);
- setTimeout(()=>{$('notice').textContent='Landed on '+w+'.'},1800);
- setTimeout(()=>{announceIn(stage,w+' WINS');$('notice').textContent=w+' WINS';},3750);
- setTimeout(()=>{
-   if(liveBet){const a=liveBet.stake,won=liveBet.side===w;if(won)balance+=a*2;burned+=Math.floor(a*.02*.75);save();pulseBalance();liveFX(won,a,w)}
- },4450);
- setTimeout(()=>{
-   t=15;resolving=false;liveBet=null;liveSide=null;resetCoin($('coin'));
-   const a=stage.querySelector('.winnerAnnounce');if(a)a.remove();
-   $('amount').disabled=false;$('max').disabled=false;
-   document.querySelectorAll('.side').forEach(x=>{x.disabled=false;x.classList.remove('on')});
-   $('bet').disabled=true;$('bet').textContent='CHOOSE F OR U';$('notice').textContent='New round. Pick and confirm.';$('timer').textContent='00:15'
- },6200)
+function setCoin(el,w){
+  if(!el)return;
+  el.className='coin3d '+(w==='F'?'spinF':'spinU');
+  setTimeout(()=>{
+    el.className='coin3d '+(w==='F'?'lockF':'lockU')+' winHalo';
+    el.dataset.winner=w;
+  },1750);
 }
 setInterval(()=>{if(resolving)return;t--;$('timer').textContent='00:'+(t<10?'0':'')+Math.max(t,0);if(t<=0)resolveLive()},1000);save();
 
@@ -133,10 +298,42 @@ function diceLabel(v){return Number(v)===6?'FU':String(v)}
 function diceScore(pair){const vals=pair.map(Number),fu=vals.filter(v=>v===6).length,total=vals.reduce((a,v)=>a+v,0);return {fu,total}}
 function comparePairs(a,b){const A=diceScore(a),B=diceScore(b);if(A.fu!==B.fu)return A.fu>B.fu?1:-1;if(A.total!==B.total)return A.total>B.total?1:-1;return 0}
 function pairText(p){return p.map(diceLabel).join(' + ')}
-function die(v,roll=false){return '<div class="die '+(Number(v)===6?'fu ':'')+(roll?'roll':'')+'">'+(v==='?'?'?':diceLabel(v))+'</div>'}
-function diceStage(a=['?','?'],b=['?','?'],ra=false,rb=false){return '<div class="diceStage"><div class="diceBlock"><div class="sub" style="margin-bottom:8px">PLAYER 1</div><div class="dicePair">'+die(a[0],ra)+die(a[1],ra)+'</div>'+(a[0]!=='?'?'<div class="status">'+pairText(a)+'</div>':'')+'</div><div class="diceBlock"><div class="sub" style="margin-bottom:8px">PLAYER 2</div><div class="dicePair">'+die(b[0],rb)+die(b[1],rb)+'</div>'+(b[0]!=='?'?'<div class="status">'+pairText(b)+'</div>':'')+'</div></div>'}
-function parseDice(v){if(!v||!String(v).startsWith('DICE:'))return null;const p=String(v).slice(5).split(',').map(Number);return p.length===2?p:null}
 
+function pips(n){
+  const map={
+    1:['p1'],
+    2:['p2a','p2b'],
+    3:['p3a','p3b','p3c'],
+    4:['p4a','p4b','p4c','p4d'],
+    5:['p5a','p5b','p5c','p5d','p5e']
+  };
+  return '<div class="pipGrid">'+(map[n]||[]).map(c=>'<i class="pip '+c+'"></i>').join('')+'</div>';
+}
+function faceContent(n){
+  return Number(n)===6?'<div class="fuEmblem" aria-label="FU logo"></div>':pips(Number(n));
+}
+function die3dMarkup(v,roll=false,variant='A'){
+  const vals=[v,2,3,4,5,6];
+  return '<div class="die3d '+(roll?(variant==='A'?'rollA':'rollB'):'settle')+'">'+
+    '<div class="dieFace front">'+faceContent(vals[0])+'</div>'+
+    '<div class="dieFace back">'+faceContent(vals[1])+'</div>'+
+    '<div class="dieFace right">'+faceContent(vals[2])+'</div>'+
+    '<div class="dieFace left">'+faceContent(vals[3])+'</div>'+
+    '<div class="dieFace top">'+faceContent(vals[4])+'</div>'+
+    '<div class="dieFace bottom">'+faceContent(vals[5])+'</div>'+
+  '</div>';
+}
+function diceStage(a=['?','?'],b=['?','?'],ra=false,rb=false){
+  const a0=a[0]==='?'?1:a[0],a1=a[1]==='?'?2:a[1],b0=b[0]==='?'?3:b[0],b1=b[1]==='?'?4:b[1];
+  return '<div class="diceStage">'+
+    '<div class="diceBlock"><div class="sub" style="margin-bottom:10px">PLAYER 1</div><div class="dicePair">'+
+      die3dMarkup(a0,ra,'A')+die3dMarkup(a1,ra,'B')+
+    '</div>'+(a[0]!=='?'?'<div class="diceScore">'+pairText(a)+'</div>':'')+'</div>'+
+    '<div class="diceBlock"><div class="sub" style="margin-bottom:10px">PLAYER 2</div><div class="dicePair">'+
+      die3dMarkup(b0,rb,'B')+die3dMarkup(b1,rb,'A')+
+    '</div>'+(b[0]!=='?'?'<div class="diceScore">'+pairText(b)+'</div>':'')+'</div>'+
+  '</div>';
+}
 // RPS
 function rpsEmoji(v){return v==='ROCK'?'🪨':v==='PAPER'?'🖐️':'✂️'}
 function rpsClass(v){return v==='ROCK'?'rock':v==='PAPER'?'paper':'scissors'}
@@ -151,8 +348,8 @@ function confirmCPUFlip(){
  $('mbody').innerHTML='<div class="wager">LOCKED WAGER<br><strong>'+fmt(room.wager)+' FLIP</strong></div><div class="stage" style="height:215px"><div class="coin3d" id="cpuCoin"></div></div><div class="status">FLIPPING…</div>';
  const coin=$('cpuCoin'),stage=coin.parentElement;setCoin(coin,w);
  setTimeout(()=>{$('mbody').querySelector('.status').textContent='Landed on '+w+'.'},1800);
- setTimeout(()=>announceIn(stage,w+' WINS'),3750);
- setTimeout(()=>{const won=pick===w;if(won)balance+=room.wager*2;burned+=Math.floor(room.wager*.02*.75);save();pulseBalance();$('mbody').innerHTML='<div class="stage" style="height:215px"><div class="coin3d '+(w==='F'?'landF':'landU')+' holdGlow"></div></div>'+resultBox(won,w+' WINS',room.wager)},4450)
+ setTimeout(()=>{const c=$('cpuCoin');if(c)c.className='coin3d '+(w==='F'?'lockF':'lockU')+' winHalo';announceIn(stage,w+' WINS')},3750);
+ setTimeout(()=>{const won=pick===w;if(won)balance+=room.wager*2;burned+=Math.floor(room.wager*.02*.75);save();pulseBalance();$('mbody').innerHTML='<div class="stage" style="height:215px"><div class="coin3d '+(w==='F'?'lockF':'lockU')+' winHalo"></div></div>'+resultBox(won,w+' WINS',room.wager)},4450)
 }
 function cpuDiceStart(){$('mbody').innerHTML='<div class="wager">LOCKED WAGER<br><strong>'+fmt(room.wager)+' FLIP</strong></div>'+diceStage()+'<div class="status">You roll first.</div><button class="rollBtn ready" onclick="cpuRoll1()">PRESS TO ROLL 2 DICE</button>'}
 function cpuRoll1(){const a=[diceVal(),diceVal()];room.player1_choice='DICE:'+a.join(',');$('mbody').innerHTML=diceStage(['?','?'],['?','?'],true,false)+'<div class="status">ROLLING…</div>';setTimeout(()=>{$('mbody').innerHTML=diceStage(a,['?','?'])+'<div class="status">You rolled '+pairText(a)+'. Computer rolls next.</div>';setTimeout(()=>cpuRoll2(a),650)},1500)}
@@ -211,7 +408,7 @@ function diceMatch(r){const a=parseDice(r.player1_choice),b=parseDice(r.player2_
 async function rollDiceMatch(){const vals=[diceVal(),diceVal()],col=role==='player1'?'player1_choice':'player2_choice';$('mbody').innerHTML=diceStage(['?','?'],['?','?'],role==='player1',role==='player2')+'<div class="status">ROLLING…</div>';setTimeout(async()=>{await sb.from('games').update({[col]:'DICE:'+vals.join(',')}).eq('id',room.id);setTimeout(refreshRoom,100)},1500)}
 async function refreshRoom(){if(!room)return;const {data}=await sb.from('games').select('*').eq('id',room.id).single();if(data){room=data;renderRoom();maybeResolve();settle()}}
 
-function resultView(r){const won=r.winner===playerName;let vis='';if(r.game_type==='flip'){const f=String(r.result).startsWith('F');vis='<div class="stage" style="height:210px"><div class="coin3d '+(f?'landF':'landU')+' glow"></div></div>'}if(r.game_type==='dice'){vis=diceStage(parseDice(r.player1_choice),parseDice(r.player2_choice))}if(r.game_type==='rps')vis=rpsStage(r.player1_choice,r.player2_choice);return vis+resultBox(won,esc(r.result),r.wager)}
+function resultView(r){const won=r.winner===playerName;let vis='';if(r.game_type==='flip'){const f=String(r.result).startsWith('F');vis='<div class="stage" style="height:210px"><div class="coin3d '+(f?'lockF':'lockU')+' winHalo"></div></div>'}if(r.game_type==='dice'){vis=diceStage(parseDice(r.player1_choice),parseDice(r.player2_choice))}if(r.game_type==='rps')vis=rpsStage(r.player1_choice,r.player2_choice);return vis+resultBox(won,esc(r.result),r.wager)}
 async function maybeResolve(){const r=room;if(!r||r.result||!r.player2||role!=='player1')return;if(r.game_type==='flip'&&r.player1_choice&&r.player2_choice){const w=Math.random()<.5?'F':'U';setTimeout(()=>finish(w+' WINS',r.player1_choice===w?r.player1:r.player2),1300)}else if(r.game_type==='dice'){const a=parseDice(r.player1_choice),b=parseDice(r.player2_choice);if(a&&b){const c=comparePairs(a,b);if(c===0){setTimeout(()=>sb.from('games').update({player1_choice:null,player2_choice:null}).eq('id',r.id),750);return}setTimeout(()=>finish(pairText(a)+' vs '+pairText(b),c>0?r.player1:r.player2),500)}}else if(r.game_type==='rps'&&r.player1_choice&&r.player2_choice){if(r.player1_choice===r.player2_choice){setTimeout(()=>sb.from('games').update({player1_choice:null,player2_choice:null}).eq('id',r.id),850);return}const beats={ROCK:'SCISSORS',PAPER:'ROCK',SCISSORS:'PAPER'};setTimeout(()=>finish(r.player1_choice+' vs '+r.player2_choice,beats[r.player1_choice]===r.player2_choice?r.player1:r.player2),1050)}}
 async function finish(result,winner){const {data}=await sb.from('games').update({result,winner,status:'finished'}).eq('id',room.id).is('result',null).select().single();if(data){room=data;renderRoom();settle()}}
 function settle(){if(!room||!room.result)return;const k='settled_'+room.id;if(localStorage.getItem(k)||!localStorage.getItem('settlelock_'+room.id))return;if(room.winner===playerName)balance+=Number(room.wager)*2;burned+=Math.floor(Number(room.wager)*.02*.75);localStorage.setItem(k,'1');localStorage.removeItem('settlelock_'+room.id);save()}
