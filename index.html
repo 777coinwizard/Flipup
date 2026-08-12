@@ -166,11 +166,81 @@ button,input{font:inherit}button{-webkit-tap-highlight-color:transparent}.wrap{m
  .v16Cube{--d:78px}
 }
 
+
+/* ===== V17 DUEL IMAGE SELECTOR ===== */
+.navActions{display:flex;align-items:center;gap:8px}
+.reloadBtn{
+  border:1px solid rgba(67,220,255,.28);
+  background:linear-gradient(180deg,#0c1739,#070d24);
+  color:#dff8ff;border-radius:11px;padding:10px 12px;font-size:10px;font-weight:1000;
+  box-shadow:0 0 18px rgba(67,220,255,.10);
+}
+.reloadBtn:active{transform:scale(.97)}
+
+.weaponPickGrid{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:10px;
+}
+.weaponPickCard{
+  appearance:none;border:1px solid rgba(92,105,197,.46);
+  border-radius:16px;background:linear-gradient(180deg,#0a102c,#060a1d);
+  color:white;padding:0;overflow:hidden;position:relative;text-align:left;
+  transition:transform .16s ease,border-color .18s ease,box-shadow .18s ease;
+}
+.weaponPickCard:active{transform:scale(.985)}
+.weaponPickCard.selected{
+  border-color:#5fe5ff;
+  box-shadow:0 0 0 1px rgba(255,75,216,.35) inset,0 0 30px rgba(67,220,255,.24),0 0 42px rgba(255,75,216,.10);
+  transform:translateY(-3px);
+}
+.weaponPickVisual{
+  height:152px;position:relative;overflow:hidden;
+  background:
+    radial-gradient(circle at 50% 60%,rgba(67,220,255,.13),transparent 45%),
+    linear-gradient(180deg,#101840,#070b23);
+}
+.weaponPickVisual img{
+  width:100%;height:100%;object-fit:cover;display:block;
+  filter:saturate(1.18) contrast(1.07);
+  transition:transform .22s ease,filter .22s ease;
+}
+.weaponPickCard.selected .weaponPickVisual img{
+  transform:scale(1.055);
+  filter:saturate(1.35) contrast(1.12) drop-shadow(0 0 12px rgba(67,220,255,.38));
+}
+.weaponImgFallback{
+  position:absolute;inset:0;display:none;place-items:center;padding:24px;
+  background:radial-gradient(circle,#151f57,#070a20 72%);
+}
+.weaponImgFallback svg{width:100%;height:100%}
+.weaponPickMeta{padding:10px 11px 11px}
+.weaponPickName{font-size:14px;font-weight:1000;letter-spacing:.3px}
+.weaponPickRule{font-size:9px;color:#95a6c8;margin-top:3px}
+.weaponSelectTick{
+  position:absolute;right:9px;top:9px;width:25px;height:25px;border-radius:50%;
+  display:grid;place-items:center;background:rgba(4,8,24,.78);
+  border:1px solid rgba(255,255,255,.18);font-size:13px;font-weight:1000;
+  opacity:.45;z-index:3
+}
+.weaponPickCard.selected .weaponSelectTick{
+  opacity:1;background:#45e2ff;color:#05101b;border-color:#a7f4ff;
+  box-shadow:0 0 18px rgba(67,220,255,.75)
+}
+.weaponSelectionHint{
+  margin-top:10px;padding:10px;border-radius:12px;text-align:center;
+  border:1px solid rgba(89,102,191,.34);background:#080d24;
+  color:#aebbd7;font-size:10px;font-weight:900
+}
+@media(max-width:700px){
+  .navActions{gap:6px}.reloadBtn{padding:9px 10px;font-size:9px}
+  .weaponPickGrid{grid-template-columns:1fr}
+  .weaponPickVisual{height:130px}
+}
+
 </style>
 </head>
 <body>
 <div class="wrap">
-<div class="nav"><div class="brand"><div class="logoMark"></div><div class="wordmark">FLIP UP</div></div><div class="balance">TEST STACK: <b id="bal">100,000 FLIP</b></div></div>
+<div class="nav"><div class="brand"><div class="logoMark"></div><div class="wordmark">FLIP UP</div></div><div class="navActions"><button class="reloadBtn" onclick="location.reload()">↻ RELOAD</button><div class="balance">TEST STACK: <b id="bal">100,000 FLIP</b></div></div></div>
 
 <section class="hero">
 <div class="head"><div><div class="live">● LIVE FLIP UP</div><div class="timer" id="timer">00:15</div><div class="sub">F OR U • ONE BET PER 15-SECOND ROUND • 1–10,000 FLIP • WIN RETURNS 2×</div></div><div class="sub" style="text-align:right">BETA / FAKE FLIP<br><span id="burn">0</span> BURNED 🔥</div></div>
@@ -186,7 +256,7 @@ button,input{font:inherit}button{-webkit-tap-highlight-color:transparent}.wrap{m
 <div class="games">
 <div class="game"><div class="fuIcon">FU</div><h3>F / U</h3><p>Choose F or U. Confirm the selection. The coin lands and glows on the winning face.</p><div class="gameActions"><button class="gameBtn find" onclick="openMatch('flip','queue')">FIND GAME</button><button class="gameBtn cpu" onclick="openMatch('flip','cpu')">VS COMPUTER</button></div></div>
 <div class="game"><div class="ico">🎲</div><h3>DICE</h3><p>Two dice each. Player 1 rolls first, then Player 2. FU replaces 6; more FU faces wins, then highest total.</p><div class="gameActions"><button class="gameBtn find" onclick="openMatch('dice','queue')">FIND GAME</button><button class="gameBtn cpu" onclick="openMatch('dice','cpu')">VS COMPUTER</button></div></div>
-<div class="game"><div class="weaponCardIcon"><span></span></div><h3>WEAPONS</h3><p>Pick your weapon. Axe beats Lance. Lance beats Sword. Sword beats Axe.</p><div class="gameActions"><button class="gameBtn find" onclick="openMatch('weapons','queue')">FIND GAME</button><button class="gameBtn cpu" onclick="openMatch('weapons','cpu')">VS COMPUTER</button></div></div>
+<div class="game"><div class="weaponCardIcon"><span></span></div><h3>DUEL</h3><p>Pick your weapon. Axe beats Lance. Lance beats Sword. Sword beats Axe.</p><div class="gameActions"><button class="gameBtn find" onclick="openMatch('duel','queue')">FIND GAME</button><button class="gameBtn cpu" onclick="openMatch('duel','cpu')">VS COMPUTER</button></div></div>
 </div>
 </section>
 </div>
@@ -304,6 +374,33 @@ function weaponArt(v){
  return '<svg viewBox="0 0 100 100"><path class="weaponStroke" d="M50 12L52 72"/><path class="weaponFill" d="M50 8L57 20L51 27L44 20Z"/><path class="weaponStroke" d="M33 70L69 70M42 82L60 82"/></svg>'
 }
 function weaponStage(a,b){return '<div class="weaponStage"><div class="weaponShape left '+weaponClass(a)+'">'+weaponArt(a)+'</div><div class="weaponVS">VS</div><div class="weaponShape right '+weaponClass(b)+'">'+weaponArt(b)+'</div></div>'}
+function weaponImg(v){
+  if(v==='AXE')return 'https://runware.ai/docs/assets/image-cannyaxe3.BtCqcXTL_Z1HAMiW.jpg';
+  if(v==='LANCE')return 'https://img.magnific.com/premium-psd/futuristic-spear-weapon_191095-62409.jpg?q=80&semt=ais_hybrid&w=740';
+  return 'https://cdn.prod.website-files.com/6600e1eab90de089c2d9c9cd/66972737887457585e10c4a3_6645f61acdde033aceb015a4_image_IAFiRRTU_1715857580817_raw.jpeg';
+}
+function weaponBeatsText(v){
+  if(v==='AXE')return 'BEATS LANCE';
+  if(v==='LANCE')return 'BEATS SWORD';
+  return 'BEATS AXE';
+}
+function weaponPickCard(v,selected,handler){
+  return '<button class="weaponPickCard '+(selected===v?'selected':'')+'" onclick="'+handler+'(\''+v+'\')">'+
+    '<div class="weaponPickVisual">'+
+      '<img src="'+weaponImg(v)+'" alt="'+v+' cyberpunk weapon" onerror="this.style.display=\'none\';this.nextElementSibling.style.display=\'grid\'">'+
+      '<div class="weaponImgFallback">'+weaponArt(v)+'</div>'+
+      '<div class="weaponSelectTick">'+(selected===v?'✓':'')+'</div>'+
+    '</div>'+
+    '<div class="weaponPickMeta"><div class="weaponPickName">'+v+'</div><div class="weaponPickRule">'+weaponBeatsText(v)+'</div></div>'+
+  '</button>';
+}
+function weaponPicker(selected,handler){
+  return '<div class="weaponPickGrid">'+
+    weaponPickCard('AXE',selected,handler)+
+    weaponPickCard('LANCE',selected,handler)+
+    weaponPickCard('SWORD',selected,handler)+
+  '</div>';
+}
 function weaponRules(){return '<div class="weaponRules"><div>AXE › LANCE</div><div>LANCE › SWORD</div><div>SWORD › AXE</div></div>'}
 function startCPU(type,w){balance-=w;save();room={id:'cpu-'+Date.now(),game_type:type,wager:w,player1:playerName,player2:'COMPUTER'};role='player1';pendingChoice=null;if(type==='flip')cpuFlip();else if(type==='dice')cpuDiceStart();else cpuWeapons()}
 function cpuFlip(){$('mbody').innerHTML='<div class="wager">LOCKED WAGER<br><strong>'+fmt(room.wager)+' FLIP</strong></div><div class="stage" style="height:215px"><div class="coin3d idle" id="cpuCoin"></div></div>'+selectionUI('cpuFlip',[{v:'F',label:'F'},{v:'U',label:'U'}],'confirmCPUFlip()')}
@@ -312,12 +409,12 @@ function cpuDiceStart(){$('mbody').innerHTML='<div class="wager">LOCKED WAGER<br
 function cpuRoll1(){const a=[diceVal(),diceVal()];room.player1_choice='DICE:'+a.join(',');$('mbody').innerHTML=diceStage(['?','?'],['?','?'],true,false)+'<div class="status">ROLLING…</div>';setTimeout(()=>{$('mbody').innerHTML=diceStage(a,['?','?'])+'<div class="status">You rolled '+pairText(a)+'. Computer rolls next.</div>';setTimeout(()=>cpuRoll2(a),650)},1500)}
 function cpuRoll2(a){const b=[diceVal(),diceVal()];$('mbody').innerHTML=diceStage(a,['?','?'],false,true)+'<div class="status">COMPUTER ROLLING…</div>';setTimeout(()=>{const c=comparePairs(a,b);if(c===0){$('mbody').innerHTML=diceStage(a,b)+'<div class="out">TIE — ROLL AGAIN</div>';setTimeout(cpuDiceStart,900);return}const won=c>0;if(won)balance+=room.wager*2;burned+=Math.floor(room.wager*.02*.75);save();$('mbody').innerHTML=diceStage(a,b)+resultBox(won,'YOU '+pairText(a)+' • CPU '+pairText(b),room.wager)},1500)}
 function cpuWeapons(){
+ $('mtitle').textContent='DUEL VS COMPUTER';
  $('mbody').innerHTML='<div class="wager">LOCKED WAGER<br><strong>'+fmt(room.wager)+' FLIP</strong></div>'+
  '<div class="selectionBanner">'+(pendingChoice?'SELECTED: '+pendingChoice:'PICK YOUR WEAPON')+'</div>'+
- '<div class="choices"><button class="choice '+(pendingChoice==='AXE'?'selected':'')+'" onclick="pickCPUWeapon(\'AXE\')">AXE</button>'+
- '<button class="choice '+(pendingChoice==='LANCE'?'selected':'')+'" onclick="pickCPUWeapon(\'LANCE\')">LANCE</button>'+
- '<button class="choice '+(pendingChoice==='SWORD'?'selected':'')+'" onclick="pickCPUWeapon(\'SWORD\')">SWORD</button></div>'+
+ weaponPicker(pendingChoice,'pickCPUWeapon')+
  weaponRules()+
+ '<div class="weaponSelectionHint">'+(pendingChoice?'Tap CONFIRM to lock '+pendingChoice+'.':'Tap a weapon card to select it.')+'</div>'+
  '<button class="confirmBtn '+(pendingChoice?'ready':'')+'" '+(!pendingChoice?'disabled':'')+' onclick="confirmCPUWeapon()">CONFIRM '+(pendingChoice||'WEAPON')+'</button>'
 }
 function pickCPUWeapon(v){pendingChoice=v;cpuWeapons()}
@@ -382,7 +479,9 @@ function weaponMatch(r){
  const mine=myChoice(r);
  if(mine)return weaponStage(mine,mine)+'<div class="status">'+mine+' CONFIRMED • waiting for opponent…</div>'+weaponRules();
  return '<div class="selectionBanner">PICK YOUR WEAPON</div>'+
- '<div class="choices"><button class="choice" onclick="pickMPWeapon(\'AXE\')">AXE</button><button class="choice" onclick="pickMPWeapon(\'LANCE\')">LANCE</button><button class="choice" onclick="pickMPWeapon(\'SWORD\')">SWORD</button></div>'+weaponRules()
+ weaponPicker(null,'pickMPWeapon')+
+ weaponRules()+
+ '<div class="weaponSelectionHint">Tap Axe, Lance, or Sword to lock your weapon.</div>'
 }
 async function pickMPWeapon(v){
  const col=role==='player1'?'player1_choice':'player2_choice';
@@ -393,8 +492,8 @@ function diceMatch(r){const a=parseDice(r.player1_choice),b=parseDice(r.player2_
 async function rollDiceMatch(){const vals=[diceVal(),diceVal()],col=role==='player1'?'player1_choice':'player2_choice';$('mbody').innerHTML=diceStage(['?','?'],['?','?'],role==='player1',role==='player2')+'<div class="status">ROLLING…</div>';setTimeout(async()=>{await sb.from('games').update({[col]:'DICE:'+vals.join(',')}).eq('id',room.id);setTimeout(refreshRoom,100)},1500)}
 async function refreshRoom(){if(!room)return;const {data}=await sb.from('games').select('*').eq('id',room.id).single();if(data){room=data;renderRoom();maybeResolve();settle()}}
 
-function resultView(r){const won=r.winner===playerName;let vis='';if(r.game_type==='flip'){const f=String(r.result).startsWith('F');vis='<div class="stage" style="height:210px"><div class="coin3d '+(f?'landF':'landU')+' glow"></div></div>'}if(r.game_type==='dice'){vis=diceStage(parseDice(r.player1_choice),parseDice(r.player2_choice))}if(r.game_type==='weapons')vis=weaponStage(r.player1_choice,r.player2_choice);return vis+resultBox(won,esc(r.result),r.wager)}
-async function maybeResolve(){const r=room;if(!r||r.result||!r.player2||role!=='player1')return;if(r.game_type==='flip'&&r.player1_choice&&r.player2_choice){const w=Math.random()<.5?'F':'U';setTimeout(()=>finish(w+' WINS',r.player1_choice===w?r.player1:r.player2),1300)}else if(r.game_type==='dice'){const a=parseDice(r.player1_choice),b=parseDice(r.player2_choice);if(a&&b){const c=comparePairs(a,b);if(c===0){setTimeout(()=>sb.from('games').update({player1_choice:null,player2_choice:null}).eq('id',r.id),750);return}setTimeout(()=>finish(pairText(a)+' vs '+pairText(b),c>0?r.player1:r.player2),500)}}else if(r.game_type==='weapons'&&r.player1_choice&&r.player2_choice){if(r.player1_choice===r.player2_choice){setTimeout(()=>sb.from('games').update({player1_choice:null,player2_choice:null}).eq('id',r.id),850);return}const beats={AXE:'LANCE',LANCE:'SWORD',SWORD:'AXE'};setTimeout(()=>finish(r.player1_choice+' vs '+r.player2_choice,beats[r.player1_choice]===r.player2_choice?r.player1:r.player2),1050)}}
+function resultView(r){const won=r.winner===playerName;let vis='';if(r.game_type==='flip'){const f=String(r.result).startsWith('F');vis='<div class="stage" style="height:210px"><div class="coin3d '+(f?'landF':'landU')+' glow"></div></div>'}if(r.game_type==='dice'){vis=diceStage(parseDice(r.player1_choice),parseDice(r.player2_choice))}if(r.game_type==='duel')vis=weaponStage(r.player1_choice,r.player2_choice);return vis+resultBox(won,esc(r.result),r.wager)}
+async function maybeResolve(){const r=room;if(!r||r.result||!r.player2||role!=='player1')return;if(r.game_type==='flip'&&r.player1_choice&&r.player2_choice){const w=Math.random()<.5?'F':'U';setTimeout(()=>finish(w+' WINS',r.player1_choice===w?r.player1:r.player2),1300)}else if(r.game_type==='dice'){const a=parseDice(r.player1_choice),b=parseDice(r.player2_choice);if(a&&b){const c=comparePairs(a,b);if(c===0){setTimeout(()=>sb.from('games').update({player1_choice:null,player2_choice:null}).eq('id',r.id),750);return}setTimeout(()=>finish(pairText(a)+' vs '+pairText(b),c>0?r.player1:r.player2),500)}}else if(r.game_type==='duel'&&r.player1_choice&&r.player2_choice){if(r.player1_choice===r.player2_choice){setTimeout(()=>sb.from('games').update({player1_choice:null,player2_choice:null}).eq('id',r.id),850);return}const beats={AXE:'LANCE',LANCE:'SWORD',SWORD:'AXE'};setTimeout(()=>finish(r.player1_choice+' vs '+r.player2_choice,beats[r.player1_choice]===r.player2_choice?r.player1:r.player2),1050)}}
 async function finish(result,winner){const {data}=await sb.from('games').update({result,winner,status:'finished'}).eq('id',room.id).is('result',null).select().single();if(data){room=data;renderRoom();settle()}}
 function settle(){if(!room||!room.result)return;const k='settled_'+room.id;if(localStorage.getItem(k)||!localStorage.getItem('settlelock_'+room.id))return;if(room.winner===playerName)balance+=Number(room.wager)*2;burned+=Math.floor(Number(room.wager)*.02*.75);localStorage.setItem(k,'1');localStorage.removeItem('settlelock_'+room.id);save()}
 
