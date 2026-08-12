@@ -8,15 +8,89 @@
 .hero,.card{border:1px solid var(--line);background:linear-gradient(180deg,rgba(11,15,40,.94),rgba(5,8,24,.97));border-radius:22px;box-shadow:0 22px 70px #0008}.hero{padding:18px;overflow:hidden;position:relative}.hero:before{content:"";position:absolute;width:260px;height:260px;border-radius:50%;background:#ff25d322;filter:blur(30px);right:-100px;top:-100px}.head{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;position:relative}.live{color:#ff6fe1;font-size:10px;font-weight:1000;letter-spacing:1px}.timer{font-size:50px;font-weight:1000;letter-spacing:-3px}.sub{color:var(--m);font-size:11px}.stage{height:245px;margin:14px 0;border:1px solid #29306a;border-radius:20px;display:grid;place-items:center;position:relative;overflow:hidden;background:radial-gradient(circle,#171d55,#080b22 65%)}.coin{width:110px;height:110px;border-radius:50%;display:grid;place-items:center;font-size:35px;font-weight:1000;background:radial-gradient(circle at 32% 25%,#fff 0 5%,#ff6be4 12%,#8e55ff 50%,#24c9ff);box-shadow:0 0 45px #a748ff88;color:#09091c;border:5px solid #ffffff22}.coin.flip{animation:flip .85s ease-in-out}@keyframes flip{to{transform:rotateY(1800deg) scale(1.08)}}.resultfx{position:absolute;inset:0;display:none;place-items:center;text-align:center;font-size:38px;font-weight:1000;z-index:5}.resultfx.show{display:grid;animation:pop .55s ease}.resultfx.win{background:radial-gradient(circle,#55ff8df2,#07883ff0)}.resultfx.lose{background:radial-gradient(circle,#ff5570f2,#7d0c28f0)}@keyframes pop{0%{transform:scale(.7);opacity:0}70%{transform:scale(1.08)}100%{transform:scale(1);opacity:1}}
 .sides{display:grid;grid-template-columns:1fr 1fr;gap:8px}.side,.btn,.smallbtn,.choice{border:1px solid #3a478d;background:#0b1030;color:white;border-radius:13px;font-weight:900}.side{padding:14px}.side.on{border-color:var(--p);box-shadow:0 0 24px #ff39d433}.betrow{display:grid;grid-template-columns:1fr auto;gap:8px;margin-top:9px}input{width:100%;background:#060a20;border:1px solid #303d7d;color:white;border-radius:12px;padding:13px;outline:none}.smallbtn{padding:0 14px}.btn{width:100%;padding:14px;margin-top:9px;background:linear-gradient(90deg,#ff43da,#8b52ff,#34d8ff);border:0}.btn:disabled{opacity:.42}.notice{text-align:center;color:var(--m);font-size:10px;margin-top:8px}.card{padding:16px;margin-top:14px}.games{display:grid;grid-template-columns:repeat(3,1fr);gap:9px}.game{border:1px solid #252f68;border-radius:16px;padding:13px;background:#070b24}.game .ico{font-size:32px}.game h3{margin:5px 0}.game p{color:var(--m);font-size:11px;min-height:34px}.game button{width:100%;padding:10px}.join{display:grid;grid-template-columns:1fr auto;gap:8px;margin-top:12px}.modal{position:fixed;inset:0;background:#000c;display:none;align-items:center;justify-content:center;padding:12px;z-index:20}.modal.show{display:flex}.modalbox{width:min(500px,100%);max-height:92vh;overflow:auto;background:#080c24;border:1px solid #394583;border-radius:20px;padding:16px}.mh{display:flex;justify-content:space-between}.x{background:none;border:0;color:white;font-size:26px}.room{text-align:center;font-size:34px;letter-spacing:5px;color:var(--c);font-weight:1000;margin:12px}.players{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:10px 0}.player,.wager,.out{border:1px solid #29346e;border-radius:13px;padding:12px;text-align:center}.wager strong{font-size:26px;color:#ffd86c}.choices{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-top:10px}.choice{padding:12px 5px}.green{color:var(--g)}.red{color:var(--r)}
 @media(max-width:650px){.games{grid-template-columns:1fr}.timer{font-size:44px}.stage{height:220px}.modal{align-items:flex-end;padding:0}.modalbox{border-radius:20px 20px 0 0}.bal{font-size:12px}}
+
+/* VFX UPGRADE */
+.stage{perspective:900px}.coin{position:relative;background:none;border:0;box-shadow:none;transform-style:preserve-3d}
+.coin:before,.coin:after{position:absolute;inset:0;border-radius:50%;display:grid;place-items:center;font-size:46px;font-weight:1000;color:#07091b;backface-visibility:hidden;border:4px solid #ffffff55;box-shadow:inset 0 0 22px #fff7,0 0 32px #b34cffaa,0 0 75px #35dcff66}
+.coin:before{content:"F";background:radial-gradient(circle at 30% 23%,#fff 0 4%,#ff8bea 11%,#b854ff 50%,#35dcff)}
+.coin:after{content:"U";transform:rotateY(180deg);background:radial-gradient(circle at 30% 23%,#fff 0 4%,#56efff 11%,#576aff 50%,#ff39d4)}
+.coin.flip{animation:coinLaunch 1.25s cubic-bezier(.18,.72,.18,1)}
+@keyframes coinLaunch{0%{transform:translateY(0) rotateY(0)}25%{transform:translateY(-70px) rotateY(540deg) scale(1.14)}70%{transform:translateY(-20px) rotateY(1260deg)}88%{transform:translateY(7px) rotateY(1620deg)}100%{transform:translateY(0) rotateY(1800deg)}}
+.diceArena{height:210px;display:grid;place-items:center;perspective:900px;position:relative}.die3d{width:92px;height:92px;position:relative;transform-style:preserve-3d}.die3d.rolling{animation:diceRoll 1.45s cubic-bezier(.12,.75,.18,1)}
+.dieFace{position:absolute;width:92px;height:92px;border:1px solid #ffffff55;border-radius:20px;background:linear-gradient(145deg,#28316d,#080b25);box-shadow:inset 0 0 24px #7184ff66,0 0 32px #4c5cff66;display:grid;place-items:center;font-size:48px;color:white}
+.df1{transform:translateZ(46px)}.df2{transform:rotateY(180deg) translateZ(46px)}.df3{transform:rotateY(90deg) translateZ(46px)}.df4{transform:rotateY(-90deg) translateZ(46px)}.df5{transform:rotateX(90deg) translateZ(46px)}.df6{transform:rotateX(-90deg) translateZ(46px)}
+@keyframes diceRoll{0%{transform:rotateX(0) rotateY(0)}30%{transform:translateY(-70px) rotateX(420deg) rotateY(520deg) rotateZ(180deg)}70%{transform:translateY(-15px) rotateX(820deg) rotateY(980deg) rotateZ(390deg)}100%{transform:translateY(0) rotateX(1080deg) rotateY(1440deg) rotateZ(540deg)}}
+.rpsArena{height:220px;position:relative;overflow:hidden;border:1px solid #27316c;border-radius:18px;background:radial-gradient(circle,#171d55,#070a20 68%);margin-top:10px}.rpsHand{position:absolute;top:55px;font-size:72px;filter:drop-shadow(0 0 20px #745cffaa);transform-origin:center bottom}.rpsHand.left{left:25px;transform:rotate(90deg)}.rpsHand.right{right:25px;transform:scaleX(-1) rotate(90deg)}.rpsArena.fight .left{animation:rpsL .75s ease-in-out 3}.rpsArena.fight .right{animation:rpsR .75s ease-in-out 3}
+@keyframes rpsL{50%{transform:translateX(52px) translateY(-25px) rotate(65deg) scale(1.12)}}@keyframes rpsR{50%{transform:scaleX(-1) translateX(52px) translateY(-25px) rotate(65deg) scale(1.12)}}.rpsVs{position:absolute;inset:0;display:grid;place-items:center;font-size:25px;font-weight:1000;color:#ff5ee0;text-shadow:0 0 20px #ff39d4}
+.resultfx.show.win{animation:winBlast .7s cubic-bezier(.2,.9,.2,1)}.resultfx.show.lose{animation:loseCrash .65s cubic-bezier(.3,.7,.2,1)}@keyframes winBlast{0%{transform:scale(.3);opacity:0;filter:brightness(3)}65%{transform:scale(1.1)}100%{transform:scale(1)}}@keyframes loseCrash{0%{transform:scale(1.4);opacity:0;filter:blur(8px)}65%{transform:scale(.94);opacity:1}80%{transform:translateX(-6px)}90%{transform:translateX(6px)}100%{transform:translateX(0)}}.spark{position:absolute;width:7px;height:22px;border-radius:10px;background:white;box-shadow:0 0 14px white;animation:sparkFly .85s ease-out forwards}@keyframes sparkFly{to{transform:translate(var(--x),var(--y)) rotate(480deg);opacity:0}}
+
+/* ===== FLIP UP ARENA V5 ===== */
+.logo{
+  position:relative;display:inline-flex;align-items:center;gap:10px;
+  font-size:28px;font-weight:1000;font-style:italic;letter-spacing:-1.4px;
+  background:linear-gradient(90deg,#ff48dd,#a75cff 45%,#35ddff 78%,#67ffac);
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+  filter:drop-shadow(0 0 14px rgba(177,70,255,.42));
+}
+.logo:before{
+  content:"FU";width:42px;height:42px;border-radius:50%;display:grid;place-items:center;
+  color:#050716;-webkit-text-fill-color:#050716;font-style:normal;font-size:15px;letter-spacing:-1px;
+  background:conic-gradient(from 25deg,#34dcff,#b556ff,#ff43d6,#66ff9a,#34dcff);
+  border:2px solid #ffffff55;box-shadow:0 0 18px #8a57ff88,0 0 38px #35dcff44;
+  animation:logoPulse 2.4s ease-in-out infinite;
+}
+@keyframes logoPulse{50%{transform:translateY(-2px) scale(1.06);box-shadow:0 0 26px #ff43d688,0 0 50px #35dcff66}}
+.lobbyHead{display:flex;justify-content:space-between;align-items:end;gap:10px;margin-bottom:10px}
+.lobbyLive{display:inline-flex;align-items:center;gap:6px;color:#68ff9b;font-size:10px;font-weight:1000}
+.lobbyLive:before{content:"";width:8px;height:8px;border-radius:50%;background:#42ff81;box-shadow:0 0 14px #42ff81;animation:livePulse 1.2s ease-in-out infinite}
+@keyframes livePulse{50%{opacity:.35;transform:scale(.7)}}
+.lobbyList{display:grid;gap:8px}
+.lobbyRow{
+  display:grid;grid-template-columns:auto 1fr auto auto;align-items:center;gap:10px;
+  padding:12px;border:1px solid #293775;border-radius:14px;
+  background:linear-gradient(90deg,#090e28,#080b1e);
+  position:relative;overflow:hidden;
+}
+.lobbyRow:before{content:"";position:absolute;inset:0 auto 0 0;width:3px;background:linear-gradient(#ff43d6,#35dcff)}
+.lobbyIcon{font-size:28px}.lobbyGame{font-weight:1000}.lobbyMeta{font-size:10px;color:#98a6c6;margin-top:2px}
+.lobbyWager{text-align:right}.lobbyWager b{display:block;color:#ffd86c}.joinNow{
+  border:1px solid #35dcff;background:linear-gradient(180deg,#10224a,#09122f);
+  color:#fff;border-radius:10px;padding:10px 13px;font-weight:1000;
+  box-shadow:0 0 16px #35dcff22;
+}
+.emptyLobby{padding:22px;text-align:center;border:1px dashed #30407b;border-radius:14px;color:#8493b5}
+.refreshSpin{display:inline-block;animation:spin 1s linear infinite}@keyframes spin{to{transform:rotate(360deg)}}
+.lockFlash{animation:lockFlash .55s ease}@keyframes lockFlash{0%{box-shadow:0 0 0 0 #57ff9933}55%{box-shadow:0 0 0 16px #57ff9900}}
+.duelStage{height:240px;display:grid;place-items:center;position:relative;overflow:hidden;border:1px solid #283575;border-radius:17px;background:radial-gradient(circle,#18205c,#070a20 70%);margin:10px 0}
+.duelCoin{width:112px;height:112px;border-radius:50%;position:relative;transform-style:preserve-3d;animation:duelIdle 2.2s ease-in-out infinite}
+.duelCoin:before,.duelCoin:after{position:absolute;inset:0;border-radius:50%;display:grid;place-items:center;font-size:47px;font-weight:1000;color:#050716;backface-visibility:hidden;border:4px solid #ffffff55;box-shadow:inset 0 0 20px #fff7,0 0 34px #875cff99,0 0 70px #35dcff55}
+.duelCoin:before{content:"F";background:radial-gradient(circle at 30% 22%,#fff 0 5%,#ff8be9 12%,#ad55ff 50%,#35dcff)}
+.duelCoin:after{content:"U";transform:rotateY(180deg);background:radial-gradient(circle at 30% 22%,#fff 0 5%,#5cecff 12%,#5b6dff 50%,#ff43d6)}
+.duelCoin.flipping{animation:duelFlip 1.5s cubic-bezier(.15,.75,.18,1)}
+@keyframes duelIdle{50%{transform:translateY(-7px) rotateY(12deg)}}@keyframes duelFlip{0%{transform:translateY(0) rotateY(0)}25%{transform:translateY(-80px) rotateY(720deg) scale(1.16)}72%{transform:translateY(-18px) rotateY(1620deg)}100%{transform:translateY(0) rotateY(2160deg)}}
+.vsStrip{display:flex;align-items:center;justify-content:center;gap:15px;font-size:11px;color:#9faccc;font-weight:900}.vsStrip b{font-size:18px;color:#fff}
+.duelDiceWrap{height:230px;display:flex;align-items:center;justify-content:center;gap:32px;perspective:900px}
+.miniDie{width:78px;height:78px;border-radius:18px;display:grid;place-items:center;font-size:52px;background:linear-gradient(145deg,#263276,#090d29);border:1px solid #ffffff33;box-shadow:inset 0 0 20px #607cff55,0 0 30px #455cff55}
+.miniDie.a{animation:dieA 1.2s ease-in-out infinite}.miniDie.b{animation:dieB 1.2s ease-in-out infinite}
+@keyframes dieA{50%{transform:translateY(-42px) rotate(420deg) scale(1.08)}}@keyframes dieB{50%{transform:translateY(-56px) rotate(-520deg) scale(1.11)}}
+.rpsBattle{height:230px;position:relative;overflow:hidden;border:1px solid #2d3978;border-radius:17px;background:radial-gradient(circle,#191f59,#070a20 70%);margin-top:10px}
+.rpsBattle .h{position:absolute;top:62px;font-size:70px;filter:drop-shadow(0 0 20px #8b61ffaa)}
+.rpsBattle .h1{left:24px;animation:punch1 .72s ease-in-out infinite}.rpsBattle .h2{right:24px;animation:punch2 .72s ease-in-out infinite}
+.rpsBattle .shoot{position:absolute;inset:0;display:grid;place-items:center;font-size:20px;font-weight:1000;color:#ff54dd;text-shadow:0 0 18px #ff43d6}
+@keyframes punch1{50%{transform:translateX(52px) translateY(-18px) rotate(15deg) scale(1.13)}}@keyframes punch2{50%{transform:translateX(-52px) translateY(-18px) rotate(-15deg) scale(1.13)}}
+.modalbox.resultWin{animation:modalWin .7s ease}.modalbox.resultLoss{animation:modalLoss .7s ease}
+@keyframes modalWin{0%{box-shadow:0 0 0 #42ff80}55%{box-shadow:0 0 90px #42ff8099;transform:scale(1.025)}100%{transform:scale(1)}}
+@keyframes modalLoss{0%,100%{transform:translateX(0)}25%{transform:translateX(-8px)}55%{transform:translateX(8px)}75%{transform:translateX(-4px)}}
+
 </style></head><body>
 <div class="wrap">
  <div class="nav"><div class="logo">FLIP UP</div><div class="bal">TEST STACK: <b id="bal">100,000 FLIP</b></div></div>
  <section class="hero">
   <div class="head"><div><div class="live">● LIVE FLIP UP</div><div class="timer" id="timer">00:05</div><div class="sub">ONE BET PER ROUND • 1–10,000 FLIP • WIN RETURNS 2×</div></div><div class="sub" style="text-align:right">BETA / FAKE FLIP<br><span id="burn">0</span> BURNED 🔥</div></div>
-  <div class="stage"><div class="coin" id="coin">FU</div><div class="resultfx" id="fx"></div></div>
-  <div class="sides"><button class="side" data-side="LEFT">◀ LEFT</button><button class="side" data-side="RIGHT">RIGHT ▶</button></div>
+  <div class="stage"><div class="coin" id="coin"></div><div class="resultfx" id="fx"></div></div>
+  <div class="sides"><button class="side" data-side="F">F</button><button class="side" data-side="U">U</button></div>
   <div class="betrow"><input id="amount" type="number" inputmode="numeric" min="1" max="10000" value="1000"><button class="smallbtn" id="max">MAX 10K</button></div>
-  <button class="btn" id="bet" disabled>CHOOSE LEFT OR RIGHT</button>
+  <button class="btn" id="bet" disabled>CHOOSE F OR U</button>
   <div class="notice" id="notice">Bet is deducted immediately when locked. One bet only until the next round.</div>
  </section>
 
@@ -27,167 +101,60 @@
    <div class="game"><div class="ico">🎲</div><h3>DICE</h3><p>Highest roll wins. Ties reroll automatically.</p><button class="smallbtn" onclick="createFlow('dice')">CREATE</button></div>
    <div class="game"><div class="ico">✊</div><h3>RPS</h3><p>Both choose. Rock, paper, scissors. Ties replay.</p><button class="smallbtn" onclick="createFlow('rps')">CREATE</button></div>
   </div>
-  <div class="join"><input id="joinCode" maxlength="5" placeholder="ENTER ROOM CODE"><button class="smallbtn" onclick="joinFlow()">JOIN</button></div>
- </section>
+  
+<div class="lobbyHead">
+  <div><h3 style="margin:14px 0 2px">PUBLIC LOBBY</h3><div class="sub">Waiting games appear here automatically. Tap JOIN — no room code.</div></div>
+  <div class="lobbyLive">LIVE QUEUE</div>
+</div>
+<div id="lobbyList" class="lobbyList"><div class="emptyLobby">Connecting to lobby…</div></div>
+</section>
 </div>
 <div class="modal" id="modal"><div class="modalbox"><div class="mh"><b id="mtitle">GAME</b><button class="x" onclick="closeModal()">×</button></div><div id="mbody"></div></div></div>
 
 <script>
-// CORE LIVE GAME — works even if multiplayer fails to load
-const $=id=>document.getElementById(id), fmt=n=>Math.floor(Number(n||0)).toLocaleString();
-let balance=Number(localStorage.getItem('fu_bal')||100000), burned=Number(localStorage.getItem('fu_burn')||0);
-let side=null, locked=null, t=5, resolving=false;
-
-function saveCore(){
-  localStorage.setItem('fu_bal',balance);
-  localStorage.setItem('fu_burn',burned);
-  $('bal').textContent=fmt(balance)+' FLIP';
-  $('burn').textContent=fmt(burned);
-}
-function getAmt(){
-  let v=Math.floor(Number($('amount').value||0));
-  v=Math.max(1,Math.min(10000,v));
-  $('amount').value=v;
-  return v;
-}
-function chooseSide(s){
-  if(locked||resolving)return;
-  side=s;
-  document.querySelectorAll('.side').forEach(b=>b.classList.toggle('on',b.dataset.side===s));
-  $('bet').disabled=false;
-  $('bet').textContent='BET '+fmt(getAmt())+' ON '+s;
-}
-document.querySelectorAll('.side').forEach(b=>{
-  b.addEventListener('click',()=>chooseSide(b.dataset.side));
-  b.addEventListener('touchend',e=>{e.preventDefault();chooseSide(b.dataset.side)},{passive:false});
-});
+// ===== CORE LIVE F/U GAME =====
+const $=id=>document.getElementById(id),fmt=n=>Math.floor(Number(n||0)).toLocaleString();
+let balance=Number(localStorage.getItem('fu_bal')||100000),burned=Number(localStorage.getItem('fu_burn')||0);
+let side=null,locked=null,t=5,resolving=false;
+function saveCore(){localStorage.setItem('fu_bal',balance);localStorage.setItem('fu_burn',burned);$('bal').textContent=fmt(balance)+' FLIP';$('burn').textContent=fmt(burned)}
+function getAmt(){let v=Math.floor(Number($('amount').value||0));v=Math.max(1,Math.min(10000,v));$('amount').value=v;return v}
+function chooseSide(s){if(locked||resolving)return;side=s;document.querySelectorAll('.side').forEach(b=>b.classList.toggle('on',b.dataset.side===s));$('bet').disabled=false;$('bet').textContent='BET '+fmt(getAmt())+' ON '+s}
+document.querySelectorAll('.side').forEach(b=>{b.addEventListener('click',()=>chooseSide(b.dataset.side));b.addEventListener('touchend',e=>{e.preventDefault();chooseSide(b.dataset.side)},{passive:false})});
 $('amount').addEventListener('input',()=>{if(side&&!locked)$('bet').textContent='BET '+fmt(getAmt())+' ON '+side});
 $('max').addEventListener('click',()=>{$('amount').value=10000;if(side&&!locked)$('bet').textContent='BET 10,000 ON '+side});
-$('bet').addEventListener('click',()=>{
-  if(!side||locked||resolving)return;
-  const a=getAmt();
-  if(a>balance){$('notice').textContent='Not enough TEST FLIP.';return}
-  balance-=a; locked={side,stake:a}; saveCore();
-  $('bet').disabled=true; $('amount').disabled=true; $('max').disabled=true;
-  document.querySelectorAll('.side').forEach(x=>x.disabled=true);
-  $('bet').textContent=fmt(a)+' FLIP LOCKED ✓';
-  $('notice').textContent='Locked on '+side+'. Waiting for flip…';
-});
-function flash(win,a,winner){
-  const f=$('fx');
-  f.className='resultfx show '+(win?'win':'lose');
-  f.innerHTML=win
-    ? '🚀<br>YOU WON<br>+'+fmt(a)+' FLIP NET<br><span style="font-size:12px">'+winner+' WON • '+fmt(a*2)+' PAID</span>'
-    : '💥<br>YOU LOST<br>-'+fmt(a)+' FLIP<br><span style="font-size:12px">'+winner+' WON</span>';
-  setTimeout(()=>f.className='resultfx',1200);
-}
-function resolveLive(){
-  if(resolving)return;
-  resolving=true; $('coin').classList.add('flip');
-  const winner=Math.random()<.5?'LEFT':'RIGHT';
-  setTimeout(()=>{
-    if(locked){
-      const a=locked.stake, won=locked.side===winner;
-      if(won)balance+=a*2;
-      burned+=Math.floor(a*.02*.75);
-      saveCore(); flash(won,a,winner);
-    } else $('notice').textContent=winner+' WON — no bet this round.';
-  },650);
-  setTimeout(()=>{
-    t=5; resolving=false; locked=null; side=null;
-    $('coin').classList.remove('flip'); $('amount').disabled=false; $('max').disabled=false;
-    document.querySelectorAll('.side').forEach(x=>{x.disabled=false;x.classList.remove('on')});
-    $('bet').disabled=true; $('bet').textContent='CHOOSE LEFT OR RIGHT';
-    $('notice').textContent='New round. One bet available.'; $('timer').textContent='00:05';
-  },1700);
-}
+$('bet').addEventListener('click',()=>{if(!side||locked||resolving)return;const a=getAmt();if(a>balance){$('notice').textContent='Not enough TEST FLIP.';return}balance-=a;locked={side,stake:a};saveCore();$('bet').disabled=true;$('amount').disabled=true;$('max').disabled=true;document.querySelectorAll('.side').forEach(x=>x.disabled=true);$('bet').classList.add('lockFlash');$('bet').textContent=fmt(a)+' FLIP LOCKED ✓';$('notice').textContent='Locked on '+side+'. Waiting for F/U flip…';setTimeout(()=>$('bet').classList.remove('lockFlash'),600)});
+function burst(host,count){for(let i=0;i<count;i++){const s=document.createElement('i');s.className='spark';const a=Math.random()*Math.PI*2,d=65+Math.random()*170;s.style.setProperty('--x',Math.cos(a)*d+'px');s.style.setProperty('--y',Math.sin(a)*d+'px');s.style.left='50%';s.style.top='50%';host.appendChild(s)}}
+function liveResult(won,a,w){const f=$('fx');f.className='resultfx show '+(won?'win':'lose');f.innerHTML=(won?'🚀<br>YOU WON<br>+':'💥<br>YOU LOST<br>-')+fmt(a)+' FLIP<br><span style="font-size:12px">'+w+' WINS'+(won?' • '+fmt(a*2)+' PAID':'')+'</span>';burst(f,won?28:18);setTimeout(()=>{f.className='resultfx';f.innerHTML=''},1450)}
+function resolveLive(){if(resolving)return;resolving=true;$('coin').classList.add('flip');const w=Math.random()<.5?'F':'U';setTimeout(()=>{if(locked){const a=locked.stake,won=locked.side===w;if(won)balance+=a*2;burned+=Math.floor(a*.02*.75);saveCore();liveResult(won,a,w)}else $('notice').textContent=w+' WON — no bet this round.'},750);setTimeout(()=>{t=5;resolving=false;locked=null;side=null;$('coin').classList.remove('flip');$('amount').disabled=false;$('max').disabled=false;document.querySelectorAll('.side').forEach(x=>{x.disabled=false;x.classList.remove('on')});$('bet').disabled=true;$('bet').textContent='CHOOSE F OR U';$('notice').textContent='New round. One bet available.';$('timer').textContent='00:05'},1800)}
 setInterval(()=>{if(resolving)return;t--;$('timer').textContent='00:0'+Math.max(t,0);if(t<=0)resolveLive()},1000);
 saveCore();
 
-// MULTIPLAYER — loads separately so it cannot break live betting
-const SUPABASE_URL='https://llvoaimskkdafsgvqmrx.supabase.co';
-const SUPABASE_KEY='sb_publishable_DdmyLOBvEUyPlZlqgOk-3A_g1Y6gn0L';
-let sb=null,room=null,role=null,ch=null,playerName=localStorage.getItem('fu_name')||'';
-
+// ===== PUBLIC MULTIPLAYER LOBBY =====
+const SUPABASE_URL='https://llvoaimskkdafsgvqmrx.supabase.co',SUPABASE_KEY='sb_publishable_DdmyLOBvEUyPlZlqgOk-3A_g1Y6gn0L';
+let sb=null,room=null,role=null,ch=null,lobbyCh=null,playerName=localStorage.getItem('fu_name')||'';
 function esc(s){return String(s||'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]))}
-function openM(){$('modal').classList.add('show')}
-async function closeModal(){if(ch&&sb){try{await sb.removeChannel(ch)}catch(e){}}ch=null;room=null;role=null;$('modal').classList.remove('show')}
-function ensureMP(){if(!sb){alert('Multiplayer is still connecting. Wait 1–2 seconds and try again.');return false}return true}
+function openM(){$('modal').classList.add('show')}async function closeModal(){if(ch&&sb){try{await sb.removeChannel(ch)}catch(e){}}ch=null;room=null;role=null;$('modal').classList.remove('show');refreshLobby()}
+function ensureMP(){if(!sb){alert('Lobby is still connecting. Try again in a second.');return false}return true}
 function roomCode(){const c='ABCDEFGHJKLMNPQRSTUVWXYZ23456789';let s='';for(let i=0;i<5;i++)s+=c[Math.floor(Math.random()*c.length)];return s}
-
-function createFlow(type){
-  if(!ensureMP())return;
-  openM(); $('mtitle').textContent='CREATE '+type.toUpperCase();
-  $('mbody').innerHTML='<input id="nm" placeholder="YOUR NAME" value="'+esc(playerName)+'"><div style="height:8px"></div><input id="rw" type="number" inputmode="numeric" min="1" max="10000" value="1000"><button class="btn" onclick="createRoom(\''+type+'\')">CREATE ROOM</button>';
-}
-async function createRoom(type){
-  playerName=$('nm').value.trim()||'Player 1'; localStorage.setItem('fu_name',playerName);
-  let w=Math.floor(Number($('rw').value||0));
-  if(w<1||w>10000)return alert('Wager must be 1–10,000.');
-  if(w>balance)return alert('Not enough TEST FLIP.');
-  const {data,error}=await sb.from('games').insert({room_code:roomCode(),game_type:type,wager:w,status:'waiting',player1:playerName}).select().single();
-  if(error)return alert('Create failed: '+error.message);
-  balance-=w;saveCore();localStorage.setItem('lock_'+data.id,String(w));room=data;role='player1';renderRoom();subscribeRoom(room.room_code);
-}
-async function joinFlow(){
-  if(!ensureMP())return;
-  const c=$('joinCode').value.trim().toUpperCase(); if(!c)return;
-  const {data,error}=await sb.from('games').select('*').eq('room_code',c).single();
-  if(error||!data)return alert('Room not found.');
-  openM();$('mtitle').textContent='JOIN '+c;
-  $('mbody').innerHTML='<input id="nm" placeholder="YOUR NAME" value="'+esc(playerName)+'"><div class="wager">EXACT WAGER<br><strong>'+fmt(data.wager)+' FLIP</strong></div><button class="btn" onclick="joinRoom(\''+c+'\')">ACCEPT & LOCK '+fmt(data.wager)+' FLIP</button>';
-}
-async function joinRoom(c){
-  playerName=$('nm').value.trim()||'Player 2';localStorage.setItem('fu_name',playerName);
-  const {data:r}=await sb.from('games').select('*').eq('room_code',c).single();
-  if(!r||r.player2)return alert('Room unavailable.');
-  if(Number(r.wager)>balance)return alert('Not enough TEST FLIP.');
-  const {data,error}=await sb.from('games').update({player2:playerName,status:'active'}).eq('id',r.id).is('player2',null).select().single();
-  if(error)return alert('Join failed: '+error.message);
-  balance-=Number(data.wager);saveCore();localStorage.setItem('lock_'+data.id,String(data.wager));room=data;role='player2';renderRoom();subscribeRoom(c);setTimeout(refreshRoom,150);
-}
-function subscribeRoom(c){
-  if(ch)sb.removeChannel(ch);
-  ch=sb.channel('fu-'+c).on('postgres_changes',{event:'UPDATE',schema:'public',table:'games',filter:'room_code=eq.'+c},p=>{room=p.new;renderRoom();resolveDuel();settleDuel()}).subscribe();
-}
+function gameIcon(t){return t==='flip'?'🪙':t==='dice'?'🎲':'✊'}
+function createFlow(type){if(!ensureMP())return;openM();$('mtitle').textContent='CREATE '+type.toUpperCase();$('mbody').innerHTML='<input id="nm" placeholder="YOUR NAME" value="'+esc(playerName)+'"><div style="height:8px"></div><input id="rw" type="number" inputmode="numeric" min="1" max="10000" value="1000" placeholder="WAGER"><button class="btn" onclick="createRoom(\''+type+'\')">POST TO PUBLIC LOBBY</button><div class="sub" style="text-align:center;margin-top:8px">Your wager locks immediately and the challenge appears publicly.</div>'}
+async function createRoom(type){playerName=$('nm').value.trim()||'Player 1';localStorage.setItem('fu_name',playerName);let w=Math.floor(Number($('rw').value||0));if(w<1||w>10000)return alert('Wager must be 1–10,000.');if(w>balance)return alert('Not enough TEST FLIP.');const {data,error}=await sb.from('games').insert({room_code:roomCode(),game_type:type,wager:w,status:'waiting',player1:playerName}).select().single();if(error)return alert('Create failed: '+error.message);balance-=w;saveCore();localStorage.setItem('lock_'+data.id,String(w));room=data;role='player1';renderRoom();subscribeRoom(room.room_code);refreshLobby()}
+async function refreshLobby(){if(!sb)return;const {data,error}=await sb.from('games').select('*').eq('status','waiting').is('player2',null).order('created_at',{ascending:false}).limit(30);if(error){$('lobbyList').innerHTML='<div class="emptyLobby">Lobby unavailable: '+esc(error.message)+'</div>';return}if(!data||!data.length){$('lobbyList').innerHTML='<div class="emptyLobby">No challenges waiting. Create the first one.</div>';return}$('lobbyList').innerHTML=data.map(r=>'<div class="lobbyRow"><div class="lobbyIcon">'+gameIcon(r.game_type)+'</div><div><div class="lobbyGame">'+r.game_type.toUpperCase()+'</div><div class="lobbyMeta">Created by '+esc(r.player1)+'</div></div><div class="lobbyWager"><b>'+fmt(r.wager)+' FLIP</b><span class="sub">EACH</span></div><button class="joinNow" onclick="openLobbyGame(\''+r.id+'\')">JOIN</button></div>').join('')}
+async function openLobbyGame(id){if(!ensureMP())return;const {data,error}=await sb.from('games').select('*').eq('id',id).single();if(error||!data||data.player2||data.status!=='waiting'){alert('That game was already taken.');refreshLobby();return}openM();$('mtitle').textContent='JOIN '+data.game_type.toUpperCase();$('mbody').innerHTML='<input id="nm" placeholder="YOUR NAME" value="'+esc(playerName)+'"><div class="wager">EXACT WAGER<br><strong>'+fmt(data.wager)+' FLIP</strong></div><div class="sub" style="text-align:center">vs '+esc(data.player1)+'</div><button class="btn" onclick="joinLobbyGame(\''+data.id+'\')">JOIN & LOCK '+fmt(data.wager)+' FLIP</button>'}
+async function joinLobbyGame(id){playerName=$('nm').value.trim()||'Player 2';localStorage.setItem('fu_name',playerName);const {data:r}=await sb.from('games').select('*').eq('id',id).single();if(!r||r.player2||r.status!=='waiting')return alert('Game no longer available.');if(Number(r.wager)>balance)return alert('Not enough TEST FLIP.');const {data,error}=await sb.from('games').update({player2:playerName,status:'active'}).eq('id',id).is('player2',null).eq('status','waiting').select().single();if(error)return alert('Someone may have joined first. Refresh the lobby.');balance-=Number(data.wager);saveCore();localStorage.setItem('lock_'+data.id,String(data.wager));room=data;role='player2';renderRoom();subscribeRoom(data.room_code);refreshLobby();setTimeout(refreshRoom,150)}
+function subscribeRoom(c){if(ch)sb.removeChannel(ch);ch=sb.channel('fu-game-'+c).on('postgres_changes',{event:'UPDATE',schema:'public',table:'games',filter:'room_code=eq.'+c},p=>{room=p.new;renderRoom();resolveDuel();settleDuel()}).subscribe()}
 async function refreshRoom(){if(!room)return;const {data}=await sb.from('games').select('*').eq('id',room.id).single();if(data){room=data;renderRoom();resolveDuel();settleDuel()}}
-function renderRoom(){
-  if(!room)return; const r=room;
-  $('mtitle').textContent=r.game_type.toUpperCase()+' DUEL';
-  let h='<div class="room">'+r.room_code+'</div><div class="wager">LOCKED WAGER<br><strong>'+fmt(r.wager)+' FLIP EACH</strong></div><div class="players"><div class="player">'+esc(r.player1)+'</div><div class="player">'+(r.player2?esc(r.player2):'WAITING…')+'</div></div>';
-  if(!r.player2)h+='<div class="sub" style="text-align:center">Send your friend the room code.</div>';
-  else if(r.result)h+=duelResult(r);
-  else if(r.game_type==='flip')h+=flipUI(r);
-  else if(r.game_type==='dice')h+='<div class="out">🎲 ROLLING…</div>';
-  else h+=rpsUI(r);
-  $('mbody').innerHTML=h;
-}
-function flipUI(r){if(role==='player1'&&!r.player1_choice)return '<div class="choices"><button class="choice" onclick="pickFlip(\'HEADS\')">HEADS</button><button class="choice" onclick="pickFlip(\'TAILS\')">TAILS</button></div>';return '<div class="out">🪙 FLIPPING…</div>'}
-async function pickFlip(v){await sb.from('games').update({player1_choice:v,player2_choice:v==='HEADS'?'TAILS':'HEADS'}).eq('id',room.id);setTimeout(refreshRoom,120)}
-function rpsUI(r){const mine=role==='player1'?r.player1_choice:r.player2_choice;if(mine)return '<div class="out">🤫 CHOICE LOCKED — WAITING…</div>';return '<div class="choices"><button class="choice" onclick="pickRPS(\'ROCK\')">✊ ROCK</button><button class="choice" onclick="pickRPS(\'PAPER\')">✋ PAPER</button><button class="choice" onclick="pickRPS(\'SCISSORS\')">✌️ SCISSORS</button></div>'}
+function renderRoom(){if(!room)return;const r=room;$('mtitle').textContent=gameIcon(r.game_type)+' '+r.game_type.toUpperCase()+' DUEL';let h='<div class="wager">LOCKED WAGER<br><strong>'+fmt(r.wager)+' FLIP EACH</strong></div><div class="players"><div class="player">'+esc(r.player1)+'</div><div class="player">'+(r.player2?esc(r.player2):'WAITING FOR PLAYER…')+'</div></div>';if(!r.player2)h+='<div class="duelStage"><div class="duelCoin"></div></div><div class="sub" style="text-align:center">Challenge is live in the public lobby.</div>';else if(r.result)h+=duelResult(r);else if(r.game_type==='flip')h+=flipUI(r);else if(r.game_type==='dice')h+=diceUI();else h+=rpsUI(r);$('mbody').innerHTML=h}
+function flipUI(r){if(role==='player1'&&!r.player1_choice)return '<div class="duelStage"><div class="duelCoin"></div></div><div class="sub" style="text-align:center">Choose F or U. Opponent gets the other face.</div><div class="choices"><button class="choice" onclick="pickFlip(\'F\')">F</button><button class="choice" onclick="pickFlip(\'U\')">U</button></div>';if(!r.player1_choice)return '<div class="duelStage"><div class="duelCoin"></div></div><div class="sub" style="text-align:center">Opponent is choosing F or U…</div>';return '<div class="duelStage"><div class="duelCoin flipping"></div></div><div class="sub" style="text-align:center">FLIPPING F / U…</div>'}
+async function pickFlip(v){await sb.from('games').update({player1_choice:v,player2_choice:v==='F'?'U':'F'}).eq('id',room.id);setTimeout(refreshRoom,120)}
+function diceUI(){return '<div class="duelDiceWrap"><div class="miniDie a">⚄</div><div class="miniDie b">⚁</div></div><div class="sub" style="text-align:center">ROLLING BOTH DICE…</div>'}
+function rpsUI(r){const mine=role==='player1'?r.player1_choice:r.player2_choice;if(mine)return '<div class="rpsBattle"><div class="h h1">✊</div><div class="shoot">ROCK • PAPER • SCISSORS • SHOOT</div><div class="h h2">✊</div></div><div class="sub" style="text-align:center">Your choice is locked. Waiting for opponent.</div>';return '<div class="rpsBattle"><div class="h h1">✊</div><div class="shoot">CHOOSE YOUR MOVE</div><div class="h h2">✊</div></div><div class="choices"><button class="choice" onclick="pickRPS(\'ROCK\')">✊ ROCK</button><button class="choice" onclick="pickRPS(\'PAPER\')">✋ PAPER</button><button class="choice" onclick="pickRPS(\'SCISSORS\')">✌️ SCISSORS</button></div>'}
 async function pickRPS(v){const col=role==='player1'?'player1_choice':'player2_choice';await sb.from('games').update({[col]:v}).eq('id',room.id);setTimeout(refreshRoom,120)}
-function duelResult(r){const won=r.winner===playerName;return '<div class="out"><div class="'+(won?'green':'red')+'" style="font-size:28px;font-weight:1000">'+(won?'🏆 YOU WON':'💀 YOU LOST')+'</div><div>'+esc(r.result)+'</div><div>Winner: '+esc(r.winner)+'</div></div>'}
-async function resolveDuel(){
-  const r=room;if(!r||r.result||!r.player2||role!=='player1')return;
-  if(r.game_type==='flip'&&r.player1_choice){const s=Math.random()<.5?'HEADS':'TAILS';return finishDuel(s+' WINS',s===r.player1_choice?r.player1:r.player2)}
-  if(r.game_type==='dice'){let a,b;do{a=1+Math.floor(Math.random()*6);b=1+Math.floor(Math.random()*6)}while(a===b);return finishDuel(a+' vs '+b,a>b?r.player1:r.player2)}
-  if(r.game_type==='rps'&&r.player1_choice&&r.player2_choice){
-    if(r.player1_choice===r.player2_choice){await sb.from('games').update({player1_choice:null,player2_choice:null}).eq('id',r.id);return}
-    const beats={ROCK:'SCISSORS',PAPER:'ROCK',SCISSORS:'PAPER'};
-    return finishDuel(r.player1_choice+' vs '+r.player2_choice,beats[r.player1_choice]===r.player2_choice?r.player1:r.player2)
-  }
-}
-async function finishDuel(result,winner){const {data}=await sb.from('games').update({result,winner,status:'finished'}).eq('id',room.id).is('result',null).select().single();if(data){room=data;renderRoom();settleDuel()}}
+function duelResult(r){const won=r.winner===playerName,em={ROCK:'✊',PAPER:'✋',SCISSORS:'✌️'};setTimeout(()=>{const box=document.querySelector('.modalbox');if(box){box.classList.remove('resultWin','resultLoss');box.classList.add(won?'resultWin':'resultLoss')}},20);let visual='';if(r.game_type==='flip')visual='<div class="duelStage"><div class="duelCoin"></div><div style="position:absolute;bottom:20px;font-weight:1000;color:#fff">'+esc(r.result)+'</div></div>';if(r.game_type==='dice')visual='<div class="duelDiceWrap"><div class="miniDie">🎲</div><div style="font-size:28px;font-weight:1000">'+esc(r.result)+'</div><div class="miniDie">🎲</div></div>';if(r.game_type==='rps')visual='<div class="rpsBattle"><div class="h h1">'+em[r.player1_choice]+'</div><div class="shoot">VS</div><div class="h h2">'+em[r.player2_choice]+'</div></div>';return visual+'<div class="out"><div class="'+(won?'green':'red')+'" style="font-size:30px;font-weight:1000">'+(won?'🏆 YOU WON':'💀 YOU LOST')+'</div><div>'+esc(r.result)+'</div><div>Winner: '+esc(r.winner)+'</div><div class="sub">'+(won?'2× payout: '+fmt(Number(r.wager)*2)+' FLIP':'Lost wager: '+fmt(r.wager)+' FLIP')+'</div></div>'}
+async function resolveDuel(){const r=room;if(!r||r.result||!r.player2||role!=='player1')return;if(r.game_type==='flip'&&r.player1_choice){const s=Math.random()<.5?'F':'U';return finishDuel(s+' WINS',s===r.player1_choice?r.player1:r.player2)}if(r.game_type==='dice'){let a,b;do{a=1+Math.floor(Math.random()*6);b=1+Math.floor(Math.random()*6)}while(a===b);setTimeout(()=>finishDuel(a+' vs '+b,a>b?r.player1:r.player2),1300);return}if(r.game_type==='rps'&&r.player1_choice&&r.player2_choice){if(r.player1_choice===r.player2_choice){setTimeout(()=>sb.from('games').update({player1_choice:null,player2_choice:null}).eq('id',r.id),1200);return}const beats={ROCK:'SCISSORS',PAPER:'ROCK',SCISSORS:'PAPER'};setTimeout(()=>finishDuel(r.player1_choice+' vs '+r.player2_choice,beats[r.player1_choice]===r.player2_choice?r.player1:r.player2),1400)}}
+async function finishDuel(result,winner){const {data}=await sb.from('games').update({result,winner,status:'finished'}).eq('id',room.id).is('result',null).select().single();if(data){room=data;renderRoom();settleDuel();refreshLobby()}}
 function settleDuel(){const r=room;if(!r||!r.result)return;const done='settled_'+r.id;if(localStorage.getItem(done)||!localStorage.getItem('lock_'+r.id))return;if(r.winner===playerName)balance+=Number(r.wager)*2;burned+=Math.floor(Number(r.wager)*.02*.75);localStorage.setItem(done,'1');localStorage.removeItem('lock_'+r.id);saveCore()}
-document.addEventListener('visibilitychange',()=>{if(!document.hidden&&room&&sb)refreshRoom()});
-
-(function(){
-  const s=document.createElement('script');
-  s.src='https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2';
-  s.async=true;
-  s.onload=()=>{try{sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);console.log('Multiplayer ready')}catch(e){console.error(e)}};
-  s.onerror=()=>console.error('Supabase CDN failed; live game remains functional.');
-  document.head.appendChild(s);
-})();
+document.addEventListener('visibilitychange',()=>{if(!document.hidden){if(room&&sb)refreshRoom();if(sb)refreshLobby()}});
+(function(){const s=document.createElement('script');s.src='https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2';s.async=true;s.onload=()=>{try{sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);refreshLobby();lobbyCh=sb.channel('fu-lobby').on('postgres_changes',{event:'*',schema:'public',table:'games'},()=>refreshLobby()).subscribe()}catch(e){$('lobbyList').innerHTML='<div class="emptyLobby">Lobby connection failed.</div>'}};s.onerror=()=>$('lobbyList').innerHTML='<div class="emptyLobby">Lobby connection failed. Live F/U still works.</div>';document.head.appendChild(s)})();
 </script>
 </body></html>
