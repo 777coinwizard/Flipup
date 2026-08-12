@@ -240,10 +240,10 @@ button,input{font:inherit}button{-webkit-tap-highlight-color:transparent}.wrap{m
 </head>
 <body>
 <div class="wrap">
-<div class="nav"><div class="brand"><div class="logoMark"></div><div class="wordmark">FLIP UP</div></div><div class="navActions"><button class="reloadBtn" onclick="location.reload()">↻ RELOAD</button><div class="balance">TEST STACK: <b id="bal">100,000 FLIP</b></div></div></div>
+<div class="nav"><div class="brand"><div class="logoMark"></div><div class="wordmark">FLIP UP</div></div><div class="navActions"><button class="reloadBtn" onclick="resetTestBalance()">↻ RESET 100K</button><div class="balance">TEST STACK: <b id="bal">100,000 FLIP</b></div></div></div>
 
 <section class="hero">
-<div class="head"><div><div class="live">● LIVE FLIP UP</div><div class="timer" id="timer">00:15</div><div class="sub">F OR U • ONE BET PER 15-SECOND ROUND • 1–10,000 FLIP • WIN RETURNS 2×</div></div><div class="sub" style="text-align:right">BETA / FAKE FLIP<br><span id="burn">0</span> BURNED 🔥</div></div>
+<div class="head"><div><div class="live">● LIVE FLIP UP</div><div class="timer" id="timer">--:--</div><div class="sub">F OR U • ONE BET PER 15-SECOND ROUND • 1–10,000 FLIP • WIN RETURNS 2×</div></div><div class="sub" style="text-align:right">BETA / FAKE FLIP<br><span id="burn">0</span> BURNED 🔥</div></div>
 <div class="stage"><div class="coin3d idle" id="coin"></div><div class="resultfx" id="fx"></div></div>
 <div class="sides"><button class="side" data-side="F">F</button><button class="side" data-side="U">U</button></div>
 <div class="betrow"><input id="amount" type="number" inputmode="numeric" min="1" max="10000" value="1000"><button class="ghost" id="max">MAX 10K</button></div>
@@ -267,11 +267,34 @@ button,input{font:inherit}button{-webkit-tap-highlight-color:transparent}.wrap{m
 const $=id=>document.getElementById(id),fmt=n=>Math.floor(Number(n||0)).toLocaleString();
 const SUPA_URL="https://llvoaimskkdafsgvqmrx.supabase.co",SUPA_KEY="sb_publishable_DdmyLOBvEUyPlZlqgOk-3A_g1Y6gn0L";
 let balance=Number(localStorage.getItem('fu_bal')||100000),burned=Number(localStorage.getItem('fu_burn')||0);
-let liveSide=null,liveBet=null,t=15,resolving=false;
+const LIVE_ROUND_MS=15000;
+let liveSide=null,liveBet=null,resolving=false;
+let liveRoundId=Math.floor(Date.now()/LIVE_ROUND_MS);
+let lastResolvedRound=null;
 let sb=null,room=null,role=null,ch=null,mode=null,currentType=null,playerName=localStorage.getItem('fu_name')||'',pendingChoice=null;
 let searchTimer=null,searchPoll=null,searching=false,matchLocked=false;
 
 function save(){localStorage.setItem('fu_bal',balance);localStorage.setItem('fu_burn',burned);$('bal').textContent=fmt(balance)+' FLIP';$('burn').textContent=fmt(burned)}
+function resetTestBalance(){
+  balance=100000;
+  localStorage.setItem('fu_bal',String(balance));
+  save();
+  flashBalance();
+  $('notice').textContent='TEST BALANCE RESET TO 100,000 FLIP';
+}
+function liveWinnerForRound(roundId){
+  // Deterministic beta result: every browser gets the same result for the same 15s round.
+  let x=(Number(roundId) ^ 0x9E3779B9) >>> 0;
+  x ^= x << 13; x >>>= 0;
+  x ^= x >>> 17; x >>>= 0;
+  x ^= x << 5; x >>>= 0;
+  return (x & 1)===0?'F':'U';
+}
+function msToNextLiveBoundary(now=Date.now()){
+  const elapsed=now % LIVE_ROUND_MS;
+  return elapsed===0?LIVE_ROUND_MS:LIVE_ROUND_MS-elapsed;
+}
+
 function esc(s){return String(s||'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]))}
 
 // LIVE GAME
@@ -279,7 +302,21 @@ function getLiveAmt(){let v=Math.floor(Number($('amount').value||0));v=Math.max(
 function chooseLive(s){if(liveBet||resolving)return;liveSide=s;document.querySelectorAll('.side').forEach(b=>b.classList.toggle('on',b.dataset.side===s));$('bet').disabled=false;$('bet').textContent='CONFIRM '+s+' • '+fmt(getLiveAmt())+' FLIP';$('notice').textContent='Selected '+s+'. Confirm to lock.'}
 document.querySelectorAll('.side').forEach(b=>{b.onclick=()=>chooseLive(b.dataset.side);b.addEventListener('touchend',e=>{e.preventDefault();chooseLive(b.dataset.side)},{passive:false})});
 $('amount').oninput=()=>{if(liveSide&&!liveBet)$('bet').textContent='CONFIRM '+liveSide+' • '+fmt(getLiveAmt())+' FLIP'};$('max').onclick=()=>{$('amount').value=10000;if(liveSide&&!liveBet)$('bet').textContent='CONFIRM '+liveSide+' • 10,000 FLIP'};
-$('bet').onclick=()=>{if(!liveSide||liveBet||resolving)return;const a=getLiveAmt();if(a>balance)return $('notice').textContent='Not enough TEST FLIP.';balance-=a;liveBet={side:liveSide,stake:a};save();$('bet').disabled=true;$('amount').disabled=true;$('max').disabled=true;document.querySelectorAll('.side').forEach(x=>x.disabled=true);$('bet').textContent=fmt(a)+' FLIP LOCKED ✓';$('notice').textContent=liveSide+' confirmed.'};
+$('bet').onclick=()=>{
+  if(!liveSide||liveBet||resolving)return;
+  const a=getLiveAmt();
+  if(a>balance)return $('notice').textContent='Not enough TEST FLIP.';
+  const roundId=Math.floor(Date.now()/LIVE_ROUND_MS);
+  balance-=a;
+  liveBet={side:liveSide,stake:a,roundId};
+  save();
+  $('bet').disabled=true;
+  $('amount').disabled=true;
+  $('max').disabled=true;
+  document.querySelectorAll('.side').forEach(x=>x.disabled=true);
+  $('bet').textContent=fmt(a)+' FLIP LOCKED ✓';
+  $('notice').textContent=liveSide+' CONFIRMED • ROUND '+roundId;
+};
 function setCoin(el,w){
   if(!el)return;
   el.className='coin3d '+(w==='F'?'v16SpinF':'v16SpinU');
@@ -295,29 +332,76 @@ function showCoinWinner(stage,w){
 function clearCoinWinner(stage){const a=stage&&stage.querySelector('.coinAnnouncement');if(a)a.remove()}
 function flashBalance(){const b=document.querySelector('.balance');if(!b)return;b.classList.remove('balanceFlash');void b.offsetWidth;b.classList.add('balanceFlash');setTimeout(()=>b.classList.remove('balanceFlash'),800)}
 function liveFX(won,a,w){const f=$('fx');f.className='resultfx show '+(won?'win':'lose');f.innerHTML=(won?'🚀<br>YOU WON<br>+':'💥<br>YOU LOST<br>-')+fmt(a)+' FLIP<br><span style="font-size:12px">'+w+' WINS</span>';setTimeout(()=>{f.className='resultfx';f.innerHTML=''},1450)}
-function resolveLive(){
-  if(resolving)return;
+function resolveLive(roundId){
+  if(resolving || lastResolvedRound===roundId)return;
   resolving=true;
-  const w=Math.random()<.5?'F':'U',stage=$('coin').parentElement;
-  clearCoinWinner(stage);setCoin($('coin'),w);
-  setTimeout(()=>{$('notice').textContent='Landed on '+w+'.'},1800);
-  setTimeout(()=>{showCoinWinner(stage,w);$('notice').textContent=w+' WINS';},3800);
+  lastResolvedRound=roundId;
+
+  const w=liveWinnerForRound(roundId),stage=$('coin').parentElement;
+  clearCoinWinner(stage);
+  setCoin($('coin'),w);
+
+  $('amount').disabled=true;
+  $('max').disabled=true;
+  document.querySelectorAll('.side').forEach(x=>x.disabled=true);
+  $('bet').disabled=true;
+  $('notice').textContent='ROUND '+roundId+' • FLIPPING…';
+
   setTimeout(()=>{
-    if(liveBet){
+    $('notice').textContent='LANDED ON '+w;
+  },1800);
+
+  setTimeout(()=>{
+    showCoinWinner(stage,w);
+    $('notice').textContent=w+' WINS • ROUND '+roundId;
+  },3800);
+
+  setTimeout(()=>{
+    if(liveBet && liveBet.roundId===roundId){
       const a=liveBet.stake,won=liveBet.side===w;
       if(won)balance+=a*2;
       burned+=Math.floor(a*.02*.75);
-      save();flashBalance();liveFX(won,a,w)
+      save();
+      flashBalance();
+      liveFX(won,a,w);
     }
   },4500);
+
   setTimeout(()=>{
-    t=15;resolving=false;liveBet=null;liveSide=null;clearCoinWinner(stage);resetCoin($('coin'));
-    $('amount').disabled=false;$('max').disabled=false;
-    document.querySelectorAll('.side').forEach(x=>{x.disabled=false;x.classList.remove('on')});
-    $('bet').disabled=true;$('bet').textContent='CHOOSE F OR U';$('notice').textContent='New round. Pick and confirm.';$('timer').textContent='00:15'
-  },6400)
+    resolving=false;
+    liveBet=null;
+    liveSide=null;
+    clearCoinWinner(stage);
+    resetCoin($('coin'));
+    $('amount').disabled=false;
+    $('max').disabled=false;
+    document.querySelectorAll('.side').forEach(x=>{
+      x.disabled=false;
+      x.classList.remove('on');
+    });
+    $('bet').disabled=true;
+    $('bet').textContent='CHOOSE F OR U';
+    $('notice').textContent='LIVE ROUND OPEN • PICK AND CONFIRM';
+  },5400);
 }
-setInterval(()=>{if(resolving)return;t--;$('timer').textContent='00:'+(t<10?'0':'')+Math.max(t,0);if(t<=0)resolveLive()},1000);save();
+function syncLiveClock(){
+  const now=Date.now();
+  const currentRound=Math.floor(now/LIVE_ROUND_MS);
+  const msLeft=msToNextLiveBoundary(now);
+
+  // Ceiling keeps 00:01 visible until the actual boundary.
+  const secs=Math.max(0,Math.ceil(msLeft/1000));
+  $('timer').textContent='00:'+(secs<10?'0':'')+secs;
+
+  if(currentRound!==liveRoundId){
+    const completedRound=liveRoundId;
+    liveRoundId=currentRound;
+    resolveLive(completedRound);
+  }
+}
+syncLiveClock();
+setInterval(syncLiveClock,100);
+save();
 
 // COMMON MODAL
 function openM(){$('modal').classList.add('show')}
