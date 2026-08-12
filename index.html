@@ -6,209 +6,53 @@
 <meta name="theme-color" content="#050718">
 <title>FLIP UP — Beta Arena</title>
 <style>
-:root{
-  --bg:#040616;--panel:#090e27;--panel2:#0c122f;
-  --pink:#ff4bd8;--cyan:#43dcff;--purple:#9160ff;
-  --green:#52ff8c;--red:#ff5572;--gold:#ffd86f;
-  --text:#f7f9ff;--muted:#97a4c3;--line:rgba(103,111,255,.24);
-}
-*{box-sizing:border-box}
-html{background:var(--bg)}
-body{
-  margin:0;min-height:100vh;color:var(--text);
-  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Arial,sans-serif;
-  background:
-    radial-gradient(circle at 50% -12%,rgba(79,68,211,.28),transparent 34%),
-    radial-gradient(circle at 5% 28%,rgba(255,75,216,.09),transparent 24%),
-    radial-gradient(circle at 95% 36%,rgba(67,220,255,.08),transparent 26%),
-    #040616;
-  overflow-x:hidden
-}
-body:before{
-  content:"";position:fixed;inset:0;pointer-events:none;
-  background-image:linear-gradient(#667cff0a 1px,transparent 1px),linear-gradient(90deg,#667cff0a 1px,transparent 1px);
-  background-size:36px 36px;mask-image:linear-gradient(#000,transparent 88%)
-}
-button,input{font:inherit}button{-webkit-tap-highlight-color:transparent}
-.wrap{max-width:1040px;margin:auto;padding:12px}
-.nav{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:8px 0}
-.brand{display:flex;align-items:center;gap:10px}
-.logoMark{
-  width:48px;height:48px;border-radius:50%;position:relative;display:grid;place-items:center;
-  background:
-    radial-gradient(circle at 32% 25%,rgba(255,255,255,.95) 0 3%,transparent 4%),
-    radial-gradient(circle at center,#11152f 0 40%,#090d24 41% 48%,transparent 49%),
-    conic-gradient(from 215deg,var(--pink),#aa62ff 35%,var(--cyan) 70%,#77ffb4 90%,var(--pink));
-  border:1px solid rgba(255,255,255,.26);
-  box-shadow:inset 0 0 16px rgba(255,255,255,.06),0 0 20px rgba(141,90,255,.32),0 10px 30px rgba(0,0,0,.32);
-}
-.logoMark:before{content:"FU";font-size:15px;font-weight:1000;font-style:italic;letter-spacing:-1.6px;color:#f6f8ff;text-shadow:0 0 12px rgba(67,220,255,.44)}
-.wordmark{font-size:29px;font-weight:1000;font-style:italic;letter-spacing:-1.6px;background:linear-gradient(90deg,#ff58db,#c373ff 43%,#60ddff 77%,#8af7bb);-webkit-background-clip:text;background-clip:text;color:transparent}
-.balance{border:1px solid rgba(67,220,255,.22);background:rgba(7,12,31,.82);border-radius:12px;padding:10px 12px;font-size:12px;font-weight:900}
-.balance b{color:var(--green)}
-
-.hero,.section,.modalbox{
-  border:1px solid var(--line);
-  background:linear-gradient(180deg,rgba(11,16,43,.95),rgba(6,9,28,.98));
-  box-shadow:0 20px 68px rgba(0,0,0,.34)
-}
-.hero{border-radius:24px;padding:17px;position:relative;overflow:hidden}
-.hero:before{content:"";position:absolute;width:340px;height:340px;border-radius:50%;right:-150px;top:-170px;background:rgba(255,75,216,.12);filter:blur(28px)}
-.head{display:flex;justify-content:space-between;gap:12px;position:relative;z-index:2}
-.live{font-size:10px;color:#ff79e6;font-weight:1000;letter-spacing:1px}
-.timer{font-size:52px;font-weight:1000;letter-spacing:-3px;line-height:1}
-.sub{font-size:10px;color:var(--muted);line-height:1.5}
-.stage{
-  height:260px;margin:15px 0;border:1px solid rgba(96,107,255,.28);border-radius:20px;
-  background:radial-gradient(circle,#18205c,#070a20 68%);
-  display:grid;place-items:center;perspective:1000px;position:relative;overflow:hidden
-}
-.stage:after{content:"";position:absolute;bottom:40px;width:110px;height:15px;border-radius:50%;background:rgba(0,0,0,.52);filter:blur(7px)}
-.coin3d{width:120px;height:120px;border-radius:50%;position:relative;transform-style:preserve-3d;will-change:transform}
-.coin3d:before,.coin3d:after{
-  position:absolute;inset:0;border-radius:50%;display:grid;place-items:center;backface-visibility:hidden;-webkit-backface-visibility:hidden;
-  font-size:50px;font-weight:1000;font-style:italic;letter-spacing:-3px;color:#f8fbff;
-  border:1px solid rgba(255,255,255,.42);
-  box-shadow:inset 0 0 0 7px rgba(255,255,255,.035),inset 0 0 0 9px rgba(9,12,31,.38),inset 0 0 34px rgba(255,255,255,.07),0 0 28px rgba(119,87,255,.35),0 20px 48px rgba(0,0,0,.42);
-}
-.coin3d:before{content:"F";background:radial-gradient(circle at 30% 24%,#fff 0 4%,transparent 5%),radial-gradient(circle at center,rgba(7,9,24,.10) 0 51%,rgba(7,9,24,.28) 52% 58%,transparent 59%),conic-gradient(from 210deg,#ff58da,#a663ff 44%,#45dcff 78%,#82f3bc)}
-.coin3d:after{content:"U";transform:rotateY(180deg);background:radial-gradient(circle at 30% 24%,#fff 0 4%,transparent 5%),radial-gradient(circle at center,rgba(7,9,24,.10) 0 51%,rgba(7,9,24,.28) 52% 58%,transparent 59%),conic-gradient(from 25deg,#4ee8ff,#657cff 41%,#a95dff 70%,#ff54d4)}
-.coin3d.idle{animation:idleCoin 2.8s ease-in-out infinite}
-@keyframes idleCoin{50%{transform:translateY(-9px) rotateY(12deg)}}
-.coin3d.toF{animation:toF 2.25s cubic-bezier(.16,.70,.16,1) forwards}
-.coin3d.toU{animation:toU 2.25s cubic-bezier(.16,.70,.16,1) forwards}
-.coin3d.showF{transform:rotateY(2160deg)}
-.coin3d.showU{transform:rotateY(2340deg)}
-@keyframes toF{
-  0%{transform:translateY(0) rotateY(0) rotateX(0) scale(1)}
-  20%{transform:translateY(-88px) rotateY(620deg) rotateX(16deg) scale(1.13)}
-  55%{transform:translateY(-32px) rotateY(1430deg) rotateX(-7deg) scale(1.05)}
-  78%{transform:translateY(-8px) rotateY(1930deg) rotateX(4deg) scale(1.01)}
-  91%{transform:translateY(4px) rotateY(2115deg) rotateX(1deg) scale(.99)}
-  100%{transform:translateY(0) rotateY(2160deg) rotateX(0) scale(1)}
-}
-@keyframes toU{
-  0%{transform:translateY(0) rotateY(0) rotateX(0) scale(1)}
-  20%{transform:translateY(-88px) rotateY(620deg) rotateX(16deg) scale(1.13)}
-  55%{transform:translateY(-32px) rotateY(1510deg) rotateX(-7deg) scale(1.05)}
-  78%{transform:translateY(-8px) rotateY(2070deg) rotateX(4deg) scale(1.01)}
-  91%{transform:translateY(4px) rotateY(2295deg) rotateX(1deg) scale(.99)}
-  100%{transform:translateY(0) rotateY(2340deg) rotateX(0) scale(1)}
-}
-.resultfx{position:absolute;inset:0;display:none;place-items:center;text-align:center;z-index:7;font-size:38px;font-weight:1000;backdrop-filter:blur(6px)}
-.resultfx.show{display:grid}.resultfx.win{background:radial-gradient(circle,rgba(79,255,139,.96),rgba(7,118,57,.95));animation:resultPop .68s ease}.resultfx.lose{background:radial-gradient(circle,rgba(255,83,113,.96),rgba(112,10,37,.95));animation:resultCrash .68s ease}
-@keyframes resultPop{0%{transform:scale(.45);opacity:0}68%{transform:scale(1.08);opacity:1}100%{transform:scale(1)}}
-@keyframes resultCrash{0%{transform:scale(1.3);opacity:0;filter:blur(7px)}70%{transform:scale(.97);opacity:1;filter:none}85%{transform:translateX(-5px)}100%{transform:translateX(0)}}
-.spark{position:absolute;width:7px;height:20px;border-radius:8px;background:white;box-shadow:0 0 14px white;animation:spark .85s ease-out forwards}@keyframes spark{to{transform:translate(var(--x),var(--y)) rotate(500deg);opacity:0}}
-
-.sides{display:grid;grid-template-columns:1fr 1fr;gap:8px}.side,.btn,.ghost,.gameBtn,.choice,.confirmBtn,.rollBtn{border:1px solid rgba(83,96,190,.8);background:#0a1030;color:white;border-radius:12px;font-weight:900}
-.side{padding:15px;font-size:20px}.side.on{border-color:var(--pink);box-shadow:0 0 22px rgba(255,75,216,.16),inset 0 0 16px rgba(255,75,216,.05)}
-.betrow{display:grid;grid-template-columns:1fr auto;gap:8px;margin-top:9px}input{width:100%;background:#060a20;border:1px solid #303d7d;color:white;border-radius:12px;padding:13px;outline:none}.ghost{padding:0 14px}
-.btn{width:100%;padding:14px;margin-top:9px;border:0;background:linear-gradient(90deg,var(--pink),var(--purple),var(--cyan));box-shadow:0 0 28px rgba(141,92,255,.14)}.btn:disabled{opacity:.42}
-.notice{text-align:center;color:var(--muted);font-size:10px;margin-top:8px}
-
-.section{margin-top:14px;border-radius:21px;padding:16px}.sectionHead{display:flex;justify-content:space-between;gap:10px;align-items:end}.queueTag{font-size:9px;color:#71ffa1;border:1px solid rgba(82,255,140,.18);border-radius:999px;padding:5px 8px;background:rgba(82,255,140,.05);font-weight:1000}
-.games{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:12px}.game{border:1px solid rgba(91,102,190,.34);border-radius:17px;padding:14px;background:linear-gradient(180deg,#09102b,#070a1e);position:relative;overflow:hidden}.game h3{margin:6px 0;font-size:22px}.game p{font-size:10px;color:var(--muted);line-height:1.45;min-height:48px}.game .ico{font-size:35px}.gameActions{display:grid;grid-template-columns:1fr 1fr;gap:7px}.gameBtn{padding:10px}.gameBtn.find{border-color:#43dcff}.gameBtn.cpu{border-color:#7f6dff}
-
-.modal{position:fixed;inset:0;background:rgba(0,0,0,.78);display:none;align-items:center;justify-content:center;padding:12px;z-index:20;backdrop-filter:blur(8px)}.modal.show{display:flex}.modalbox{width:min(540px,100%);max-height:94vh;overflow:auto;border-radius:21px;padding:16px}.mh{display:flex;justify-content:space-between;align-items:start}.x{background:none;border:0;color:white;font-size:26px}.wager{border:1px solid rgba(89,102,191,.5);border-radius:14px;padding:12px;text-align:center;margin-top:10px;background:#070b20}.wager strong{font-size:28px;color:var(--gold)}
-.players{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:10px 0}.player{padding:11px;border:1px solid rgba(89,102,191,.5);border-radius:12px;text-align:center;background:#070b20}.status{text-align:center;color:var(--muted);font-size:11px;margin-top:8px}
-.choices{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-top:10px}.choice{padding:13px 6px}.choice.selected{border-color:#ff5add;box-shadow:0 0 22px rgba(255,75,216,.17);background:linear-gradient(180deg,#25113b,#0d1130)}
-.selectionBanner{margin-top:10px;padding:10px 12px;border-radius:12px;background:rgba(80,95,180,.12);border:1px solid rgba(89,102,191,.34);text-align:center;font-size:12px;font-weight:900}
-.confirmBtn{width:100%;padding:13px;margin-top:8px;border-color:#52ff8c;background:linear-gradient(180deg,#123622,#091f14);color:#aaffc1}.confirmBtn:disabled{opacity:.35}
-.out{border:1px solid rgba(89,102,191,.48);border-radius:14px;padding:14px;text-align:center;margin-top:10px;background:#070b20}.green{color:var(--green)}.red{color:var(--red)}
-
-.queueWait{margin-top:10px;border:1px solid rgba(67,220,255,.22);border-radius:16px;background:linear-gradient(180deg,#081025,#060a1c);padding:18px;text-align:center}.radar{width:86px;height:86px;border-radius:50%;border:1px solid rgba(67,220,255,.55);margin:auto;position:relative;box-shadow:0 0 24px rgba(67,220,255,.15)}.radar:before{content:"";position:absolute;left:50%;top:50%;width:2px;height:42px;background:linear-gradient(#43dcff,transparent);transform-origin:top center;animation:radar 1.1s linear infinite}.radar:after{content:"";position:absolute;inset:18px;border:1px solid rgba(67,220,255,.18);border-radius:50%}@keyframes radar{to{transform:rotate(360deg)}}
-
-.diceStage{height:270px;border:1px solid rgba(89,102,191,.45);border-radius:17px;background:radial-gradient(circle,#171f5a,#070a20 72%);position:relative;display:flex;align-items:center;justify-content:center;gap:34px;overflow:hidden;margin-top:10px}
-.dieResult{width:104px;height:104px;border-radius:24px;display:grid;place-items:center;font-size:56px;font-weight:1000;background:linear-gradient(145deg,#293475,#0a0e2a);border:1px solid rgba(255,255,255,.25);box-shadow:inset 0 0 24px rgba(107,127,255,.34),0 0 34px rgba(78,95,255,.25)}
-.dieResult.fu{background:linear-gradient(145deg,#ff58da,#805fff 48%,#43dcff);color:#060817;font-size:30px}
-.dieResult.rolling{animation:dieRoll 1.6s cubic-bezier(.16,.72,.18,1)}
-@keyframes dieRoll{
-  0%{transform:translateY(0) rotate(0) scale(1)}
-  25%{transform:translateY(-72px) rotate(420deg) scale(1.12)}
-  60%{transform:translateY(-22px) rotate(860deg) scale(1.05)}
-  82%{transform:translateY(7px) rotate(1040deg) scale(.98)}
-  100%{transform:translateY(0) rotate(1080deg) scale(1)}
-}
-.dieSlot{text-align:center}.dieName{font-size:10px;color:var(--muted);margin-bottom:8px;font-weight:900}.rollBtn{padding:13px 18px;border-color:#43dcff;background:linear-gradient(180deg,#10244e,#08122e);box-shadow:0 0 18px rgba(67,220,255,.12)}.rollBtn:disabled{opacity:.35}
-
-.rpsStage{height:250px;border:1px solid rgba(89,102,191,.45);border-radius:17px;background:radial-gradient(circle,#181f59,#070a20 72%);position:relative;overflow:hidden;margin-top:10px}
-.rpsObj{position:absolute;top:70px;font-size:74px;filter:drop-shadow(0 0 20px rgba(141,92,255,.55));transition:.2s}.rpsObj.left{left:30px}.rpsObj.right{right:30px}.vs{position:absolute;inset:0;display:grid;place-items:center;font-size:22px;font-weight:1000;color:#ff64df;text-shadow:0 0 18px rgba(255,75,216,.65)}
-.rpsObj.rock.play{animation:rockImpact 1.05s cubic-bezier(.2,.75,.2,1)}.rpsObj.paper.play{animation:paperSweep 1.05s cubic-bezier(.2,.75,.2,1)}.rpsObj.scissors.play{animation:scissorCut 1.05s cubic-bezier(.2,.75,.2,1)}
-@keyframes rockImpact{0%{transform:translateY(-80px) scale(.72) rotate(-12deg)}62%{transform:translateY(15px) scale(1.22) rotate(9deg)}78%{transform:translateY(-6px) scale(.98)}100%{transform:translateY(0) scale(1)}}
-@keyframes paperSweep{0%{transform:translateX(-90px) rotate(-40deg) scale(.8)}58%{transform:translateX(35px) rotate(18deg) scale(1.17)}78%{transform:translateX(-10px) rotate(-7deg)}100%{transform:translateX(0) rotate(0)}}
-@keyframes scissorCut{0%{transform:translateY(-70px) rotate(-40deg) scale(.8)}42%{transform:translateY(20px) rotate(34deg) scale(1.22)}62%{transform:translateY(-10px) rotate(-16deg) scale(1.06)}78%{transform:translateY(7px) rotate(10deg)}100%{transform:translateY(0) rotate(0)}}
-.rpsSlash{position:absolute;height:3px;width:140px;background:linear-gradient(90deg,transparent,#fff,transparent);filter:drop-shadow(0 0 7px white);transform:rotate(-32deg);left:50%;top:48%;margin-left:-70px;opacity:0}.rpsSlash.show{animation:slash .55s ease}@keyframes slash{0%{opacity:0;transform:rotate(-32deg) scaleX(.2)}45%{opacity:1;transform:rotate(-32deg) scaleX(1.35)}100%{opacity:0;transform:rotate(-32deg) scaleX(1.7)}}
-
-@media(max-width:700px){
-  .games{grid-template-columns:1fr}.game p{min-height:0}.timer{font-size:45px}.stage{height:230px}.modal{align-items:flex-end;padding:0}.modalbox{width:100%;border-radius:21px 21px 0 0}.diceStage{gap:18px}.dieResult{width:88px;height:88px;font-size:48px}
-}
-
-/* ===== PUBLIC QUEUE CENTERING FIX ===== */
-.queueWait{
-  width:100%;
-  min-height:220px;
-  margin:12px auto 0;
-  padding:22px 16px;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  justify-content:center;
-  text-align:center;
-}
-.queueWait > *{margin-left:auto;margin-right:auto}
-.queueWait .radar{
-  display:block;
-  margin:0 auto 14px;
-  flex:0 0 auto;
-}
-.modalbox .queueWait{
-  max-width:100%;
-}
-.modalbox .wager,
-.modalbox .players{
-  width:100%;
-}
-@media(max-width:700px){
-  .queueWait{
-    min-height:210px;
-    width:100%;
-    border-radius:16px;
-  }
-}
-
+:root{--bg:#040616;--panel:#090e27;--panel2:#0c122f;--pink:#ff4bd8;--cyan:#43dcff;--purple:#9160ff;--green:#52ff8c;--red:#ff5572;--gold:#ffd86f;--text:#f7f9ff;--muted:#97a4c3;--line:rgba(103,111,255,.24)}
+*{box-sizing:border-box}html{background:var(--bg)}
+body{margin:0;min-height:100vh;color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Arial,sans-serif;background:radial-gradient(circle at 50% -12%,rgba(79,68,211,.28),transparent 34%),radial-gradient(circle at 5% 28%,rgba(255,75,216,.09),transparent 24%),radial-gradient(circle at 95% 36%,rgba(67,220,255,.08),transparent 26%),#040616;overflow-x:hidden}
+body:before{content:"";position:fixed;inset:0;pointer-events:none;background-image:linear-gradient(#667cff0a 1px,transparent 1px),linear-gradient(90deg,#667cff0a 1px,transparent 1px);background-size:36px 36px;mask-image:linear-gradient(#000,transparent 88%)}
+button,input{font:inherit}button{-webkit-tap-highlight-color:transparent}.wrap{max-width:1040px;margin:auto;padding:12px}
+.nav{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:8px 0}.brand{display:flex;align-items:center;gap:10px}.logoMark{width:48px;height:48px;border-radius:50%;position:relative;display:grid;place-items:center;background:radial-gradient(circle at 32% 25%,rgba(255,255,255,.95) 0 3%,transparent 4%),radial-gradient(circle at center,#11152f 0 40%,#090d24 41% 48%,transparent 49%),conic-gradient(from 215deg,var(--pink),#aa62ff 35%,var(--cyan) 70%,#77ffb4 90%,var(--pink));border:1px solid rgba(255,255,255,.26);box-shadow:inset 0 0 16px rgba(255,255,255,.06),0 0 20px rgba(141,90,255,.32),0 10px 30px rgba(0,0,0,.32)}
+.logoMark:before{content:"FU";font-size:15px;font-weight:1000;font-style:italic;letter-spacing:-1.6px;color:#f6f8ff;text-shadow:0 0 12px rgba(67,220,255,.44)}.wordmark{font-size:29px;font-weight:1000;font-style:italic;letter-spacing:-1.6px;background:linear-gradient(90deg,#ff58db,#c373ff 43%,#60ddff 77%,#8af7bb);-webkit-background-clip:text;background-clip:text;color:transparent}.balance{border:1px solid rgba(67,220,255,.22);background:rgba(7,12,31,.82);border-radius:12px;padding:10px 12px;font-size:12px;font-weight:900}.balance b{color:var(--green)}
+.hero,.section,.modalbox{border:1px solid var(--line);background:linear-gradient(180deg,rgba(11,16,43,.95),rgba(6,9,28,.98));box-shadow:0 20px 68px rgba(0,0,0,.34)}
+.hero{border-radius:24px;padding:17px;position:relative;overflow:hidden}.head{display:flex;justify-content:space-between;gap:12px;position:relative;z-index:2}.live{font-size:10px;color:#ff79e6;font-weight:1000;letter-spacing:1px}.timer{font-size:52px;font-weight:1000;letter-spacing:-3px;line-height:1}.sub{font-size:10px;color:var(--muted);line-height:1.5}
+.stage{height:250px;margin:15px 0;border:1px solid rgba(96,107,255,.28);border-radius:20px;background:radial-gradient(circle,#18205c,#070a20 68%);display:grid;place-items:center;perspective:1000px;position:relative;overflow:hidden}
+.coin3d{width:120px;height:120px;border-radius:50%;position:relative;transform-style:preserve-3d}.coin3d:before,.coin3d:after{position:absolute;inset:0;border-radius:50%;display:grid;place-items:center;backface-visibility:hidden;-webkit-backface-visibility:hidden;font-size:50px;font-weight:1000;font-style:italic;letter-spacing:-3px;color:#f8fbff;border:1px solid rgba(255,255,255,.42);box-shadow:inset 0 0 0 7px rgba(255,255,255,.035),inset 0 0 0 9px rgba(9,12,31,.38),inset 0 0 34px rgba(255,255,255,.07),0 0 28px rgba(119,87,255,.35),0 20px 48px rgba(0,0,0,.42)}
+.coin3d:before{content:"F";background:radial-gradient(circle at 30% 24%,#fff 0 4%,transparent 5%),conic-gradient(from 210deg,#ff58da,#a663ff 44%,#45dcff 78%,#82f3bc)}.coin3d:after{content:"U";transform:rotateY(180deg);background:radial-gradient(circle at 30% 24%,#fff 0 4%,transparent 5%),conic-gradient(from 25deg,#4ee8ff,#657cff 41%,#a95dff 70%,#ff54d4)}
+.coin3d.idle{animation:idleCoin 2.7s ease-in-out infinite}.coin3d.flipF{animation:flipF 1.3s cubic-bezier(.2,.68,.22,1) forwards}.coin3d.flipU{animation:flipU 1.3s cubic-bezier(.2,.68,.22,1) forwards}.coin3d.landF{transform:rotateY(1440deg)}.coin3d.landU{transform:rotateY(1620deg)}.coin3d.glow{animation:winnerGlow 1s ease-in-out infinite alternate}
+@keyframes idleCoin{50%{transform:translateY(-9px) rotateY(12deg)}}@keyframes flipF{0%{transform:rotateY(0)}45%{transform:translateY(-42px) rotateY(900deg)}100%{transform:translateY(0) rotateY(1440deg)}}@keyframes flipU{0%{transform:rotateY(0)}45%{transform:translateY(-42px) rotateY(900deg)}100%{transform:translateY(0) rotateY(1620deg)}}@keyframes winnerGlow{from{filter:drop-shadow(0 0 9px #fff7)}to{filter:drop-shadow(0 0 18px #fff) drop-shadow(0 0 38px #ff4bd8cc) drop-shadow(0 0 58px #43dcffaa)}}
+.resultfx{position:absolute;inset:0;display:none;place-items:center;text-align:center;z-index:7;font-size:38px;font-weight:1000;backdrop-filter:blur(6px)}.resultfx.show{display:grid}.resultfx.win{background:radial-gradient(circle,rgba(79,255,139,.96),rgba(7,118,57,.95));animation:pop .68s ease}.resultfx.lose{background:radial-gradient(circle,rgba(255,83,113,.96),rgba(112,10,37,.95));animation:crash .68s ease}@keyframes pop{0%{transform:scale(.45);opacity:0}68%{transform:scale(1.08);opacity:1}100%{transform:scale(1)}}@keyframes crash{0%{transform:scale(1.3);opacity:0;filter:blur(7px)}70%{transform:scale(.97);opacity:1;filter:none}85%{transform:translateX(-5px)}100%{transform:translateX(0)}}
+.sides{display:grid;grid-template-columns:1fr 1fr;gap:8px}.side,.btn,.ghost,.gameBtn,.choice,.confirmBtn,.rollBtn{border:1px solid rgba(83,96,190,.8);background:#0a1030;color:white;border-radius:12px;font-weight:900}.side{padding:15px;font-size:20px}.side.on{border-color:var(--pink);box-shadow:0 0 22px rgba(255,75,216,.16),inset 0 0 16px rgba(255,75,216,.05)}
+.betrow{display:grid;grid-template-columns:1fr auto;gap:8px;margin-top:9px}input{width:100%;background:#060a20;border:1px solid #303d7d;color:white;border-radius:12px;padding:13px;outline:none}.ghost{padding:0 14px}.btn{width:100%;padding:14px;margin-top:9px;border:0;background:linear-gradient(90deg,var(--pink),var(--purple),var(--cyan))}.btn:disabled{opacity:.42}.notice{text-align:center;color:var(--muted);font-size:10px;margin-top:8px}
+.section{margin-top:14px;border-radius:21px;padding:16px}.sectionHead{display:flex;justify-content:space-between;gap:10px;align-items:end}.queueTag{font-size:9px;color:#71ffa1;border:1px solid rgba(82,255,140,.18);border-radius:999px;padding:5px 8px;background:rgba(82,255,140,.05);font-weight:1000}.games{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:12px}.game{border:1px solid rgba(91,102,190,.34);border-radius:17px;padding:14px;background:linear-gradient(180deg,#09102b,#070a1e)}.game h3{margin:6px 0;font-size:22px}.game p{font-size:10px;color:var(--muted);line-height:1.45;min-height:48px}.ico{font-size:35px}.fuIcon{width:39px;height:39px;border-radius:50%;display:grid;place-items:center;font-size:12px;font-weight:1000;font-style:italic;background:conic-gradient(from 210deg,#ff58da,#a663ff,#45dcff,#82f3bc);box-shadow:0 0 18px #8e60ff66}.gameActions{display:grid;grid-template-columns:1fr 1fr;gap:7px}.gameBtn{padding:10px}.gameBtn.find{border-color:#43dcff}.gameBtn.cpu{border-color:#7f6dff}
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.78);display:none;align-items:center;justify-content:center;padding:12px;z-index:20;backdrop-filter:blur(8px)}.modal.show{display:flex}.modalbox{width:min(540px,100%);max-height:94vh;overflow:auto;border-radius:21px;padding:16px}.mh{display:flex;justify-content:space-between;align-items:start}.x{background:none;border:0;color:white;font-size:26px}.wager{border:1px solid rgba(89,102,191,.5);border-radius:14px;padding:12px;text-align:center;margin-top:10px;background:#070b20}.wager strong{font-size:28px;color:var(--gold)}.players{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:10px 0}.player{padding:11px;border:1px solid rgba(89,102,191,.5);border-radius:12px;text-align:center;background:#070b20}.status{text-align:center;color:var(--muted);font-size:11px;margin-top:8px}.choices{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-top:10px}.choice{padding:13px 6px;transition:.15s}.choice.selected{border-color:#ff5add;background:#24123a;box-shadow:0 0 24px rgba(255,75,216,.18);transform:translateY(-2px)}.selectionBanner{margin-top:10px;padding:11px;border-radius:12px;text-align:center;border:1px solid rgba(89,102,191,.35);background:#0a102d;font-size:12px;font-weight:1000}.confirmBtn{width:100%;padding:13px;margin-top:8px;border-color:#52ff8c;background:#0b2415;color:#aaffc1}.confirmBtn.ready{animation:readyPulse 1s ease-in-out infinite alternate}@keyframes readyPulse{to{box-shadow:0 0 24px rgba(82,255,140,.28);transform:translateY(-1px)}}.out{border:1px solid rgba(89,102,191,.48);border-radius:14px;padding:14px;text-align:center;margin-top:10px;background:#070b20}.green{color:var(--green)}.red{color:var(--red)}
+.queueScene{min-height:255px;border:1px solid rgba(67,220,255,.22);border-radius:18px;background:radial-gradient(circle at center,#101b4b,#060a1c 72%);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:22px;margin-top:10px;overflow:hidden;position:relative}.radar{width:98px;height:98px;border-radius:50%;border:1px solid rgba(67,220,255,.55);position:relative;box-shadow:0 0 28px rgba(67,220,255,.18)}.radar:before{content:"";position:absolute;left:50%;top:50%;width:2px;height:48px;background:linear-gradient(#43dcff,transparent);transform-origin:top center;animation:radar 1.05s linear infinite}.radar:after{content:"";position:absolute;inset:20px;border:1px solid rgba(67,220,255,.22);border-radius:50%}@keyframes radar{to{transform:rotate(360deg)}}.searchDots span{display:inline-block;width:6px;height:6px;border-radius:50%;background:#43dcff;margin:0 3px;animation:dots .9s infinite alternate}.searchDots span:nth-child(2){animation-delay:.15s}.searchDots span:nth-child(3){animation-delay:.3s}@keyframes dots{to{transform:translateY(-7px);opacity:.35}}
+.matchFound{min-height:255px;border-radius:18px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;background:radial-gradient(circle,#1a4c39,#07161c 72%);animation:found .65s ease}.matchFound .check{font-size:58px;animation:checkPop .65s cubic-bezier(.2,1.5,.3,1)}@keyframes found{0%{filter:brightness(2);opacity:.2}100%{opacity:1}}@keyframes checkPop{0%{transform:scale(.3) rotate(-20deg)}75%{transform:scale(1.15)}100%{transform:scale(1)}}.enterMatch{min-height:255px;border-radius:18px;display:flex;align-items:center;justify-content:center;background:radial-gradient(circle,#241956,#070a1c 74%);overflow:hidden;position:relative}.enterMatch:before,.enterMatch:after{content:"";position:absolute;width:160px;height:160px;border-radius:50%;border:1px solid #8c66ff55}.enterMatch:before{animation:ring 1s ease-out infinite}.enterMatch:after{animation:ring 1s .3s ease-out infinite}@keyframes ring{from{transform:scale(.4);opacity:1}to{transform:scale(1.7);opacity:0}}.enterText{font-size:21px;font-weight:1000;z-index:2}
+.diceStage{min-height:300px;border:1px solid rgba(89,102,191,.45);border-radius:17px;background:radial-gradient(circle,#171f5a,#070a20 72%);display:grid;grid-template-columns:1fr 1fr;gap:14px;padding:16px;margin-top:10px}.diceBlock{text-align:center;border:1px solid rgba(255,255,255,.06);border-radius:14px;padding:13px;background:#070b20}.dicePair{display:flex;justify-content:center;gap:9px}.die{width:75px;height:75px;border-radius:18px;display:grid;place-items:center;font-size:40px;font-weight:1000;background:linear-gradient(145deg,#293475,#0a0e2a);border:1px solid rgba(255,255,255,.25);box-shadow:inset 0 0 22px rgba(107,127,255,.34),0 0 28px rgba(78,95,255,.2)}.die.fu{font-size:20px;background:linear-gradient(145deg,#ff58da,#805fff 48%,#43dcff);color:#060817}.die.roll{animation:dieRoll 1.5s cubic-bezier(.16,.72,.18,1)}@keyframes dieRoll{0%{transform:rotate(0) translateY(0)}30%{transform:rotate(420deg) translateY(-48px) scale(1.12)}70%{transform:rotate(850deg) translateY(-10px)}100%{transform:rotate(1080deg) translateY(0)}}.rollBtn{width:100%;padding:13px;margin-top:9px;border-color:#43dcff;background:#0b1d3b}.rollBtn.ready{animation:rollPulse 1s infinite alternate}@keyframes rollPulse{to{box-shadow:0 0 24px #43dcff44;transform:translateY(-1px)}}
+.rpsStage{height:245px;border:1px solid rgba(89,102,191,.45);border-radius:17px;background:radial-gradient(circle,#181f59,#070a20 72%);position:relative;overflow:hidden;margin-top:10px}.rpsObj{position:absolute;top:70px;font-size:72px;filter:drop-shadow(0 0 20px rgba(141,92,255,.55))}.rpsObj.left{left:30px}.rpsObj.right{right:30px}.rpsObj.rock{animation:rock 1s ease}.rpsObj.paper{animation:paper 1s ease}.rpsObj.scissors{animation:scissors 1s ease}.vs{position:absolute;inset:0;display:grid;place-items:center;font-size:22px;font-weight:1000;color:#ff64df;text-shadow:0 0 18px #ff4bd8}@keyframes rock{0%{transform:translateY(-70px) scale(.75)}65%{transform:translateY(14px) scale(1.2)}100%{transform:translateY(0)}}@keyframes paper{0%{transform:translateX(-85px) rotate(-35deg)}62%{transform:translateX(30px) rotate(16deg) scale(1.15)}100%{transform:translateX(0)}}@keyframes scissors{0%{transform:translateY(-65px) rotate(-38deg)}45%{transform:translateY(20px) rotate(30deg) scale(1.22)}70%{transform:translateY(-8px) rotate(-12deg)}100%{transform:translateY(0)}}
+@media(max-width:700px){.games{grid-template-columns:1fr}.game p{min-height:0}.timer{font-size:45px}.stage{height:225px}.modal{align-items:flex-end;padding:0}.modalbox{width:100%;border-radius:21px 21px 0 0}.diceStage{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
 <div class="wrap">
-  <div class="nav">
-    <div class="brand"><div class="logoMark"></div><div class="wordmark">FLIP UP</div></div>
-    <div class="balance">TEST STACK: <b id="bal">100,000 FLIP</b></div>
-  </div>
+<div class="nav"><div class="brand"><div class="logoMark"></div><div class="wordmark">FLIP UP</div></div><div class="balance">TEST STACK: <b id="bal">100,000 FLIP</b></div></div>
 
-  <section class="hero">
-    <div class="head">
-      <div><div class="live">● LIVE FLIP UP</div><div class="timer" id="timer">00:15</div><div class="sub">F OR U • ONE BET PER 15-SECOND ROUND • 1–10,000 FLIP • WIN RETURNS 2×</div></div>
-      <div class="sub" style="text-align:right">BETA / FAKE FLIP<br><span id="burn">0</span> BURNED 🔥</div>
-    </div>
-    <div class="stage"><div class="coin3d idle" id="coin"></div><div class="resultfx" id="fx"></div></div>
-    <div class="sides"><button class="side" data-side="F">F</button><button class="side" data-side="U">U</button></div>
-    <div class="betrow"><input id="amount" type="number" inputmode="numeric" min="1" max="10000" value="1000"><button class="ghost" id="max">MAX 10K</button></div>
-    <button class="btn" id="bet" disabled>CHOOSE F OR U</button>
-    <div class="notice" id="notice">Pick a face, confirm the bet, then watch the coin resolve.</div>
-  </section>
+<section class="hero">
+<div class="head"><div><div class="live">● LIVE FLIP UP</div><div class="timer" id="timer">00:15</div><div class="sub">F OR U • ONE BET PER 15-SECOND ROUND • 1–10,000 FLIP • WIN RETURNS 2×</div></div><div class="sub" style="text-align:right">BETA / FAKE FLIP<br><span id="burn">0</span> BURNED 🔥</div></div>
+<div class="stage"><div class="coin3d idle" id="coin"></div><div class="resultfx" id="fx"></div></div>
+<div class="sides"><button class="side" data-side="F">F</button><button class="side" data-side="U">U</button></div>
+<div class="betrow"><input id="amount" type="number" inputmode="numeric" min="1" max="10000" value="1000"><button class="ghost" id="max">MAX 10K</button></div>
+<button class="btn" id="bet" disabled>CHOOSE F OR U</button>
+<div class="notice" id="notice">Pick a face, confirm the bet, then watch the coin resolve.</div>
+</section>
 
-  <section class="section">
-    <div class="sectionHead">
-      <div><h2 style="margin:0">GAME SELECTION</h2><div class="sub">FIND GAME enters the public queue. VS COMPUTER is instant beta testing.</div></div>
-      <div class="queueTag">PUBLIC QUEUE</div>
-    </div>
-    <div class="games">
-      <div class="game"><div class="ico">🪙</div><h3>F / U</h3><p>Choose F or U, confirm it, then watch the coin physically land on the result.</p><div class="gameActions"><button class="gameBtn find" onclick="openMatch('flip','queue')">FIND GAME</button><button class="gameBtn cpu" onclick="openMatch('flip','cpu')">VS COMPUTER</button></div></div>
-      <div class="game"><div class="ico">🎲</div><h3>DICE</h3><p>Player 1 presses ROLL first. Player 2 rolls second. FU replaces 6 and beats 1–5; FU vs FU ties.</p><div class="gameActions"><button class="gameBtn find" onclick="openMatch('dice','queue')">FIND GAME</button><button class="gameBtn cpu" onclick="openMatch('dice','cpu')">VS COMPUTER</button></div></div>
-      <div class="game"><div class="ico">✂️</div><h3>RPS</h3><p>Pick your move, see it highlighted, confirm it, then watch the two moves animate into the reveal.</p><div class="gameActions"><button class="gameBtn find" onclick="openMatch('rps','queue')">FIND GAME</button><button class="gameBtn cpu" onclick="openMatch('rps','cpu')">VS COMPUTER</button></div></div>
-    </div>
-  </section>
+<section class="section">
+<div class="sectionHead"><div><h2 style="margin:0">GAME SELECTION</h2><div class="sub">FIND GAME searches only active players with the same game and exact wager.</div></div><div class="queueTag">PUBLIC QUEUE</div></div>
+<div class="games">
+<div class="game"><div class="fuIcon">FU</div><h3>F / U</h3><p>Choose F or U. Confirm the selection. The coin lands and glows on the winning face.</p><div class="gameActions"><button class="gameBtn find" onclick="openMatch('flip','queue')">FIND GAME</button><button class="gameBtn cpu" onclick="openMatch('flip','cpu')">VS COMPUTER</button></div></div>
+<div class="game"><div class="ico">🎲</div><h3>DICE</h3><p>Two dice each. Player 1 rolls first, then Player 2. FU replaces 6; more FU faces wins, then highest total.</p><div class="gameActions"><button class="gameBtn find" onclick="openMatch('dice','queue')">FIND GAME</button><button class="gameBtn cpu" onclick="openMatch('dice','cpu')">VS COMPUTER</button></div></div>
+<div class="game"><div class="ico">✂️</div><h3>RPS</h3><p>Select, highlight, confirm, then watch rock smash, paper sweep, or scissors chop into the reveal.</p><div class="gameActions"><button class="gameBtn find" onclick="openMatch('rps','queue')">FIND GAME</button><button class="gameBtn cpu" onclick="openMatch('rps','cpu')">VS COMPUTER</button></div></div>
+</div>
+</section>
 </div>
 
 <div class="modal" id="modal"><div class="modalbox" id="modalbox"><div class="mh"><div><b id="mtitle">GAME</b><div class="sub" id="msub"></div></div><button class="x" onclick="closeModal()">×</button></div><div id="mbody"></div></div></div>
@@ -217,76 +61,122 @@ button,input{font:inherit}button{-webkit-tap-highlight-color:transparent}
 const $=id=>document.getElementById(id),fmt=n=>Math.floor(Number(n||0)).toLocaleString();
 const SUPA_URL="https://llvoaimskkdafsgvqmrx.supabase.co",SUPA_KEY="sb_publishable_DdmyLOBvEUyPlZlqgOk-3A_g1Y6gn0L";
 let balance=Number(localStorage.getItem('fu_bal')||100000),burned=Number(localStorage.getItem('fu_burn')||0);
-let side=null,locked=null,t=15,resolving=false,sb=null,room=null,role=null,ch=null,mode=null,currentType=null,playerName=localStorage.getItem('fu_name')||'',pendingChoice=null;
+let liveSide=null,liveBet=null,t=15,resolving=false;
+let sb=null,room=null,role=null,ch=null,mode=null,currentType=null,playerName=localStorage.getItem('fu_name')||'',pendingChoice=null;
+let searchTimer=null,searchPoll=null,searching=false,matchLocked=false;
+
 function save(){localStorage.setItem('fu_bal',balance);localStorage.setItem('fu_burn',burned);$('bal').textContent=fmt(balance)+' FLIP';$('burn').textContent=fmt(burned)}
 function esc(s){return String(s||'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]))}
-function betAmt(){let v=Math.floor(Number($('amount').value||0));v=Math.max(1,Math.min(10000,v));$('amount').value=v;return v}
-function chooseLive(s){if(locked||resolving)return;side=s;document.querySelectorAll('.side').forEach(b=>b.classList.toggle('on',b.dataset.side===s));$('bet').disabled=false;$('bet').textContent='CONFIRM '+s+' • '+fmt(betAmt())+' FLIP';$('notice').textContent='Selected '+s+'. Confirm to lock your wager.'}
+
+// LIVE GAME
+function getLiveAmt(){let v=Math.floor(Number($('amount').value||0));v=Math.max(1,Math.min(10000,v));$('amount').value=v;return v}
+function chooseLive(s){if(liveBet||resolving)return;liveSide=s;document.querySelectorAll('.side').forEach(b=>b.classList.toggle('on',b.dataset.side===s));$('bet').disabled=false;$('bet').textContent='CONFIRM '+s+' • '+fmt(getLiveAmt())+' FLIP';$('notice').textContent='Selected '+s+'. Confirm to lock.'}
 document.querySelectorAll('.side').forEach(b=>{b.onclick=()=>chooseLive(b.dataset.side);b.addEventListener('touchend',e=>{e.preventDefault();chooseLive(b.dataset.side)},{passive:false})});
-$('amount').oninput=()=>{if(side&&!locked)$('bet').textContent='CONFIRM '+side+' • '+fmt(betAmt())+' FLIP'};
-$('max').onclick=()=>{$('amount').value=10000;if(side&&!locked)$('bet').textContent='CONFIRM '+side+' • 10,000 FLIP'};
-$('bet').onclick=()=>{if(!side||locked||resolving)return;const a=betAmt();if(a>balance)return $('notice').textContent='Not enough TEST FLIP.';balance-=a;locked={side,stake:a};save();$('bet').disabled=true;$('amount').disabled=true;$('max').disabled=true;document.querySelectorAll('.side').forEach(x=>x.disabled=true);$('bet').textContent=fmt(a)+' FLIP LOCKED ✓';$('notice').textContent=side+' confirmed. Waiting for the round to resolve…'};
-function setCoin(el,w){if(!el)return;el.classList.remove('idle','toF','toU','showF','showU');void el.offsetWidth;el.classList.add(w==='F'?'toF':'toU');setTimeout(()=>{el.classList.remove('toF','toU');el.classList.add(w==='F'?'showF':'showU')},2250)}
-function resetCoin(el){if(!el)return;el.classList.remove('toF','toU','showF','showU');el.classList.add('idle')}
-function burst(h,n){for(let i=0;i<n;i++){const s=document.createElement('i');s.className='spark';const a=Math.random()*6.283,d=70+Math.random()*170;s.style.setProperty('--x',Math.cos(a)*d+'px');s.style.setProperty('--y',Math.sin(a)*d+'px');s.style.left='50%';s.style.top='50%';h.appendChild(s)}}
-function showLive(won,a,w){const f=$('fx');f.className='resultfx show '+(won?'win':'lose');f.innerHTML=(won?'🚀<br>YOU WON<br>+':'💥<br>YOU LOST<br>-')+fmt(a)+' FLIP<br><span style="font-size:12px">'+w+' WINS'+(won?' • '+fmt(a*2)+' PAID':'')+'</span>';burst(f,won?28:18);setTimeout(()=>{f.className='resultfx';f.innerHTML=''},1500)}
-function resolveLive(){if(resolving)return;resolving=true;const w=Math.random()<.5?'F':'U';setCoin($('coin'),w);setTimeout(()=>{$('notice').textContent='Coin landed on '+w+'…'},2350);setTimeout(()=>{if(locked){const a=locked.stake,won=locked.side===w;if(won)balance+=a*2;burned+=Math.floor(a*.02*.75);save();showLive(won,a,w)}else $('notice').textContent=w+' WON — no bet this round.'},3150);setTimeout(()=>{t=15;resolving=false;locked=null;side=null;resetCoin($('coin'));$('amount').disabled=false;$('max').disabled=false;document.querySelectorAll('.side').forEach(x=>{x.disabled=false;x.classList.remove('on')});$('bet').disabled=true;$('bet').textContent='CHOOSE F OR U';$('notice').textContent='New round. Pick a face and confirm.';$('timer').textContent='00:15'},5000)}
+$('amount').oninput=()=>{if(liveSide&&!liveBet)$('bet').textContent='CONFIRM '+liveSide+' • '+fmt(getLiveAmt())+' FLIP'};$('max').onclick=()=>{$('amount').value=10000;if(liveSide&&!liveBet)$('bet').textContent='CONFIRM '+liveSide+' • 10,000 FLIP'};
+$('bet').onclick=()=>{if(!liveSide||liveBet||resolving)return;const a=getLiveAmt();if(a>balance)return $('notice').textContent='Not enough TEST FLIP.';balance-=a;liveBet={side:liveSide,stake:a};save();$('bet').disabled=true;$('amount').disabled=true;$('max').disabled=true;document.querySelectorAll('.side').forEach(x=>x.disabled=true);$('bet').textContent=fmt(a)+' FLIP LOCKED ✓';$('notice').textContent=liveSide+' confirmed.'};
+function setCoin(el,w){if(!el)return;el.className='coin3d '+(w==='F'?'flipF':'flipU');setTimeout(()=>{el.className='coin3d '+(w==='F'?'landF':'landU')+' glow'},1300)}
+function resetCoin(el){if(el)el.className='coin3d idle'}
+function liveFX(won,a,w){const f=$('fx');f.className='resultfx show '+(won?'win':'lose');f.innerHTML=(won?'🚀<br>YOU WON<br>+':'💥<br>YOU LOST<br>-')+fmt(a)+' FLIP<br><span style="font-size:12px">'+w+' WINS</span>';setTimeout(()=>{f.className='resultfx';f.innerHTML=''},1450)}
+function resolveLive(){if(resolving)return;resolving=true;const w=Math.random()<.5?'F':'U';setCoin($('coin'),w);setTimeout(()=>{$('notice').textContent='Landed on '+w+'.'},1400);setTimeout(()=>{if(liveBet){const a=liveBet.stake,won=liveBet.side===w;if(won)balance+=a*2;burned+=Math.floor(a*.02*.75);save();liveFX(won,a,w)}},2400);setTimeout(()=>{t=15;resolving=false;liveBet=null;liveSide=null;resetCoin($('coin'));$('amount').disabled=false;$('max').disabled=false;document.querySelectorAll('.side').forEach(x=>{x.disabled=false;x.classList.remove('on')});$('bet').disabled=true;$('bet').textContent='CHOOSE F OR U';$('notice').textContent='New round. Pick and confirm.';$('timer').textContent='00:15'},4000)}
 setInterval(()=>{if(resolving)return;t--;$('timer').textContent='00:'+(t<10?'0':'')+Math.max(t,0);if(t<=0)resolveLive()},1000);save();
 
-function openM(){$('modal').classList.add('show');$('modalbox').classList.remove('resultWin','resultLoss')}
-async function closeModal(){if(ch&&sb){try{await sb.removeChannel(ch)}catch(e){}}ch=null;room=null;role=null;pendingChoice=null;$('modal').classList.remove('show')}
-function openMatch(type,m){mode=m;currentType=type;pendingChoice=null;openM();$('mtitle').textContent=(type==='flip'?'F / U':type.toUpperCase())+(m==='cpu'?' VS COMPUTER':' PUBLIC QUEUE');$('msub').textContent=m==='cpu'?'Instant beta test':'Pairs with one waiting player using the same wager';$('mbody').innerHTML='<input id="nm" placeholder="YOUR NAME" value="'+esc(playerName)+'"><div style="height:8px"></div><input id="gw" type="number" inputmode="numeric" min="1" max="10000" value="1000" placeholder="WAGER"><button class="btn" onclick="startSelected()">CONFIRM WAGER & START</button>'}
+// COMMON MODAL
+function openM(){$('modal').classList.add('show')}
+async function closeModal(){await cancelSearch();if(ch&&sb){try{await sb.removeChannel(ch)}catch(e){}}ch=null;room=null;role=null;pendingChoice=null;matchLocked=false;$('modal').classList.remove('show')}
+function openMatch(type,m){mode=m;currentType=type;pendingChoice=null;openM();$('mtitle').textContent=(type==='flip'?'F / U':type.toUpperCase())+(m==='cpu'?' VS COMPUTER':' PUBLIC QUEUE');$('msub').textContent=m==='cpu'?'Instant beta test':'Active matchmaking • exact wager';$('mbody').innerHTML='<input id="nm" placeholder="YOUR NAME" value="'+esc(playerName)+'"><div style="height:8px"></div><input id="gw" type="number" inputmode="numeric" min="1" max="10000" value="1000"><button class="btn" onclick="startSelected()">CONFIRM WAGER & '+(m==='cpu'?'START':'FIND GAME')+'</button>'}
 function gameWager(){let w=Math.floor(Number($('gw').value||0));return Math.max(1,Math.min(10000,w))}
-function startSelected(){playerName=$('nm').value.trim()||'Player';localStorage.setItem('fu_name',playerName);const w=gameWager();if(w>balance)return alert('Not enough TEST FLIP.');if(mode==='cpu')startCPU(currentType,w);else findGame(currentType,w)}
-function lockWager(w){balance-=w;save()}
-function resultBox(won,text,w){setTimeout(()=>$('modalbox').classList.add(won?'resultWin':'resultLoss'),20);return '<div class="out"><div class="'+(won?'green':'red')+'" style="font-size:30px;font-weight:1000">'+(won?'🏆 YOU WON':'💀 YOU LOST')+'</div><div>'+text+'</div><div class="sub">'+(won?'2× payout: '+fmt(w*2)+' FLIP':'Lost wager: '+fmt(w)+' FLIP')+'</div></div>'}
+function startSelected(){playerName=$('nm').value.trim()||'Player';localStorage.setItem('fu_name',playerName);const w=gameWager();if(w>balance)return alert('Not enough TEST FLIP.');if(mode==='cpu')startCPU(currentType,w);else beginSearch(currentType,w)}
+function resultBox(won,text,w){return '<div class="out"><div class="'+(won?'green':'red')+'" style="font-size:30px;font-weight:1000">'+(won?'🏆 YOU WON':'💀 YOU LOST')+'</div><div>'+text+'</div><div class="sub">'+(won?'2× payout: '+fmt(w*2)+' FLIP':'Lost wager: '+fmt(w)+' FLIP')+'</div></div>'}
 
-function selectionUI(kind,choices,onConfirm){
-  const label=pendingChoice?('SELECTED: '+pendingChoice):'SELECT A MOVE';
-  const buttons=choices.map(c=>`<button class="choice ${pendingChoice===c.v?'selected':''}" data-choice="${c.v}" data-kind="${kind}">${c.label}</button>`).join('');
-  setTimeout(()=>document.querySelectorAll('[data-choice]').forEach(btn=>btn.onclick=()=>setPending(btn.dataset.choice,btn.dataset.kind)),0);
-  return `<div class="selectionBanner">${label}</div><div class="choices">${buttons}</div><button class="confirmBtn" ${!pendingChoice?'disabled':''} onclick="${onConfirm}">CONFIRM ${pendingChoice||'SELECTION'}</button>`;
+// SELECTION UI
+function selectionUI(kind,choices,confirmFn){
+  const label=pendingChoice?'SELECTED: '+pendingChoice:'MAKE YOUR SELECTION';
+  setTimeout(()=>document.querySelectorAll('[data-pick]').forEach(b=>b.onclick=()=>{pendingChoice=b.dataset.pick;renderCurrentSelection(kind,choices,confirmFn)}),0);
+  return '<div class="selectionBanner">'+label+'</div><div class="choices">'+choices.map(c=>'<button class="choice '+(pendingChoice===c.v?'selected':'')+'" data-pick="'+c.v+'">'+c.label+'</button>').join('')+'</div><button class="confirmBtn '+(pendingChoice?'ready':'')+'" '+(!pendingChoice?'disabled':'')+' onclick="'+confirmFn+'">CONFIRM '+(pendingChoice||'SELECTION')+'</button>';
 }
-function setPending(v,kind){pendingChoice=v;if(kind==='cpuFlip')cpuFlip();else if(kind==='cpuRPS')cpuRPS();else if(kind==='mpFlip')renderRoom();else if(kind==='mpRPS')renderRoom()}
+function renderCurrentSelection(kind,choices,fn){if(kind==='cpuFlip')cpuFlip();else if(kind==='cpuRPS')cpuRPS();else renderRoom()}
 
+// DICE
 function diceVal(){return 1+Math.floor(Math.random()*6)}
 function diceLabel(v){return Number(v)===6?'FU':String(v)}
-function diceCompare(a,b){a=Number(a);b=Number(b);if(a===6&&b===6)return 0;if(a===6)return 1;if(b===6)return -1;return a===b?0:(a>b?1:-1)}
-function dieBox(v,rolling=false,name=''){const fu=Number(v)===6;return '<div class="dieSlot"><div class="dieName">'+name+'</div><div class="dieResult '+(fu?'fu ':'')+(rolling?'rolling':'')+'">'+(v==='?'?'?':diceLabel(v))+'</div></div>'}
-function diceStage(a='?',b='?',rollA=false,rollB=false){return '<div class="diceStage">'+dieBox(a,rollA,'PLAYER 1')+dieBox(b,rollB,'PLAYER 2')+'</div>'}
+function diceScore(pair){const vals=pair.map(Number),fu=vals.filter(v=>v===6).length,total=vals.reduce((a,v)=>a+v,0);return {fu,total}}
+function comparePairs(a,b){const A=diceScore(a),B=diceScore(b);if(A.fu!==B.fu)return A.fu>B.fu?1:-1;if(A.total!==B.total)return A.total>B.total?1:-1;return 0}
+function pairText(p){return p.map(diceLabel).join(' + ')}
+function die(v,roll=false){return '<div class="die '+(Number(v)===6?'fu ':'')+(roll?'roll':'')+'">'+(v==='?'?'?':diceLabel(v))+'</div>'}
+function diceStage(a=['?','?'],b=['?','?'],ra=false,rb=false){return '<div class="diceStage"><div class="diceBlock"><div class="sub" style="margin-bottom:8px">PLAYER 1</div><div class="dicePair">'+die(a[0],ra)+die(a[1],ra)+'</div>'+(a[0]!=='?'?'<div class="status">'+pairText(a)+'</div>':'')+'</div><div class="diceBlock"><div class="sub" style="margin-bottom:8px">PLAYER 2</div><div class="dicePair">'+die(b[0],rb)+die(b[1],rb)+'</div>'+(b[0]!=='?'?'<div class="status">'+pairText(b)+'</div>':'')+'</div></div>'}
+function parseDice(v){if(!v||!String(v).startsWith('DICE:'))return null;const p=String(v).slice(5).split(',').map(Number);return p.length===2?p:null}
 
+// RPS
 function rpsEmoji(v){return v==='ROCK'?'🪨':v==='PAPER'?'🖐️':'✂️'}
 function rpsClass(v){return v==='ROCK'?'rock':v==='PAPER'?'paper':'scissors'}
-function rpsStage(a,b,play=true){return '<div class="rpsStage"><div class="rpsObj left '+rpsClass(a)+' '+(play?'play':'')+'">'+rpsEmoji(a)+'</div><div class="vs">VS</div><div class="rpsObj right '+rpsClass(b)+' '+(play?'play':'')+'">'+rpsEmoji(b)+'</div><div class="rpsSlash '+((a==='SCISSORS'||b==='SCISSORS')&&play?'show':'')+'"></div></div>'}
+function rpsStage(a,b){return '<div class="rpsStage"><div class="rpsObj left '+rpsClass(a)+'">'+rpsEmoji(a)+'</div><div class="vs">VS</div><div class="rpsObj right '+rpsClass(b)+'">'+rpsEmoji(b)+'</div></div>'}
 
 // CPU
-function startCPU(type,w){lockWager(w);role='player1';room={id:'cpu-'+Date.now(),game_type:type,wager:w,player1:playerName,player2:'COMPUTER',status:'active'};pendingChoice=null;if(type==='flip')cpuFlip();else if(type==='dice')cpuDiceReady();else cpuRPS()}
-function cpuFlip(){$('mbody').innerHTML='<div class="wager">LOCKED WAGER<br><strong>'+fmt(room.wager)+' FLIP</strong></div><div class="stage" style="height:220px"><div class="coin3d idle" id="cpuCoin"></div></div>'+selectionUI('cpuFlip',[{v:'F',label:'F'},{v:'U',label:'U'}],"confirmCPUFlip()")}
-function confirmCPUFlip(){if(!pendingChoice)return;const pick=pendingChoice,w=Math.random()<.5?'F':'U';pendingChoice=null;$('mbody').innerHTML='<div class="wager">LOCKED WAGER<br><strong>'+fmt(room.wager)+' FLIP</strong></div><div class="stage" style="height:220px"><div class="coin3d" id="cpuCoin"></div></div><div class="status">FLIPPING…</div>';setTimeout(()=>setCoin($('cpuCoin'),w),20);setTimeout(()=>$('mbody').innerHTML+='<div class="status">Landed on '+w+'…</div>',2350);setTimeout(()=>{const won=pick===w;if(won)balance+=room.wager*2;burned+=Math.floor(room.wager*.02*.75);save();$('mbody').innerHTML='<div class="stage" style="height:220px"><div class="coin3d '+(w==='F'?'showF':'showU')+'"></div></div>'+resultBox(won,w+' WINS',room.wager)},3150)}
-function cpuDiceReady(){$('mbody').innerHTML='<div class="wager">LOCKED WAGER<br><strong>'+fmt(room.wager)+' FLIP</strong></div>'+diceStage('?','?')+'<div class="status">You roll first.</div><button class="rollBtn" style="width:100%;margin-top:10px" onclick="cpuRollPlayer()">PRESS TO ROLL</button>'}
-function cpuRollPlayer(){const a=diceVal();room.player1_choice='DICE:'+a;$('mbody').innerHTML='<div class="wager">LOCKED WAGER<br><strong>'+fmt(room.wager)+' FLIP</strong></div>'+diceStage('?', '?',true,false)+'<div class="status">Your die is rolling…</div>';setTimeout(()=>{$('mbody').innerHTML='<div class="wager">LOCKED WAGER<br><strong>'+fmt(room.wager)+' FLIP</strong></div>'+diceStage(a,'?')+'<div class="status">You rolled '+diceLabel(a)+'. Computer rolls second.</div>';setTimeout(()=>cpuRollComputer(a),700)},1600)}
-function cpuRollComputer(a){const b=diceVal();$('mbody').innerHTML='<div class="wager">LOCKED WAGER<br><strong>'+fmt(room.wager)+' FLIP</strong></div>'+diceStage(a,'?',false,true)+'<div class="status">Computer rolling…</div>';setTimeout(()=>{const cmp=diceCompare(a,b);if(cmp===0){$('mbody').innerHTML=diceStage(a,b)+ '<div class="out">TIE — BOTH ROLL AGAIN</div>';setTimeout(()=>cpuDiceReady(),950);return}const won=cmp>0;if(won)balance+=room.wager*2;burned+=Math.floor(room.wager*.02*.75);save();$('mbody').innerHTML=diceStage(a,b)+resultBox(won,'YOU '+diceLabel(a)+' • CPU '+diceLabel(b),room.wager)},1600)}
-function cpuRPS(){$('mbody').innerHTML='<div class="wager">LOCKED WAGER<br><strong>'+fmt(room.wager)+' FLIP</strong></div>'+selectionUI('cpuRPS',[{v:'ROCK',label:'🪨 ROCK'},{v:'PAPER',label:'🖐️ PAPER'},{v:'SCISSORS',label:'✂️ SCISSORS'}],"confirmCPURPS()")}
-function confirmCPURPS(){if(!pendingChoice)return;const v=pendingChoice,vals=['ROCK','PAPER','SCISSORS'],c=vals[Math.floor(Math.random()*3)],beats={ROCK:'SCISSORS',PAPER:'ROCK',SCISSORS:'PAPER'};pendingChoice=null;$('mbody').innerHTML='<div class="wager">LOCKED WAGER<br><strong>'+fmt(room.wager)+' FLIP</strong></div>'+rpsStage(v,c,true)+'<div class="status">REVEALING…</div>';setTimeout(()=>{if(v===c){$('mbody').innerHTML=rpsStage(v,c,false)+'<div class="out">TIE — CHOOSE AGAIN</div>';setTimeout(()=>cpuRPS(),850);return}const won=beats[v]===c;if(won)balance+=room.wager*2;burned+=Math.floor(room.wager*.02*.75);save();$('mbody').innerHTML=rpsStage(v,c,false)+resultBox(won,v+' vs '+c,room.wager)},1200)}
+function startCPU(type,w){balance-=w;save();room={id:'cpu-'+Date.now(),game_type:type,wager:w,player1:playerName,player2:'COMPUTER'};role='player1';pendingChoice=null;if(type==='flip')cpuFlip();else if(type==='dice')cpuDiceStart();else cpuRPS()}
+function cpuFlip(){$('mbody').innerHTML='<div class="wager">LOCKED WAGER<br><strong>'+fmt(room.wager)+' FLIP</strong></div><div class="stage" style="height:215px"><div class="coin3d idle" id="cpuCoin"></div></div>'+selectionUI('cpuFlip',[{v:'F',label:'F'},{v:'U',label:'U'}],'confirmCPUFlip()')}
+function confirmCPUFlip(){if(!pendingChoice)return;const pick=pendingChoice,w=Math.random()<.5?'F':'U';pendingChoice=null;$('mbody').innerHTML='<div class="wager">LOCKED WAGER<br><strong>'+fmt(room.wager)+' FLIP</strong></div><div class="stage" style="height:215px"><div class="coin3d" id="cpuCoin"></div></div><div class="status">FLIPPING…</div>';setTimeout(()=>setCoin($('cpuCoin'),w),20);setTimeout(()=>{const won=pick===w;if(won)balance+=room.wager*2;burned+=Math.floor(room.wager*.02*.75);save();$('mbody').innerHTML='<div class="stage" style="height:215px"><div class="coin3d '+(w==='F'?'landF':'landU')+' glow"></div></div>'+resultBox(won,w+' WINS',room.wager)},2200)}
+function cpuDiceStart(){$('mbody').innerHTML='<div class="wager">LOCKED WAGER<br><strong>'+fmt(room.wager)+' FLIP</strong></div>'+diceStage()+'<div class="status">You roll first.</div><button class="rollBtn ready" onclick="cpuRoll1()">PRESS TO ROLL 2 DICE</button>'}
+function cpuRoll1(){const a=[diceVal(),diceVal()];room.player1_choice='DICE:'+a.join(',');$('mbody').innerHTML=diceStage(['?','?'],['?','?'],true,false)+'<div class="status">ROLLING…</div>';setTimeout(()=>{$('mbody').innerHTML=diceStage(a,['?','?'])+'<div class="status">You rolled '+pairText(a)+'. Computer rolls next.</div>';setTimeout(()=>cpuRoll2(a),650)},1500)}
+function cpuRoll2(a){const b=[diceVal(),diceVal()];$('mbody').innerHTML=diceStage(a,['?','?'],false,true)+'<div class="status">COMPUTER ROLLING…</div>';setTimeout(()=>{const c=comparePairs(a,b);if(c===0){$('mbody').innerHTML=diceStage(a,b)+'<div class="out">TIE — ROLL AGAIN</div>';setTimeout(cpuDiceStart,900);return}const won=c>0;if(won)balance+=room.wager*2;burned+=Math.floor(room.wager*.02*.75);save();$('mbody').innerHTML=diceStage(a,b)+resultBox(won,'YOU '+pairText(a)+' • CPU '+pairText(b),room.wager)},1500)}
+function cpuRPS(){$('mbody').innerHTML='<div class="wager">LOCKED WAGER<br><strong>'+fmt(room.wager)+' FLIP</strong></div>'+selectionUI('cpuRPS',[{v:'ROCK',label:'🪨 ROCK'},{v:'PAPER',label:'🖐️ PAPER'},{v:'SCISSORS',label:'✂️ SCISSORS'}],'confirmCPURPS()')}
+function confirmCPURPS(){if(!pendingChoice)return;const v=pendingChoice,arr=['ROCK','PAPER','SCISSORS'],c=arr[Math.floor(Math.random()*3)],beats={ROCK:'SCISSORS',PAPER:'ROCK',SCISSORS:'PAPER'};pendingChoice=null;$('mbody').innerHTML=rpsStage(v,c)+'<div class="status">REVEALING…</div>';setTimeout(()=>{if(v===c){$('mbody').innerHTML=rpsStage(v,c)+'<div class="out">TIE — PICK AGAIN</div>';setTimeout(cpuRPS,800);return}const won=beats[v]===c;if(won)balance+=room.wager*2;burned+=Math.floor(room.wager*.02*.75);save();$('mbody').innerHTML=rpsStage(v,c)+resultBox(won,v+' vs '+c,room.wager)},1050)}
 
-// Queue
-function queueWait(type,w){$('mbody').innerHTML='<div class="wager">LOCKED WAGER<br><strong>'+fmt(w)+' FLIP</strong></div><div class="queueWait"><div class="radar"></div><div style="font-weight:1000">SEARCHING '+(type==='flip'?'F / U':type.toUpperCase())+'</div><div class="sub">Same game • same wager • one opponent</div></div>'}
-async function findGame(type,w){if(!sb)return alert('Public queue is still connecting.');const {data:waiting}=await sb.from('games').select('*').eq('game_type',type).eq('wager',w).eq('status','waiting').is('player2',null).order('created_at',{ascending:true}).limit(1);if(waiting&&waiting.length){const g=waiting[0];const {data,error}=await sb.from('games').update({player2:playerName,status:'active'}).eq('id',g.id).is('player2',null).eq('status','waiting').select().single();if(error)return findGame(type,w);lockWager(w);localStorage.setItem('lock_'+data.id,String(w));room=data;role='player2';subscribeRoom(data.room_code);renderRoom();setTimeout(refreshRoom,120)}else{const code='Q'+Math.random().toString(36).slice(2,8).toUpperCase();const {data,error}=await sb.from('games').insert({room_code:code,game_type:type,wager:w,status:'waiting',player1:playerName}).select().single();if(error)return alert('Queue failed: '+error.message);lockWager(w);localStorage.setItem('lock_'+data.id,String(w));room=data;role='player1';subscribeRoom(data.room_code);queueWait(type,w)}}
-function subscribeRoom(c){if(ch)sb.removeChannel(ch);ch=sb.channel('queue-'+c).on('postgres_changes',{event:'UPDATE',schema:'public',table:'games',filter:'room_code=eq.'+c},p=>{room=p.new;renderRoom();maybeResolve();settle()}).subscribe()}
-async function refreshRoom(){if(!room)return;const {data}=await sb.from('games').select('*').eq('id',room.id).single();if(data){room=data;renderRoom();maybeResolve();settle()}}
+// ACTIVE QUEUE
+function searchScene(type,w){$('mbody').innerHTML='<div class="wager">WAGER<br><strong>'+fmt(w)+' FLIP</strong></div><div class="queueScene"><div class="radar"></div><div style="margin-top:15px;font-size:18px;font-weight:1000">SEARCHING '+(type==='flip'?'F / U':type.toUpperCase())+'</div><div class="searchDots"><span></span><span></span><span></span></div><div class="sub" style="margin-top:10px">Matching exact wager • only active searches</div></div>'}
+function foundScene(opponent){$('mbody').innerHTML='<div class="matchFound"><div class="check">✓</div><div style="font-size:23px;font-weight:1000">MATCH FOUND</div><div class="sub" style="margin-top:7px">Opponent: '+esc(opponent)+'</div></div>'}
+function enteringScene(){$('mbody').innerHTML='<div class="enterMatch"><div class="enterText">ENTERING MATCH…</div></div>'}
+function cutoffISO(){return new Date(Date.now()-12000).toISOString()}
+async function beginSearch(type,w){
+  if(!sb)return alert('Public queue is still connecting.');
+  searching=true;currentType=type;mode='queue';searchScene(type,w);
+  const {data:waiting,error:qerr}=await sb.from('games').select('*').eq('game_type',type).eq('wager',w).eq('status','searching').is('player2',null).gte('created_at',cutoffISO()).order('created_at',{ascending:true}).limit(1);
+  if(qerr){searching=false;return alert('Queue error: '+qerr.message)}
+  if(waiting&&waiting.length){
+    const g=waiting[0];
+    const {data,error}=await sb.from('games').update({player2:playerName,status:'active'}).eq('id',g.id).eq('status','searching').is('player2',null).select().single();
+    if(error)return beginSearch(type,w);
+    room=data;role='player2';await lockMatchOnce(room);subscribeRoom(room.room_code);await transitionToMatch(room);
+  }else{
+    const code='Q'+Math.random().toString(36).slice(2,8).toUpperCase();
+    const {data,error}=await sb.from('games').insert({room_code:code,game_type:type,wager:w,status:'searching',player1:playerName,created_at:new Date().toISOString()}).select().single();
+    if(error){searching=false;return alert('Queue error: '+error.message)}
+    room=data;role='player1';subscribeRoom(room.room_code);startHeartbeat();startSearchPoll();
+  }
+}
+function startHeartbeat(){stopHeartbeat();searchTimer=setInterval(async()=>{if(searching&&room&&role==='player1'&&room.status==='searching'){try{await sb.from('games').update({created_at:new Date().toISOString()}).eq('id',room.id).eq('status','searching')}catch(e){}}},4000)}
+function stopHeartbeat(){if(searchTimer){clearInterval(searchTimer);searchTimer=null}}
+function startSearchPoll(){if(searchPoll)clearInterval(searchPoll);searchPoll=setInterval(async()=>{if(!searching||!room)return;const {data}=await sb.from('games').select('*').eq('id',room.id).single();if(data&&data.status==='active'&&data.player2){room=data;searching=false;stopHeartbeat();clearInterval(searchPoll);searchPoll=null;await lockMatchOnce(room);await transitionToMatch(room)}},1800)}
+async function cancelSearch(){stopHeartbeat();if(searchPoll){clearInterval(searchPoll);searchPoll=null}if(searching&&room&&role==='player1'&&room.status==='searching'&&sb){try{await sb.from('games').update({status:'cancelled'}).eq('id',room.id).eq('status','searching')}catch(e){}}searching=false}
+async function lockMatchOnce(r){const k='matchlocked_'+r.id;if(localStorage.getItem(k))return;if(balance<Number(r.wager)){alert('Not enough TEST FLIP anymore.');return}balance-=Number(r.wager);localStorage.setItem(k,'1');localStorage.setItem('settlelock_'+r.id,'1');save()}
+async function transitionToMatch(r){searching=false;stopHeartbeat();if(searchPoll){clearInterval(searchPoll);searchPoll=null}foundScene(role==='player1'?r.player2:r.player1);await new Promise(res=>setTimeout(res,1050));enteringScene();await new Promise(res=>setTimeout(res,850));renderRoom()}
+function subscribeRoom(c){if(ch)sb.removeChannel(ch);ch=sb.channel('queue-'+c).on('postgres_changes',{event:'UPDATE',schema:'public',table:'games',filter:'room_code=eq.'+c},async p=>{room=p.new;if(room.status==='active'&&searching){await lockMatchOnce(room);await transitionToMatch(room);return}renderRoom();maybeResolve();settle()}).subscribe()}
+
+// MATCH UI
 function myChoice(r){return role==='player1'?r.player1_choice:r.player2_choice}
-function renderRoom(){if(!room)return;const r=room;$('mtitle').textContent=(r.game_type==='flip'?'F / U':r.game_type.toUpperCase())+' MATCH';$('msub').textContent='PUBLIC QUEUE';let h='<div class="wager">LOCKED WAGER<br><strong>'+fmt(r.wager)+' FLIP EACH</strong></div><div class="players"><div class="player">'+esc(r.player1)+'</div><div class="player">'+(r.player2?esc(r.player2):'SEARCHING…')+'</div></div>';if(!r.player2){h+='<div class="queueWait"><div class="radar"></div><div style="margin-top:12px;font-weight:1000">FINDING OPPONENT…</div></div>'}else if(r.result){h+=multResult(r)}else if(r.game_type==='flip'){h+=flipMP(r)}else if(r.game_type==='dice'){h+=diceMP(r)}else{h+=rpsMP(r)}$('mbody').innerHTML=h}
-function flipMP(r){if(myChoice(r))return '<div class="stage" style="height:220px"><div class="coin3d idle"></div></div><div class="status">Selection confirmed. Waiting for resolve…</div>';return '<div class="stage" style="height:220px"><div class="coin3d idle"></div></div>'+selectionUI('mpFlip',[{v:'F',label:'F'},{v:'U',label:'U'}],"confirmMPFlip()")}
-async function confirmMPFlip(){if(!pendingChoice)return;const v=pendingChoice;pendingChoice=null;if(role==='player1')await sb.from('games').update({player1_choice:v}).eq('id',room.id);else await sb.from('games').update({player2_choice:v}).eq('id',room.id);setTimeout(refreshRoom,120)}
-function rpsMP(r){if(myChoice(r))return '<div class="rpsStage"><div class="vs">MOVE CONFIRMED</div></div><div class="status">Waiting for opponent…</div>';return '<div class="rpsStage"><div class="vs">SELECT YOUR MOVE</div></div>'+selectionUI('mpRPS',[{v:'ROCK',label:'🪨 ROCK'},{v:'PAPER',label:'🖐️ PAPER'},{v:'SCISSORS',label:'✂️ SCISSORS'}],"confirmMPRPS()")}
-async function confirmMPRPS(){if(!pendingChoice)return;const v=pendingChoice;pendingChoice=null;const col=role==='player1'?'player1_choice':'player2_choice';await sb.from('games').update({[col]:v}).eq('id',room.id);setTimeout(refreshRoom,120)}
-function parseDice(v){if(!v||!String(v).startsWith('DICE:'))return null;return Number(String(v).split(':')[1])}
-function diceMP(r){const a=parseDice(r.player1_choice),b=parseDice(r.player2_choice);const myRoll=role==='player1'?a:b;const otherRoll=role==='player1'?b:a;if(role==='player1'){if(!a)return diceStage('?','?')+'<div class="status">You are Player 1. Roll first.</div><button class="rollBtn" style="width:100%;margin-top:10px" onclick="rollMPDice()">PRESS TO ROLL</button>';if(!b)return diceStage(a,'?')+'<div class="status">You rolled '+diceLabel(a)+'. Waiting for Player 2 to roll.</div>';return diceStage(a,b)}else{if(!a)return diceStage('?','?')+'<div class="status">Player 1 rolls first. Waiting…</div>';if(!b)return diceStage(a,'?')+'<div class="status">Player 1 rolled '+diceLabel(a)+'. Your turn.</div><button class="rollBtn" style="width:100%;margin-top:10px" onclick="rollMPDice()">PRESS TO ROLL</button>';return diceStage(a,b)}}
-async function rollMPDice(){const v=diceVal(),col=role==='player1'?'player1_choice':'player2_choice';$('mbody').innerHTML='<div class="wager">LOCKED WAGER<br><strong>'+fmt(room.wager)+' FLIP EACH</strong></div>'+diceStage('?', '?',role==='player1',role==='player2')+'<div class="status">Rolling…</div>';setTimeout(async()=>{await sb.from('games').update({[col]:'DICE:'+v}).eq('id',room.id);setTimeout(refreshRoom,100)},1600)}
-function multResult(r){const won=r.winner===playerName;let vis='';if(r.game_type==='flip'){const fw=String(r.result||'').startsWith('F');vis='<div class="stage" style="height:220px"><div class="coin3d '+(fw?'showF':'showU')+'"></div></div>'}if(r.game_type==='dice'){const a=parseDice(r.player1_choice),b=parseDice(r.player2_choice);vis=diceStage(a,b)}if(r.game_type==='rps')vis=rpsStage(r.player1_choice,r.player2_choice,false);return vis+resultBox(won,esc(r.result),r.wager)}
-async function maybeResolve(){const r=room;if(!r||r.result||!r.player2||role!=='player1')return;if(r.game_type==='flip'&&r.player1_choice&&r.player2_choice){const w=Math.random()<.5?'F':'U';setTimeout(()=>finish(w+' WINS',r.player1_choice===w?r.player1:r.player2),2400)}else if(r.game_type==='dice'){const a=parseDice(r.player1_choice),b=parseDice(r.player2_choice);if(a&&b){const cmp=diceCompare(a,b);if(cmp===0){setTimeout(()=>sb.from('games').update({player1_choice:null,player2_choice:null}).eq('id',r.id),800);return}setTimeout(()=>finish(diceLabel(a)+' vs '+diceLabel(b),cmp>0?r.player1:r.player2),500)}}else if(r.game_type==='rps'&&r.player1_choice&&r.player2_choice){if(r.player1_choice===r.player2_choice){setTimeout(()=>sb.from('games').update({player1_choice:null,player2_choice:null}).eq('id',r.id),900);return}const beats={ROCK:'SCISSORS',PAPER:'ROCK',SCISSORS:'PAPER'};setTimeout(()=>finish(r.player1_choice+' vs '+r.player2_choice,beats[r.player1_choice]===r.player2_choice?r.player1:r.player2),1200)}}
+function renderRoom(){if(!room)return;const r=room;$('mtitle').textContent=(r.game_type==='flip'?'F / U':r.game_type.toUpperCase())+' MATCH';$('msub').textContent=role==='player1'?'YOU ARE PLAYER 1':'YOU ARE PLAYER 2';let h='<div class="wager">LOCKED WAGER<br><strong>'+fmt(r.wager)+' FLIP EACH</strong></div><div class="players"><div class="player">'+esc(r.player1)+'</div><div class="player">'+esc(r.player2||'SEARCHING…')+'</div></div>';if(r.result)h+=resultView(r);else if(r.game_type==='flip')h+=flipMatch(r);else if(r.game_type==='dice')h+=diceMatch(r);else h+=rpsMatch(r);$('mbody').innerHTML=h}
+function flipMatch(r){
+  if(role==='player1'){
+    if(r.player1_choice)return '<div class="stage" style="height:210px"><div class="coin3d idle"></div></div><div class="status">F confirmed. Opponent confirms the other side.</div>';
+    return '<div class="stage" style="height:210px"><div class="coin3d idle"></div></div>'+selectionUI('mpFlip',[{v:'F',label:'F'},{v:'U',label:'U'}],'confirmFlipP1()');
+  }
+  if(!r.player1_choice)return '<div class="stage" style="height:210px"><div class="coin3d idle"></div></div><div class="status">Player 1 is choosing a face…</div>';
+  const assigned=r.player1_choice==='F'?'U':'F';
+  if(r.player2_choice)return '<div class="stage" style="height:210px"><div class="coin3d idle"></div></div><div class="status">'+assigned+' confirmed. Waiting for flip…</div>';
+  return '<div class="selectionBanner">YOUR SIDE: '+assigned+'</div><div class="choices"><button class="choice selected">'+assigned+'</button></div><button class="confirmBtn ready" onclick="confirmFlipP2()">CONFIRM '+assigned+'</button>';
+}
+async function confirmFlipP1(){if(!pendingChoice)return;const v=pendingChoice;pendingChoice=null;await sb.from('games').update({player1_choice:v}).eq('id',room.id);setTimeout(refreshRoom,100)}
+async function confirmFlipP2(){const assigned=room.player1_choice==='F'?'U':'F';await sb.from('games').update({player2_choice:assigned}).eq('id',room.id);setTimeout(refreshRoom,100)}
+function rpsMatch(r){if(myChoice(r))return '<div class="rpsStage"><div class="vs">MOVE CONFIRMED</div></div><div class="status">Waiting for opponent…</div>';return '<div class="rpsStage"><div class="vs">SELECT YOUR MOVE</div></div>'+selectionUI('mpRPS',[{v:'ROCK',label:'🪨 ROCK'},{v:'PAPER',label:'🖐️ PAPER'},{v:'SCISSORS',label:'✂️ SCISSORS'}],'confirmRPS()')}
+async function confirmRPS(){if(!pendingChoice)return;const v=pendingChoice;pendingChoice=null;const col=role==='player1'?'player1_choice':'player2_choice';await sb.from('games').update({[col]:v}).eq('id',room.id);setTimeout(refreshRoom,100)}
+function diceMatch(r){const a=parseDice(r.player1_choice),b=parseDice(r.player2_choice);if(role==='player1'){if(!a)return diceStage()+ '<div class="status">Your turn — roll both dice.</div><button class="rollBtn ready" onclick="rollDiceMatch()">PRESS TO ROLL 2 DICE</button>';if(!b)return diceStage(a,['?','?'])+'<div class="status">You rolled '+pairText(a)+'. Waiting for Player 2.</div>';return diceStage(a,b)}else{if(!a)return diceStage()+ '<div class="status">Player 1 rolls first.</div>';if(!b)return diceStage(a,['?','?'])+'<div class="status">Your turn — Player 1 rolled '+pairText(a)+'.</div><button class="rollBtn ready" onclick="rollDiceMatch()">PRESS TO ROLL 2 DICE</button>';return diceStage(a,b)}}
+async function rollDiceMatch(){const vals=[diceVal(),diceVal()],col=role==='player1'?'player1_choice':'player2_choice';$('mbody').innerHTML=diceStage(['?','?'],['?','?'],role==='player1',role==='player2')+'<div class="status">ROLLING…</div>';setTimeout(async()=>{await sb.from('games').update({[col]:'DICE:'+vals.join(',')}).eq('id',room.id);setTimeout(refreshRoom,100)},1500)}
+async function refreshRoom(){if(!room)return;const {data}=await sb.from('games').select('*').eq('id',room.id).single();if(data){room=data;renderRoom();maybeResolve();settle()}}
+
+function resultView(r){const won=r.winner===playerName;let vis='';if(r.game_type==='flip'){const f=String(r.result).startsWith('F');vis='<div class="stage" style="height:210px"><div class="coin3d '+(f?'landF':'landU')+' glow"></div></div>'}if(r.game_type==='dice'){vis=diceStage(parseDice(r.player1_choice),parseDice(r.player2_choice))}if(r.game_type==='rps')vis=rpsStage(r.player1_choice,r.player2_choice);return vis+resultBox(won,esc(r.result),r.wager)}
+async function maybeResolve(){const r=room;if(!r||r.result||!r.player2||role!=='player1')return;if(r.game_type==='flip'&&r.player1_choice&&r.player2_choice){const w=Math.random()<.5?'F':'U';setTimeout(()=>finish(w+' WINS',r.player1_choice===w?r.player1:r.player2),1300)}else if(r.game_type==='dice'){const a=parseDice(r.player1_choice),b=parseDice(r.player2_choice);if(a&&b){const c=comparePairs(a,b);if(c===0){setTimeout(()=>sb.from('games').update({player1_choice:null,player2_choice:null}).eq('id',r.id),750);return}setTimeout(()=>finish(pairText(a)+' vs '+pairText(b),c>0?r.player1:r.player2),500)}}else if(r.game_type==='rps'&&r.player1_choice&&r.player2_choice){if(r.player1_choice===r.player2_choice){setTimeout(()=>sb.from('games').update({player1_choice:null,player2_choice:null}).eq('id',r.id),850);return}const beats={ROCK:'SCISSORS',PAPER:'ROCK',SCISSORS:'PAPER'};setTimeout(()=>finish(r.player1_choice+' vs '+r.player2_choice,beats[r.player1_choice]===r.player2_choice?r.player1:r.player2),1050)}}
 async function finish(result,winner){const {data}=await sb.from('games').update({result,winner,status:'finished'}).eq('id',room.id).is('result',null).select().single();if(data){room=data;renderRoom();settle()}}
-function settle(){const r=room;if(!r||!r.result)return;const k='settled_'+r.id;if(localStorage.getItem(k)||!localStorage.getItem('lock_'+r.id))return;if(r.winner===playerName)balance+=Number(r.wager)*2;burned+=Math.floor(Number(r.wager)*.02*.75);localStorage.setItem(k,'1');localStorage.removeItem('lock_'+r.id);save()}
+function settle(){if(!room||!room.result)return;const k='settled_'+room.id;if(localStorage.getItem(k)||!localStorage.getItem('settlelock_'+room.id))return;if(room.winner===playerName)balance+=Number(room.wager)*2;burned+=Math.floor(Number(room.wager)*.02*.75);localStorage.setItem(k,'1');localStorage.removeItem('settlelock_'+room.id);save()}
+
 document.addEventListener('visibilitychange',()=>{if(!document.hidden&&room&&sb)refreshRoom()});
 (function(){const s=document.createElement('script');s.src='https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2';s.async=true;s.onload=()=>{try{sb=window.supabase.createClient(SUPA_URL,SUPA_KEY)}catch(e){}};document.head.appendChild(s)})();
 </script>
