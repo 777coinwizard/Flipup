@@ -72,40 +72,159 @@ button,input{font:inherit}button{-webkit-tap-highlight-color:transparent}.wrap{m
 }
 
 
-/* ===== V13B CLEAN NEON GAME ART ===== */
-.diceStage{
-  min-height:330px;display:grid;grid-template-columns:1fr 1fr;gap:16px;padding:18px;margin-top:10px;
-  border:1px solid rgba(67,220,255,.26);border-radius:19px;
-  background:radial-gradient(circle at 20% 18%,rgba(255,76,214,.10),transparent 28%),radial-gradient(circle at 82% 72%,rgba(67,220,255,.10),transparent 30%),linear-gradient(180deg,#0a102d,#06091d);
-  perspective:1100px;overflow:hidden;position:relative
-}
-.diceBlock{border:1px solid rgba(255,255,255,.07);border-radius:15px;background:rgba(5,9,28,.56);padding:14px;text-align:center}
-.dicePair{display:flex;justify-content:center;align-items:center;gap:18px;min-height:150px;perspective:1000px}
-.cube{width:76px;height:76px;position:relative;transform-style:preserve-3d;transform:rotateX(-18deg) rotateY(28deg);filter:drop-shadow(0 15px 20px rgba(0,0,0,.42))}
-.cube.rollingA{animation:cubeRollA 1.65s cubic-bezier(.14,.72,.18,1)}.cube.rollingB{animation:cubeRollB 1.65s cubic-bezier(.14,.72,.18,1)}
-.cubeFace{position:absolute;width:76px;height:76px;border-radius:16px;display:grid;place-items:center;background:radial-gradient(circle at 28% 22%,rgba(255,255,255,.14),transparent 24%),linear-gradient(145deg,#202a66,#0b1032 62%,#080b22);border:1px solid rgba(255,255,255,.26);box-shadow:inset 0 0 18px rgba(111,135,255,.24),0 0 15px rgba(68,220,255,.10)}
-.cf-front{transform:translateZ(38px)}.cf-back{transform:rotateY(180deg) translateZ(38px)}.cf-right{transform:rotateY(90deg) translateZ(38px)}.cf-left{transform:rotateY(-90deg) translateZ(38px)}.cf-top{transform:rotateX(90deg) translateZ(38px)}.cf-bottom{transform:rotateX(-90deg) translateZ(38px)}
-.pips{width:50px;height:50px;display:grid;grid-template:repeat(3,1fr)/repeat(3,1fr)}
-.pip{width:10px;height:10px;border-radius:50%;align-self:center;justify-self:center;background:#e5fbff;box-shadow:0 0 7px #43dcff,0 0 13px rgba(255,75,216,.50)}
-.p11{grid-area:2/2}.p21{grid-area:1/1}.p22{grid-area:3/3}.p31{grid-area:1/1}.p32{grid-area:2/2}.p33{grid-area:3/3}.p41{grid-area:1/1}.p42{grid-area:1/3}.p43{grid-area:3/1}.p44{grid-area:3/3}.p51{grid-area:1/1}.p52{grid-area:1/3}.p53{grid-area:2/2}.p54{grid-area:3/1}.p55{grid-area:3/3}
-.dieLogo{width:42px;height:42px;border-radius:50%;position:relative;background:radial-gradient(circle at 30% 24%,#fff 0 4%,transparent 5%),radial-gradient(circle at center,#11162f 0 41%,#080d22 42% 49%,transparent 50%),conic-gradient(from 215deg,#ff55d8,#a761ff 38%,#45dcff 72%,#7bf5ba 91%,#ff55d8);border:1px solid rgba(255,255,255,.36);box-shadow:0 0 12px rgba(255,75,216,.55),0 0 22px rgba(67,220,255,.45)}
-.dieLogo:before{content:"";position:absolute;width:17px;height:17px;border:2px solid #fff;border-left-color:transparent;border-radius:50%;left:11px;top:10px;transform:rotate(35deg);box-shadow:0 0 8px rgba(255,255,255,.5)}.dieLogo:after{content:"↗";position:absolute;right:5px;bottom:4px;font-size:10px;font-weight:1000;color:#fff;text-shadow:0 0 8px #43dcff}
-@keyframes cubeRollA{0%{transform:translateY(0) rotateX(-18deg) rotateY(28deg)}22%{transform:translateY(-62px) rotateX(300deg) rotateY(430deg) rotateZ(120deg) scale(1.08)}58%{transform:translateY(-18px) rotateX(700deg) rotateY(860deg) rotateZ(310deg) scale(1.03)}78%{transform:translateY(8px) rotateX(920deg) rotateY(1120deg) rotateZ(430deg) scale(.98)}100%{transform:translateY(0) rotateX(1062deg) rotateY(1468deg) rotateZ(540deg)}}
-@keyframes cubeRollB{0%{transform:translateY(0) rotateX(-18deg) rotateY(28deg)}22%{transform:translateY(-52px) rotateX(-330deg) rotateY(390deg) rotateZ(-130deg) scale(1.09)}58%{transform:translateY(-14px) rotateX(-740deg) rotateY(820deg) rotateZ(-330deg) scale(1.03)}78%{transform:translateY(9px) rotateX(-960deg) rotateY(1080deg) rotateZ(-440deg) scale(.98)}100%{transform:translateY(0) rotateX(-1098deg) rotateY(1468deg) rotateZ(-540deg)}}
-.diceScore{font-size:11px;font-weight:1000;color:#dce7ff;margin-top:9px}
+/* ===== V14 CLEAN ANIMATION SYSTEM ===== */
 
-.rpsStage{height:260px;border:1px solid rgba(89,102,191,.45);border-radius:18px;background:radial-gradient(circle,#17205a,#070a20 72%);position:relative;overflow:hidden;margin-top:10px}
-.rpsVector{position:absolute;top:63px;width:108px;height:108px;filter:drop-shadow(0 0 14px rgba(120,90,255,.55))}
-.rpsVector.left{left:24px}.rpsVector.right{right:24px;transform:scaleX(-1)}.rpsVector svg{width:100%;height:100%;overflow:visible}
-.neonStroke{fill:none;stroke:#58e6ff;stroke-width:6;stroke-linecap:round;stroke-linejoin:round;filter:drop-shadow(0 0 5px #43dcff) drop-shadow(0 0 9px #ff4bd8)}
-.neonFill{fill:rgba(145,96,255,.13);stroke:#ff65df;stroke-width:5;stroke-linejoin:round;filter:drop-shadow(0 0 5px #ff4bd8)}
-.rpsVector.rock{animation:vectorRock 1.05s cubic-bezier(.2,.75,.2,1)}.rpsVector.paper{animation:vectorPaper 1.05s cubic-bezier(.2,.75,.2,1)}.rpsVector.scissors{animation:vectorScissors 1.05s cubic-bezier(.2,.75,.2,1)}
-@keyframes vectorRock{0%{transform:translateY(-65px) rotate(-15deg) scale(.72)}62%{transform:translateY(14px) rotate(8deg) scale(1.19)}100%{transform:translateY(0)}}@keyframes vectorPaper{0%{transform:translateX(-78px) rotate(-28deg) scale(.8)}60%{transform:translateX(30px) rotate(14deg) scale(1.15)}100%{transform:translateX(0)}}@keyframes vectorScissors{0%{transform:translateY(-62px) rotate(-34deg) scale(.78)}42%{transform:translateY(18px) rotate(28deg) scale(1.2)}68%{transform:translateY(-8px) rotate(-10deg)}100%{transform:translateY(0)}}
-.rpsVector.right.rock{animation-name:vectorRockR}.rpsVector.right.paper{animation-name:vectorPaperR}.rpsVector.right.scissors{animation-name:vectorScissorsR}
-@keyframes vectorRockR{0%{transform:scaleX(-1) translateY(-65px) rotate(-15deg) scale(.72)}62%{transform:scaleX(-1) translateY(14px) rotate(8deg) scale(1.19)}100%{transform:scaleX(-1) translateY(0) scale(1)}}@keyframes vectorPaperR{0%{transform:scaleX(-1) translateX(-78px) rotate(-28deg) scale(.8)}60%{transform:scaleX(-1) translateX(30px) rotate(14deg) scale(1.15)}100%{transform:scaleX(-1) translateX(0) rotate(0) scale(1)}}@keyframes vectorScissorsR{0%{transform:scaleX(-1) translateY(-62px) rotate(-34deg) scale(.78)}42%{transform:scaleX(-1) translateY(18px) rotate(28deg) scale(1.2)}68%{transform:scaleX(-1) translateY(-8px) rotate(-10deg)}100%{transform:scaleX(-1) translateY(0) rotate(0)}}
-.rpsVs{position:absolute;inset:0;display:grid;place-items:center;font-size:20px;font-weight:1000;color:#ff65df;text-shadow:0 0 14px #ff4bd8}
-.rpsCut{position:absolute;left:50%;top:49%;width:150px;height:3px;margin-left:-75px;background:linear-gradient(90deg,transparent,#fff,transparent);opacity:0;transform:rotate(-30deg);filter:drop-shadow(0 0 7px #fff)}.rpsCut.show{animation:cutFlash .55s ease}@keyframes cutFlash{0%{opacity:0;transform:rotate(-30deg) scaleX(.2)}45%{opacity:1;transform:rotate(-30deg) scaleX(1.3)}100%{opacity:0;transform:rotate(-30deg) scaleX(1.7)}}
-@media(max-width:700px){.diceStage{grid-template-columns:1fr}.cube{width:70px;height:70px}.cubeFace{width:70px;height:70px}.cf-front{transform:translateZ(35px)}.cf-back{transform:rotateY(180deg) translateZ(35px)}.cf-right{transform:rotateY(90deg) translateZ(35px)}.cf-left{transform:rotateY(-90deg) translateZ(35px)}.cf-top{transform:rotateX(90deg) translateZ(35px)}.cf-bottom{transform:rotateX(-90deg) translateZ(35px)}}
+/* --- Cleaner game icons --- */
+.diceGameIcon,.rpsGameIcon{
+  width:40px;height:40px;border-radius:12px;display:grid;place-items:center;
+  border:1px solid rgba(255,255,255,.16);
+  background:linear-gradient(145deg,#171e52,#090d29);
+  box-shadow:0 0 18px rgba(67,220,255,.18),inset 0 0 18px rgba(145,96,255,.10);
+  position:relative;overflow:hidden;
+}
+.diceGameIcon:before{
+  content:"";width:18px;height:18px;border-radius:5px;border:2px solid #62e7ff;
+  box-shadow:0 0 8px #43dcff;transform:rotate(18deg);
+}
+.diceGameIcon:after{
+  content:"";position:absolute;width:4px;height:4px;border-radius:50%;background:#ff69df;
+  box-shadow:-7px -7px 0 #62e7ff,7px 7px 0 #62e7ff,0 0 8px #ff4bd8;
+}
+.rpsGameIcon:before,.rpsGameIcon:after{
+  content:"";position:absolute;width:21px;height:3px;border-radius:5px;background:#64eaff;
+  box-shadow:0 0 8px #43dcff;
+}
+.rpsGameIcon:before{transform:rotate(42deg)}
+.rpsGameIcon:after{transform:rotate(-42deg);background:#ff69df;box-shadow:0 0 8px #ff4bd8}
+
+/* --- Coin: simple, deterministic, visible final face --- */
+.coin3d.v14FlipF{animation:v14FlipF 1.65s cubic-bezier(.18,.68,.18,1) forwards}
+.coin3d.v14FlipU{animation:v14FlipU 1.65s cubic-bezier(.18,.68,.18,1) forwards}
+.coin3d.v14F{animation:none!important;transform:rotateY(1440deg)!important}
+.coin3d.v14U{animation:none!important;transform:rotateY(1620deg)!important}
+.coin3d.v14Winner{
+  filter:drop-shadow(0 0 14px rgba(255,255,255,.8))
+         drop-shadow(0 0 36px rgba(255,75,216,.85))
+         drop-shadow(0 0 58px rgba(67,220,255,.75));
+}
+@keyframes v14FlipF{
+  0%{transform:translateY(0) rotateY(0)}
+  28%{transform:translateY(-62px) rotateY(600deg) scale(1.10)}
+  68%{transform:translateY(-17px) rotateY(1180deg) scale(1.03)}
+  88%{transform:translateY(6px) rotateY(1370deg) scale(.99)}
+  100%{transform:translateY(0) rotateY(1440deg) scale(1)}
+}
+@keyframes v14FlipU{
+  0%{transform:translateY(0) rotateY(0)}
+  28%{transform:translateY(-62px) rotateY(600deg) scale(1.10)}
+  68%{transform:translateY(-17px) rotateY(1300deg) scale(1.03)}
+  88%{transform:translateY(6px) rotateY(1560deg) scale(.99)}
+  100%{transform:translateY(0) rotateY(1620deg) scale(1)}
+}
+
+/* --- Dice: real cuboids with readable adjacent faces --- */
+.diceStage{
+  min-height:340px;display:grid;grid-template-columns:1fr 1fr;gap:16px;
+  padding:18px;margin-top:10px;border:1px solid rgba(67,220,255,.24);border-radius:19px;
+  background:
+    radial-gradient(circle at 24% 16%,rgba(255,75,216,.11),transparent 30%),
+    radial-gradient(circle at 80% 78%,rgba(67,220,255,.09),transparent 32%),
+    linear-gradient(180deg,#0b1130,#06091c);
+  perspective:1200px;overflow:hidden;
+}
+.diceBlock{
+  border:1px solid rgba(255,255,255,.06);border-radius:16px;
+  background:rgba(5,9,27,.62);padding:16px 12px;text-align:center;
+}
+.dicePair{display:flex;justify-content:center;align-items:center;gap:22px;min-height:170px;perspective:1000px}
+.dieCube{
+  --s:82px;
+  width:var(--s);height:var(--s);position:relative;transform-style:preserve-3d;
+  transform:rotateX(-22deg) rotateY(32deg);
+  filter:drop-shadow(0 15px 20px rgba(0,0,0,.42));
+}
+.dieCube.rollA{animation:dieRollA 1.65s cubic-bezier(.16,.72,.18,1)}
+.dieCube.rollB{animation:dieRollB 1.65s cubic-bezier(.16,.72,.18,1)}
+.dieFace3{
+  position:absolute;inset:0;border-radius:14px;
+  display:grid;place-items:center;
+  background:
+    radial-gradient(circle at 27% 22%,rgba(255,255,255,.18),transparent 26%),
+    linear-gradient(145deg,#222d69,#0b1031 62%,#080b22);
+  border:1px solid rgba(255,255,255,.30);
+  box-shadow:inset 0 0 20px rgba(112,137,255,.24),0 0 14px rgba(67,220,255,.10);
+}
+.dfFront{transform:translateZ(calc(var(--s)/2))}
+.dfBack{transform:rotateY(180deg) translateZ(calc(var(--s)/2))}
+.dfRight{transform:rotateY(90deg) translateZ(calc(var(--s)/2))}
+.dfLeft{transform:rotateY(-90deg) translateZ(calc(var(--s)/2))}
+.dfTop{transform:rotateX(90deg) translateZ(calc(var(--s)/2))}
+.dfBottom{transform:rotateX(-90deg) translateZ(calc(var(--s)/2))}
+.pipGridV14{width:56px;height:56px;display:grid;grid-template:repeat(3,1fr)/repeat(3,1fr)}
+.pipV14{width:10px;height:10px;border-radius:50%;align-self:center;justify-self:center;background:#e8fcff;box-shadow:0 0 7px #4ce1ff,0 0 14px rgba(255,75,216,.45)}
+.g11{grid-area:2/2}.g21{grid-area:1/1}.g22{grid-area:3/3}.g31{grid-area:1/1}.g32{grid-area:2/2}.g33{grid-area:3/3}
+.g41{grid-area:1/1}.g42{grid-area:1/3}.g43{grid-area:3/1}.g44{grid-area:3/3}
+.g51{grid-area:1/1}.g52{grid-area:1/3}.g53{grid-area:2/2}.g54{grid-area:3/1}.g55{grid-area:3/3}
+.fuDieMark{
+  width:46px;height:46px;border-radius:50%;position:relative;
+  background:
+    radial-gradient(circle at 31% 25%,#fff 0 4%,transparent 5%),
+    radial-gradient(circle at center,#12162f 0 41%,#080d22 42% 49%,transparent 50%),
+    conic-gradient(from 215deg,#ff58d9,#a35fff 38%,#49e0ff 72%,#79f4b8 92%,#ff58d9);
+  border:1px solid rgba(255,255,255,.36);
+  box-shadow:0 0 13px rgba(255,75,216,.6),0 0 23px rgba(67,220,255,.48);
+}
+.fuDieMark:before{
+  content:"";position:absolute;left:12px;top:10px;width:18px;height:18px;border-radius:50%;
+  border:2px solid #fff;border-left-color:transparent;transform:rotate(32deg);box-shadow:0 0 8px #fff8;
+}
+.fuDieMark:after{content:"↗";position:absolute;right:6px;bottom:5px;font-size:11px;font-weight:1000;color:#fff;text-shadow:0 0 8px #43dcff}
+@keyframes dieRollA{
+  0%{transform:rotateX(-22deg) rotateY(32deg) translateY(0)}
+  25%{transform:rotateX(330deg) rotateY(430deg) rotateZ(130deg) translateY(-62px) scale(1.09)}
+  65%{transform:rotateX(760deg) rotateY(920deg) rotateZ(330deg) translateY(-15px) scale(1.02)}
+  84%{transform:rotateX(980deg) rotateY(1220deg) rotateZ(450deg) translateY(7px) scale(.98)}
+  100%{transform:rotateX(1058deg) rotateY(1472deg) rotateZ(540deg) translateY(0)}
+}
+@keyframes dieRollB{
+  0%{transform:rotateX(-22deg) rotateY(32deg) translateY(0)}
+  25%{transform:rotateX(-350deg) rotateY(410deg) rotateZ(-140deg) translateY(-54px) scale(1.09)}
+  65%{transform:rotateX(-800deg) rotateY(900deg) rotateZ(-340deg) translateY(-13px) scale(1.02)}
+  84%{transform:rotateX(-1000deg) rotateY(1200deg) rotateZ(-460deg) translateY(8px) scale(.98)}
+  100%{transform:rotateX(-1098deg) rotateY(1472deg) rotateZ(-540deg) translateY(0)}
+}
+.diceScore{margin-top:10px;font-size:12px;font-weight:1000;color:#dde8ff}
+
+/* --- RPS: geometric neon vector art, zero emoji --- */
+.rpsStage{
+  height:270px;border:1px solid rgba(89,102,191,.43);border-radius:18px;
+  background:radial-gradient(circle,#17205b,#070a20 72%);
+  position:relative;overflow:hidden;margin-top:10px;
+}
+.rpsNeon{position:absolute;top:66px;width:112px;height:112px}
+.rpsNeon.left{left:28px}.rpsNeon.right{right:28px;transform:scaleX(-1)}
+.rpsNeon svg{width:100%;height:100%;overflow:visible}
+.rpsStroke{fill:none;stroke:#5de7ff;stroke-width:6;stroke-linecap:round;stroke-linejoin:round;filter:drop-shadow(0 0 5px #43dcff) drop-shadow(0 0 9px #ff4bd8)}
+.rpsFill{fill:rgba(145,96,255,.11);stroke:#ff66df;stroke-width:5;stroke-linejoin:round;filter:drop-shadow(0 0 5px #ff4bd8)}
+.rpsNeon.rock{animation:rpsRock 1.05s cubic-bezier(.2,.75,.2,1)}
+.rpsNeon.paper{animation:rpsPaper 1.05s cubic-bezier(.2,.75,.2,1)}
+.rpsNeon.scissors{animation:rpsScissors 1.05s cubic-bezier(.2,.75,.2,1)}
+.rpsNeon.right.rock{animation-name:rpsRockR}.rpsNeon.right.paper{animation-name:rpsPaperR}.rpsNeon.right.scissors{animation-name:rpsScissorsR}
+@keyframes rpsRock{0%{transform:translateY(-68px) rotate(-14deg) scale(.72)}62%{transform:translateY(14px) rotate(8deg) scale(1.2)}100%{transform:none}}
+@keyframes rpsPaper{0%{transform:translateX(-82px) rotate(-30deg) scale(.8)}60%{transform:translateX(32px) rotate(15deg) scale(1.16)}100%{transform:none}}
+@keyframes rpsScissors{0%{transform:translateY(-64px) rotate(-36deg) scale(.78)}42%{transform:translateY(20px) rotate(30deg) scale(1.22)}68%{transform:translateY(-8px) rotate(-12deg)}100%{transform:none}}
+@keyframes rpsRockR{0%{transform:scaleX(-1) translateY(-68px) rotate(-14deg) scale(.72)}62%{transform:scaleX(-1) translateY(14px) rotate(8deg) scale(1.2)}100%{transform:scaleX(-1)}}
+@keyframes rpsPaperR{0%{transform:scaleX(-1) translateX(-82px) rotate(-30deg) scale(.8)}60%{transform:scaleX(-1) translateX(32px) rotate(15deg) scale(1.16)}100%{transform:scaleX(-1)}}
+@keyframes rpsScissorsR{0%{transform:scaleX(-1) translateY(-64px) rotate(-36deg) scale(.78)}42%{transform:scaleX(-1) translateY(20px) rotate(30deg) scale(1.22)}68%{transform:scaleX(-1) translateY(-8px) rotate(-12deg)}100%{transform:scaleX(-1)}}
+.rpsVS{position:absolute;inset:0;display:grid;place-items:center;font-size:21px;font-weight:1000;color:#ff66df;text-shadow:0 0 15px #ff4bd8}
+.rpsSlash{position:absolute;left:50%;top:49%;width:160px;height:3px;margin-left:-80px;background:linear-gradient(90deg,transparent,#fff,transparent);opacity:0;transform:rotate(-30deg);filter:drop-shadow(0 0 8px white)}
+.rpsSlash.show{animation:rpsCut .55s ease}@keyframes rpsCut{0%{opacity:0;transform:rotate(-30deg) scaleX(.2)}45%{opacity:1;transform:rotate(-30deg) scaleX(1.35)}100%{opacity:0;transform:rotate(-30deg) scaleX(1.75)}}
+
+@media(max-width:700px){
+  .diceStage{grid-template-columns:1fr}
+  .dieCube{--s:74px}
+  .rpsNeon{width:96px;height:96px}
+}
 
 </style>
 </head>
@@ -126,8 +245,8 @@ button,input{font:inherit}button{-webkit-tap-highlight-color:transparent}.wrap{m
 <div class="sectionHead"><div><h2 style="margin:0">GAME SELECTION</h2><div class="sub">FIND GAME searches only active players with the same game and exact wager.</div></div><div class="queueTag">PUBLIC QUEUE</div></div>
 <div class="games">
 <div class="game"><div class="fuIcon">FU</div><h3>F / U</h3><p>Choose F or U. Confirm the selection. The coin lands and glows on the winning face.</p><div class="gameActions"><button class="gameBtn find" onclick="openMatch('flip','queue')">FIND GAME</button><button class="gameBtn cpu" onclick="openMatch('flip','cpu')">VS COMPUTER</button></div></div>
-<div class="game"><div class="fuIcon" style="border-radius:13px;font-size:19px">◆</div><h3>DICE</h3><p>Two dice each. Player 1 rolls first, then Player 2. FU replaces 6; more FU faces wins, then highest total.</p><div class="gameActions"><button class="gameBtn find" onclick="openMatch('dice','queue')">FIND GAME</button><button class="gameBtn cpu" onclick="openMatch('dice','cpu')">VS COMPUTER</button></div></div>
-<div class="game"><div class="fuIcon" style="border-radius:13px;font-size:10px">RPS</div><h3>RPS</h3><p>Select, highlight, confirm, then watch rock smash, paper sweep, or scissors chop into the reveal.</p><div class="gameActions"><button class="gameBtn find" onclick="openMatch('rps','queue')">FIND GAME</button><button class="gameBtn cpu" onclick="openMatch('rps','cpu')">VS COMPUTER</button></div></div>
+<div class="game"><div class="diceGameIcon"></div><h3>DICE</h3><p>Two dice each. Player 1 rolls first, then Player 2. FU replaces 6; more FU faces wins, then highest total.</p><div class="gameActions"><button class="gameBtn find" onclick="openMatch('dice','queue')">FIND GAME</button><button class="gameBtn cpu" onclick="openMatch('dice','cpu')">VS COMPUTER</button></div></div>
+<div class="game"><div class="rpsGameIcon"></div><h3>RPS</h3><p>Select, highlight, confirm, then watch rock smash, paper sweep, or scissors chop into the reveal.</p><div class="gameActions"><button class="gameBtn find" onclick="openMatch('rps','queue')">FIND GAME</button><button class="gameBtn cpu" onclick="openMatch('rps','cpu')">VS COMPUTER</button></div></div>
 </div>
 </section>
 </div>
@@ -153,11 +272,8 @@ $('amount').oninput=()=>{if(liveSide&&!liveBet)$('bet').textContent='CONFIRM '+l
 $('bet').onclick=()=>{if(!liveSide||liveBet||resolving)return;const a=getLiveAmt();if(a>balance)return $('notice').textContent='Not enough TEST FLIP.';balance-=a;liveBet={side:liveSide,stake:a};save();$('bet').disabled=true;$('amount').disabled=true;$('max').disabled=true;document.querySelectorAll('.side').forEach(x=>x.disabled=true);$('bet').textContent=fmt(a)+' FLIP LOCKED ✓';$('notice').textContent=liveSide+' confirmed.'};
 function setCoin(el,w){
   if(!el)return;
-  el.className='coin3d '+(w==='F'?'spinF':'spinU');
-  setTimeout(()=>{
-    el.className='coin3d '+(w==='F'?'lockF':'lockU')+' winHalo';
-    el.dataset.winner=w;
-  },1750);
+  el.className='coin3d '+(w==='F'?'v14FlipF':'v14FlipU');
+  setTimeout(()=>{el.className='coin3d '+(w==='F'?'v14F':'v14U')+' v14Winner';el.dataset.winner=w},1650);
 }
 setInterval(()=>{if(resolving)return;t--;$('timer').textContent='00:'+(t<10?'0':'')+Math.max(t,0);if(t<=0)resolveLive()},1000);save();
 
@@ -183,16 +299,39 @@ function diceLabel(v){return Number(v)===6?'FU':String(v)}
 function diceScore(pair){const vals=pair.map(Number),fu=vals.filter(v=>v===6).length,total=vals.reduce((a,v)=>a+v,0);return {fu,total}}
 function comparePairs(a,b){const A=diceScore(a),B=diceScore(b);if(A.fu!==B.fu)return A.fu>B.fu?1:-1;if(A.total!==B.total)return A.total>B.total?1:-1;return 0}
 function pairText(p){return p.map(diceLabel).join(' + ')}
-function pipMarkup(n){const cls={1:['p11'],2:['p21','p22'],3:['p31','p32','p33'],4:['p41','p42','p43','p44'],5:['p51','p52','p53','p54','p55']};return '<div class="pips">'+(cls[n]||[]).map(c=>'<i class="pip '+c+'"></i>').join('')+'</div>'}
-function faceMarkup(n){return Number(n)===6?'<div class="dieLogo" aria-label="FU emblem"></div>':pipMarkup(Number(n))}
-function cubeMarkup(frontValue,rolling=false,variant='A'){const front=frontValue==='?'?1:Number(frontValue);const other=[1,2,3,4,5,6].filter(v=>v!==front);const vals=[front,other[0],other[1],other[2],other[3],other[4]];return '<div class="cube '+(rolling?(variant==='A'?'rollingA':'rollingB'):'')+'"><div class="cubeFace cf-front">'+faceMarkup(vals[0])+'</div><div class="cubeFace cf-back">'+faceMarkup(vals[1])+'</div><div class="cubeFace cf-right">'+faceMarkup(vals[2])+'</div><div class="cubeFace cf-left">'+faceMarkup(vals[3])+'</div><div class="cubeFace cf-top">'+faceMarkup(vals[4])+'</div><div class="cubeFace cf-bottom">'+faceMarkup(vals[5])+'</div></div>'}
-function diceStage(a=['?','?'],b=['?','?'],ra=false,rb=false){return '<div class="diceStage"><div class="diceBlock"><div class="sub" style="margin-bottom:9px">PLAYER 1</div><div class="dicePair">'+cubeMarkup(a[0],ra,'A')+cubeMarkup(a[1],ra,'B')+'</div>'+(a[0]!=='?'?'<div class="diceScore">'+pairText(a)+'</div>':'')+'</div><div class="diceBlock"><div class="sub" style="margin-bottom:9px">PLAYER 2</div><div class="dicePair">'+cubeMarkup(b[0],rb,'B')+cubeMarkup(b[1],rb,'A')+'</div>'+(b[0]!=='?'?'<div class="diceScore">'+pairText(b)+'</div>':'')+'</div></div>'}
+function pipV14(n){
+  const m={1:['g11'],2:['g21','g22'],3:['g31','g32','g33'],4:['g41','g42','g43','g44'],5:['g51','g52','g53','g54','g55']};
+  return '<div class="pipGridV14">'+(m[Number(n)]||[]).map(c=>'<i class="pipV14 '+c+'"></i>').join('')+'</div>'
+}
+function dieFaceV14(n){return Number(n)===6?'<div class="fuDieMark" aria-label="FU emblem"></div>':pipV14(n)}
+function dieCubeV14(front,roll=false,variant='A'){
+  const f=front==='?'?1:Number(front);
+  const all=[1,2,3,4,5,6],rest=all.filter(v=>v!==f),vals=[f,...rest];
+  return '<div class="dieCube '+(roll?(variant==='A'?'rollA':'rollB'):'')+'">'+
+   '<div class="dieFace3 dfFront">'+dieFaceV14(vals[0])+'</div>'+
+   '<div class="dieFace3 dfBack">'+dieFaceV14(vals[1])+'</div>'+
+   '<div class="dieFace3 dfRight">'+dieFaceV14(vals[2])+'</div>'+
+   '<div class="dieFace3 dfLeft">'+dieFaceV14(vals[3])+'</div>'+
+   '<div class="dieFace3 dfTop">'+dieFaceV14(vals[4])+'</div>'+
+   '<div class="dieFace3 dfBottom">'+dieFaceV14(vals[5])+'</div>'+
+  '</div>'
+}
+function diceStage(a=['?','?'],b=['?','?'],ra=false,rb=false){
+  return '<div class="diceStage">'+
+   '<div class="diceBlock"><div class="sub" style="margin-bottom:9px">PLAYER 1</div><div class="dicePair">'+dieCubeV14(a[0],ra,'A')+dieCubeV14(a[1],ra,'B')+'</div>'+(a[0]!=='?'?'<div class="diceScore">'+pairText(a)+'</div>':'')+'</div>'+
+   '<div class="diceBlock"><div class="sub" style="margin-bottom:9px">PLAYER 2</div><div class="dicePair">'+dieCubeV14(b[0],rb,'B')+dieCubeV14(b[1],rb,'A')+'</div>'+(b[0]!=='?'?'<div class="diceScore">'+pairText(b)+'</div>':'')+'</div>'+
+  '</div>'
+}
 function parseDice(v){if(!v||!String(v).startsWith('DICE:'))return null;const p=String(v).slice(5).split(',').map(Number);return p.length===2?p:null}
 
 // RPS
 function rpsClass(v){return v==='ROCK'?'rock':v==='PAPER'?'paper':'scissors'}
-function rpsArt(v){if(v==='ROCK')return '<svg viewBox="0 0 100 100" aria-label="rock"><path class="neonFill" d="M20 65 L16 48 Q18 35 29 32 L35 21 Q42 15 50 22 L58 18 Q67 18 70 28 L78 31 Q87 35 86 47 L83 67 Q79 81 64 84 L38 84 Q25 81 20 65Z"/><path class="neonStroke" d="M31 54 L31 37 M43 52 L43 29 M56 52 L56 27 M69 55 L69 36"/></svg>';if(v==='PAPER')return '<svg viewBox="0 0 100 100" aria-label="paper"><path class="neonFill" d="M29 82 Q17 73 18 59 L20 34 Q21 26 27 27 Q33 27 33 35 L33 17 Q34 9 40 10 Q46 10 46 18 L46 14 Q47 7 53 9 Q58 10 58 17 L58 15 Q60 10 65 12 Q70 14 69 21 L68 39 L75 32 Q82 27 87 32 Q91 37 85 43 L72 60 Q65 82 45 86Z"/><path class="neonStroke" d="M33 35 L33 57 M46 18 L46 57 M58 17 L58 57 M68 39 L66 57"/></svg>';return '<svg viewBox="0 0 100 100" aria-label="scissors"><circle class="neonFill" cx="30" cy="72" r="13"/><circle class="neonFill" cx="59" cy="72" r="13"/><path class="neonStroke" d="M38 63 L79 20 M51 63 L22 22 M47 52 L79 82"/></svg>'}
-function rpsStage(a,b){return '<div class="rpsStage"><div class="rpsVector left '+rpsClass(a)+'">'+rpsArt(a)+'</div><div class="rpsVs">VS</div><div class="rpsVector right '+rpsClass(b)+'">'+rpsArt(b)+'</div><div class="rpsCut '+((a==='SCISSORS'||b==='SCISSORS')?'show':'')+'"></div></div>'}
+function rpsArt(v){
+ if(v==='ROCK')return '<svg viewBox="0 0 100 100"><path class="rpsFill" d="M19 66L16 49Q17 37 28 32L34 22Q41 15 49 22L57 18Q66 18 70 28L78 31Q87 35 86 47L83 67Q79 81 64 84H38Q25 81 19 66Z"/><path class="rpsStroke" d="M31 54V37M43 52V29M56 52V27M69 55V36"/></svg>';
+ if(v==='PAPER')return '<svg viewBox="0 0 100 100"><path class="rpsFill" d="M29 82Q17 73 18 59L20 34Q21 26 27 27Q33 27 33 35V17Q34 9 40 10Q46 10 46 18V14Q47 7 53 9Q58 10 58 17V15Q60 10 65 12Q70 14 69 21L68 39L75 32Q82 27 87 32Q91 37 85 43L72 60Q65 82 45 86Z"/><path class="rpsStroke" d="M33 35V57M46 18V57M58 17V57M68 39L66 57"/></svg>';
+ return '<svg viewBox="0 0 100 100"><circle class="rpsFill" cx="30" cy="72" r="13"/><circle class="rpsFill" cx="59" cy="72" r="13"/><path class="rpsStroke" d="M38 63L79 20M51 63L22 22M47 52L79 82"/></svg>'
+}
+function rpsStage(a,b){return '<div class="rpsStage"><div class="rpsNeon left '+rpsClass(a)+'">'+rpsArt(a)+'</div><div class="rpsVS">VS</div><div class="rpsNeon right '+rpsClass(b)+'">'+rpsArt(b)+'</div><div class="rpsSlash '+((a==='SCISSORS'||b==='SCISSORS')?'show':'')+'"></div></div>'}
 
 // CPU
 function startCPU(type,w){balance-=w;save();room={id:'cpu-'+Date.now(),game_type:type,wager:w,player1:playerName,player2:'COMPUTER'};role='player1';pendingChoice=null;if(type==='flip')cpuFlip();else if(type==='dice')cpuDiceStart();else cpuRPS()}
@@ -203,8 +342,8 @@ function confirmCPUFlip(){
  $('mbody').innerHTML='<div class="wager">LOCKED WAGER<br><strong>'+fmt(room.wager)+' FLIP</strong></div><div class="stage" style="height:215px"><div class="coin3d" id="cpuCoin"></div></div><div class="status">FLIPPING…</div>';
  const coin=$('cpuCoin'),stage=coin.parentElement;setCoin(coin,w);
  setTimeout(()=>{$('mbody').querySelector('.status').textContent='Landed on '+w+'.'},1800);
- setTimeout(()=>{const c=$('cpuCoin');if(c)c.className='coin3d '+(w==='F'?'lockF':'lockU')+' winHalo';announceIn(stage,w+' WINS')},3750);
- setTimeout(()=>{const won=pick===w;if(won)balance+=room.wager*2;burned+=Math.floor(room.wager*.02*.75);save();pulseBalance();$('mbody').innerHTML='<div class="stage" style="height:215px"><div class="coin3d '+(w==='F'?'lockF':'lockU')+' winHalo"></div></div>'+resultBox(won,w+' WINS',room.wager)},4450)
+ setTimeout(()=>{const c=$('cpuCoin');if(c)c.className='coin3d '+(w==='F'?'v14F':'v14U')+' v14Winner';announceIn(stage,w+' WINS')},3750);
+ setTimeout(()=>{const won=pick===w;if(won)balance+=room.wager*2;burned+=Math.floor(room.wager*.02*.75);save();pulseBalance();$('mbody').innerHTML='<div class="stage" style="height:215px"><div class="coin3d '+(w==='F'?'v14F':'v14U')+' v14Winner"></div></div>'+resultBox(won,w+' WINS',room.wager)},4450)
 }
 function cpuDiceStart(){$('mbody').innerHTML='<div class="wager">LOCKED WAGER<br><strong>'+fmt(room.wager)+' FLIP</strong></div>'+diceStage()+'<div class="status">You roll first.</div><button class="rollBtn ready" onclick="cpuRoll1()">PRESS TO ROLL 2 DICE</button>'}
 function cpuRoll1(){const a=[diceVal(),diceVal()];room.player1_choice='DICE:'+a.join(',');$('mbody').innerHTML=diceStage(['?','?'],['?','?'],true,false)+'<div class="status">ROLLING…</div>';setTimeout(()=>{$('mbody').innerHTML=diceStage(a,['?','?'])+'<div class="status">You rolled '+pairText(a)+'. Computer rolls next.</div>';setTimeout(()=>cpuRoll2(a),650)},1500)}
@@ -263,7 +402,7 @@ function diceMatch(r){const a=parseDice(r.player1_choice),b=parseDice(r.player2_
 async function rollDiceMatch(){const vals=[diceVal(),diceVal()],col=role==='player1'?'player1_choice':'player2_choice';$('mbody').innerHTML=diceStage(['?','?'],['?','?'],role==='player1',role==='player2')+'<div class="status">ROLLING…</div>';setTimeout(async()=>{await sb.from('games').update({[col]:'DICE:'+vals.join(',')}).eq('id',room.id);setTimeout(refreshRoom,100)},1500)}
 async function refreshRoom(){if(!room)return;const {data}=await sb.from('games').select('*').eq('id',room.id).single();if(data){room=data;renderRoom();maybeResolve();settle()}}
 
-function resultView(r){const won=r.winner===playerName;let vis='';if(r.game_type==='flip'){const f=String(r.result).startsWith('F');vis='<div class="stage" style="height:210px"><div class="coin3d '+(f?'lockF':'lockU')+' winHalo"></div></div>'}if(r.game_type==='dice'){vis=diceStage(parseDice(r.player1_choice),parseDice(r.player2_choice))}if(r.game_type==='rps')vis=rpsStage(r.player1_choice,r.player2_choice);return vis+resultBox(won,esc(r.result),r.wager)}
+function resultView(r){const won=r.winner===playerName;let vis='';if(r.game_type==='flip'){const f=String(r.result).startsWith('F');vis='<div class="stage" style="height:210px"><div class="coin3d '+(f?'v14F':'v14U')+' v14Winner"></div></div>'}if(r.game_type==='dice'){vis=diceStage(parseDice(r.player1_choice),parseDice(r.player2_choice))}if(r.game_type==='rps')vis=rpsStage(r.player1_choice,r.player2_choice);return vis+resultBox(won,esc(r.result),r.wager)}
 async function maybeResolve(){const r=room;if(!r||r.result||!r.player2||role!=='player1')return;if(r.game_type==='flip'&&r.player1_choice&&r.player2_choice){const w=Math.random()<.5?'F':'U';setTimeout(()=>finish(w+' WINS',r.player1_choice===w?r.player1:r.player2),1300)}else if(r.game_type==='dice'){const a=parseDice(r.player1_choice),b=parseDice(r.player2_choice);if(a&&b){const c=comparePairs(a,b);if(c===0){setTimeout(()=>sb.from('games').update({player1_choice:null,player2_choice:null}).eq('id',r.id),750);return}setTimeout(()=>finish(pairText(a)+' vs '+pairText(b),c>0?r.player1:r.player2),500)}}else if(r.game_type==='rps'&&r.player1_choice&&r.player2_choice){if(r.player1_choice===r.player2_choice){setTimeout(()=>sb.from('games').update({player1_choice:null,player2_choice:null}).eq('id',r.id),850);return}const beats={ROCK:'SCISSORS',PAPER:'ROCK',SCISSORS:'PAPER'};setTimeout(()=>finish(r.player1_choice+' vs '+r.player2_choice,beats[r.player1_choice]===r.player2_choice?r.player1:r.player2),1050)}}
 async function finish(result,winner){const {data}=await sb.from('games').update({result,winner,status:'finished'}).eq('id',room.id).is('result',null).select().single();if(data){room=data;renderRoom();settle()}}
 function settle(){if(!room||!room.result)return;const k='settled_'+room.id;if(localStorage.getItem(k)||!localStorage.getItem('settlelock_'+room.id))return;if(room.winner===playerName)balance+=Number(room.wager)*2;burned+=Math.floor(Number(room.wager)*.02*.75);localStorage.setItem(k,'1');localStorage.removeItem('settlelock_'+room.id);save()}
