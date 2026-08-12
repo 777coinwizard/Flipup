@@ -628,6 +628,64 @@ button,input{font:inherit}button{-webkit-tap-highlight-color:transparent}.wrap{m
   .weaponShape{width:122px!important;height:122px!important}
 }
 
+
+/* ===== V21 duel polish ===== */
+.weaponPickCard{
+  background:
+    radial-gradient(circle at 50% 20%, rgba(103,122,255,.16), transparent 34%),
+    linear-gradient(180deg,#0b1130,#060a1d)!important;
+  border-color:rgba(98,118,236,.54)!important;
+  overflow:hidden;
+}
+.weaponPickCard:before{
+  content:"";
+  position:absolute;inset:0;
+  background:
+    linear-gradient(135deg, rgba(255,255,255,.06), transparent 28%),
+    linear-gradient(315deg, rgba(67,220,255,.09), transparent 30%);
+  pointer-events:none;
+}
+.weaponPickVisual{
+  height:182px!important;
+  background:
+    radial-gradient(circle at 50% 52%,rgba(67,220,255,.18),transparent 39%),
+    radial-gradient(circle at 50% 18%,rgba(255,75,216,.10),transparent 25%),
+    linear-gradient(180deg,#121a45,#070b21)!important;
+}
+.weaponImgFallback{
+  padding:12px 18px 8px!important;
+}
+.weaponPickMeta{
+  position:relative;
+}
+.weaponPickMeta:before{
+  content:"";
+  position:absolute;left:10px;right:10px;top:0;height:1px;
+  background:linear-gradient(90deg,transparent,rgba(67,220,255,.32),transparent);
+}
+.weaponPickName{font-size:16px!important;letter-spacing:.6px}
+.weaponPickRule{font-size:10px!important;letter-spacing:.4px}
+.weaponStage{
+  height:300px!important;
+  background:
+    radial-gradient(circle at 50% 50%,rgba(67,220,255,.09),transparent 32%),
+    linear-gradient(180deg,#080c24,#070a20 72%)!important;
+}
+.weaponShape{
+  width:164px!important;height:164px!important;top:58px!important;
+}
+.weaponShape.left{left:8px!important}
+.weaponShape.right{right:8px!important}
+.weaponShape svg{filter:drop-shadow(0 0 8px rgba(67,220,255,.35)) drop-shadow(0 0 16px rgba(255,75,216,.18))}
+.duelImpact{
+  width:12px;height:12px;margin:-6px;
+}
+.duelImpact.show{animation:duelImpact .55s ease}
+@media(max-width:700px){
+  .weaponPickVisual{height:154px!important}
+  .weaponShape{width:132px!important;height:132px!important}
+}
+
 </style>
 </head>
 <body>
@@ -740,7 +798,7 @@ function resolveLive(roundId){
   setTimeout(()=>{
     showCoinWinner(stage,w);
     $('notice').textContent=w+' WINS • ROUND '+roundId;
-  },1560);
+  },2060);
 
   setTimeout(()=>{
     if(liveBet && liveBet.roundId===roundId){
@@ -749,7 +807,7 @@ function resolveLive(roundId){
       burned+=Math.floor(a*.02*.75);
       save();flashBalance();liveFX(won,a,w);
     }
-  },2450);
+  },2950);
 
   setTimeout(()=>{
     resolving=false;liveBet=null;liveSide=null;
@@ -758,7 +816,7 @@ function resolveLive(roundId){
     document.querySelectorAll('.side').forEach(x=>{x.disabled=false;x.classList.remove('on')});
     $('bet').disabled=true;$('bet').textContent='CHOOSE F OR U';
     $('notice').textContent='LIVE ROUND OPEN • PICK AND CONFIRM';
-  },3900);
+  },4400);
 }
 function syncLiveClock(){
   const now=Date.now();
@@ -915,28 +973,18 @@ async function mountThreeDie(hostId,value,rolling=false,variant=0){
     host.appendChild(renderer.domElement);
     host.classList.add('ready');
 
-    const amb=new THREE.AmbientLight(0x9fb5ff,1.75);
-    scene.add(amb);
-    const cyan=new THREE.PointLight(0x43dcff,10,12);
-    cyan.position.set(3.5,3.0,5);
-    scene.add(cyan);
-    const magenta=new THREE.PointLight(0xff4bd8,8,12);
-    magenta.position.set(-3.5,-1.2,4);
-    scene.add(magenta);
+    const amb=new THREE.AmbientLight(0x9fb5ff,1.75); scene.add(amb);
+    const cyan=new THREE.PointLight(0x43dcff,10,12); cyan.position.set(3.5,3.0,5); scene.add(cyan);
+    const magenta=new THREE.PointLight(0xff4bd8,8,12); magenta.position.set(-3.5,-1.2,4); scene.add(magenta);
 
     const geometry=new THREE.BoxGeometry(2.05,2.05,2.05);
     const labels=[2,5,3,4,1,'FU'];
     const materials=labels.map(label=>new THREE.MeshStandardMaterial({
       map:makeFaceTexture(THREE,label),
-      emissive:0x09142b,
-      emissiveIntensity:.75,
-      roughness:.22,
-      metalness:.24
+      emissive:0x09142b, emissiveIntensity:.75, roughness:.22, metalness:.24
     }));
-    const die=new THREE.Mesh(geometry,materials);
-    scene.add(die);
+    const die=new THREE.Mesh(geometry,materials); scene.add(die);
 
-    // Neon physical edges make the object read as a true cube on a phone.
     const edgeGeo=new THREE.EdgesGeometry(geometry);
     const edgeMat=new THREE.LineBasicMaterial({color:0x63e8ff,transparent:true,opacity:.68});
     const edges=new THREE.LineSegments(edgeGeo,edgeMat);
@@ -952,33 +1000,32 @@ async function mountThreeDie(hostId,value,rolling=false,variant=0){
       return;
     }
 
-    // Start at a real 3D angle and tumble with constant angular velocity.
-    die.rotation.set(.45+variant*.2,.55+variant*.32,.16);
+    die.rotation.set(.42+variant*.18,.52+variant*.28,.14);
     const start=performance.now();
-    const duration=2200;
+    const duration=2100;
     let settleStartQ=null;
+    let settleStartY=0;
 
     function frame(now){
       if(!document.getElementById(hostId))return;
       const p=Math.min(1,(now-start)/duration);
 
-      if(p<.72){
+      if(p<.78){
         const seconds=(now-start)/1000;
-        const sx=variant%2===0?9.4:-10.1;
-        const sy=variant%2===0?12.6:11.8;
-        const sz=variant%2===0?5.8:-6.3;
-        die.rotation.set(
-          .45+sx*seconds,
-          .55+sy*seconds,
-          .16+sz*seconds
-        );
-        die.position.y=Math.sin((p/.72)*Math.PI)*.68;
+        const sx=variant%2===0?9.2:-9.8;
+        const sy=variant%2===0?12.1:11.3;
+        const sz=variant%2===0?5.6:-6.0;
+        die.rotation.set(.42+sx*seconds,.52+sy*seconds,.14+sz*seconds);
+        die.position.y=Math.sin((p/.78)*Math.PI)*.56;
       }else{
-        if(!settleStartQ)settleStartQ=die.quaternion.clone();
-        const s=(p-.72)/.28;
-        const ease=1-Math.pow(1-s,3);
-        die.quaternion.slerpQuaternions(settleStartQ,targetQ,ease);
-        die.position.y=(1-ease)*.14*Math.sin((1-s)*Math.PI*2);
+        if(!settleStartQ){
+          settleStartQ=die.quaternion.clone();
+          settleStartY=die.position.y;
+        }
+        const s=(p-.78)/.22;
+        const ease=1-Math.pow(1-s,2.4);
+        die.quaternion.copy(settleStartQ).slerp(targetQ,ease);
+        die.position.y=settleStartY*(1-ease);
       }
 
       render();
@@ -993,7 +1040,6 @@ async function mountThreeDie(hostId,value,rolling=false,variant=0){
     }
     requestAnimationFrame(frame);
   }catch(err){
-    // Keep a readable result if WebGL/CDN is unavailable.
     host.classList.remove('ready');
     console.warn('3D dice renderer fallback',err);
   }
@@ -1029,30 +1075,40 @@ function parseDice(v){if(!v||!String(v).startsWith('DICE:'))return null;const p=
 // RPS
 function weaponClass(v){return String(v||'').toLowerCase()}
 function weaponArt(v){
-  const defs='<defs><linearGradient id="duelStrokeGradient" x1="0" x2="1"><stop stop-color="#61eaff"/><stop offset=".5" stop-color="#9a6dff"/><stop offset="1" stop-color="#ff66df"/></linearGradient><linearGradient id="duelMetalGradient" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#dffcff"/><stop offset=".25" stop-color="#4fe1ff"/><stop offset=".55" stop-color="#596dff"/><stop offset=".8" stop-color="#ff5ad9"/><stop offset="1" stop-color="#141a47"/></linearGradient></defs>';
-  if(v==='AXE')return '<svg viewBox="0 0 180 120">'+defs+
-    '<path class="duelArtStroke" d="M91 23 L72 105"/>'+
-    '<path class="duelMetal" d="M83 29 C105 5 143 8 164 30 C151 58 123 65 94 51 Z"/>'+
-    '<path class="duelMetal" d="M86 34 C68 15 48 16 30 28 C39 49 56 58 79 52 Z"/>'+
-    '<path class="duelArtStroke" d="M76 86 L62 107 M82 62 L103 66"/>'+
-    '<circle class="duelCore" cx="89" cy="40" r="6"/>'+
-    '<path class="duelArtStroke" d="M109 22 L142 27 M45 30 L68 33"/>'+
+  const defs='<defs>'+
+    '<linearGradient id="duelStrokeGradient" x1="0" x2="1"><stop stop-color="#61eaff"/><stop offset=".48" stop-color="#8e75ff"/><stop offset="1" stop-color="#ff63df"/></linearGradient>'+
+    '<linearGradient id="duelMetalGradient" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#f3ffff"/><stop offset=".18" stop-color="#8cecff"/><stop offset=".52" stop-color="#4d72ff"/><stop offset=".8" stop-color="#ff5fdd"/><stop offset="1" stop-color="#131946"/></linearGradient>'+
+    '<linearGradient id="darkMetal" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#111830"/><stop offset="1" stop-color="#283874"/></linearGradient>'+
+  '</defs>';
+  if(v==='AXE')return '<svg viewBox="0 0 220 160">'+defs+
+    '<path class="duelArtStroke" d="M98 24 L76 138"/>'+
+    '<path fill="url(#darkMetal)" stroke="#72e8ff" stroke-width="2.6" d="M86 32 C111 12 160 13 190 42 C171 81 133 93 92 70 Z"/>'+
+    '<path fill="url(#duelMetalGradient)" stroke="#8af0ff" stroke-width="2.6" d="M87 38 C67 19 40 19 20 37 C33 63 53 74 84 70 Z"/>'+
+    '<path class="duelArtStroke" d="M78 87 L60 113 M83 60 L114 68 M74 105 L55 138"/>'+
+    '<path fill="url(#duelMetalGradient)" stroke="#7feaff" stroke-width="2.2" d="M140 30 L171 35 L152 51 L129 47 Z"/>'+
+    '<circle class="duelCore" cx="93" cy="47" r="6.6"/>'+
+    '<path class="duelArtStroke" d="M121 28 L151 34 M45 38 L68 43 M23 40 L44 43"/>'+
+    '<path fill="none" stroke="#ff63df" stroke-width="2.4" d="M108 58 C130 58 145 62 160 71"/>'+
     '</svg>';
-  if(v==='LANCE')return '<svg viewBox="0 0 180 120">'+defs+
-    '<path class="duelArtStroke" d="M24 94 L137 27"/>'+
-    '<path class="duelMetal" d="M132 26 L171 12 L154 47 Z"/>'+
-    '<path class="duelMetal" d="M95 45 L115 32 L124 44 L104 57 Z"/>'+
-    '<path class="duelArtStroke" d="M39 85 L51 100 M48 78 L62 94"/>'+
-    '<circle class="duelCore" cx="118" cy="39" r="5"/>'+
-    '<path class="duelArtStroke" d="M140 25 L157 20"/>'+
+  if(v==='LANCE')return '<svg viewBox="0 0 220 160">'+defs+
+    '<path class="duelArtStroke" d="M23 119 L158 44"/>'+
+    '<path fill="url(#duelMetalGradient)" stroke="#84eeff" stroke-width="2.5" d="M153 42 L207 20 L183 64 Z"/>'+
+    '<path fill="url(#darkMetal)" stroke="#7ceaff" stroke-width="2.2" d="M110 67 L136 51 L149 67 L122 82 Z"/>'+
+    '<path fill="url(#duelMetalGradient)" stroke="#87efff" stroke-width="2" d="M88 80 L109 69 L114 77 L94 89 Z"/>'+
+    '<path class="duelArtStroke" d="M34 111 L48 128 M45 104 L59 122 M58 96 L73 113"/>'+
+    '<path fill="none" stroke="#ff63df" stroke-width="2.4" d="M83 86 L139 54"/>'+
+    '<circle class="duelCore" cx="146" cy="58" r="6"/>'+
+    '<path class="duelArtStroke" d="M164 39 L188 29 M168 48 L191 37"/>'+
     '</svg>';
-  return '<svg viewBox="0 0 180 120">'+defs+
-    '<path class="duelMetal" d="M87 8 L100 21 L92 82 L81 82 L74 21 Z"/>'+
-    '<path class="duelArtStroke" d="M87 10 L87 80"/>'+
-    '<path class="duelMetal" d="M55 80 L119 80 L114 91 L60 91 Z"/>'+
-    '<path class="duelMetal" d="M78 91 L96 91 L101 108 L73 108 Z"/>'+
-    '<circle class="duelCore" cx="87" cy="84" r="6"/>'+
-    '<path class="duelArtStroke" d="M80 23 L87 13 L94 23 M66 86 L108 86"/>'+
+  return '<svg viewBox="0 0 220 160">'+defs+
+    '<path fill="url(#duelMetalGradient)" stroke="#86efff" stroke-width="2.4" d="M108 12 L124 28 L114 106 L103 106 L93 28 Z"/>'+
+    '<path fill="url(#darkMetal)" stroke="#7ae8ff" stroke-width="2.1" d="M69 104 L151 104 L143 117 L77 117 Z"/>'+
+    '<path fill="url(#duelMetalGradient)" stroke="#86ecff" stroke-width="2.1" d="M98 117 L119 117 L126 142 L90 142 Z"/>'+
+    '<path class="duelArtStroke" d="M108 15 L108 103 M98 33 L108 19 L118 33 M80 110 L140 110"/>'+
+    '<path fill="none" stroke="#ff63df" stroke-width="2.4" d="M110 22 C124 44 138 64 159 79"/>'+
+    '<path fill="none" stroke="#61eaff" stroke-width="2.2" d="M109 30 C95 47 84 62 63 79"/>'+
+    '<circle class="duelCore" cx="108" cy="110" r="6.6"/>'+
+    '<path class="duelArtStroke" d="M120 42 L113 95"/>'+
     '</svg>';
 }
 function weaponStage(a,b){return '<div class="weaponStage"><div class="weaponShape left '+weaponClass(a)+'">'+weaponArt(a)+'</div><div class="weaponVS">VS</div><div class="weaponShape right '+weaponClass(b)+'">'+weaponArt(b)+'</div><div class="duelImpact show"></div></div>'}
@@ -1078,7 +1134,7 @@ function weaponPicker(selected,handler){
 function weaponRules(){return '<div class="weaponRules"><div>AXE › LANCE</div><div>LANCE › SWORD</div><div>SWORD › AXE</div></div>'}
 function startCPU(type,w){balance-=w;save();room={id:'cpu-'+Date.now(),game_type:type,wager:w,player1:playerName,player2:'COMPUTER'};role='player1';pendingChoice=null;if(type==='flip')cpuFlip();else if(type==='dice')cpuDiceStart();else cpuWeapons()}
 function cpuFlip(){$('mbody').innerHTML='<div class="wager">LOCKED WAGER<br><strong>'+fmt(room.wager)+' FLIP</strong></div><div class="stage" style="height:215px"><div class="coin3d idle" id="cpuCoin"></div></div>'+selectionUI('cpuFlip',[{v:'F',label:'F'},{v:'U',label:'U'}],'confirmCPUFlip()')}
-function confirmCPUFlip(){if(!pendingChoice)return;const pick=pendingChoice,w=Math.random()<.5?'F':'U';pendingChoice=null;$('mbody').innerHTML='<div class="wager">LOCKED WAGER<br><strong>'+fmt(room.wager)+' FLIP</strong></div><div class="stage" style="height:215px"><div class="coin3d" id="cpuCoin"></div></div><div class="status">FLIPPING…</div>';setTimeout(()=>setCoin($('cpuCoin'),w),20);setTimeout(()=>{const won=pick===w;if(won)balance+=room.wager*2;burned+=Math.floor(room.wager*.02*.75);save();$('mbody').innerHTML='<div class="stage" style="height:215px"><div class="coin3d '+(w==='F'?'landF':'landU')+' glow"></div></div>'+resultBox(won,w+' WINS',room.wager)},2200)}
+function confirmCPUFlip(){if(!pendingChoice)return;const pick=pendingChoice,w=Math.random()<.5?'F':'U';pendingChoice=null;$('mbody').innerHTML='<div class="wager">LOCKED WAGER<br><strong>'+fmt(room.wager)+' FLIP</strong></div><div class="stage" style="height:215px"><div class="coin3d" id="cpuCoin"></div></div><div class="status">FLIPPING…</div>';setTimeout(()=>setCoin($('cpuCoin'),w),20);setTimeout(()=>{$('mbody').innerHTML='<div class="wager">LOCKED WAGER<br><strong>'+fmt(room.wager)+' FLIP</strong></div><div class="stage" style="height:215px"><div class="coin3d '+(w==='F'?'v19FaceF':'v19FaceU')+' v19WinnerGlow"></div><div class="coinAnnouncement v19">'+w+' WINS</div></div><div class="status">RESULT LOCKED</div>';},2050);setTimeout(()=>{const won=pick===w;if(won)balance+=room.wager*2;burned+=Math.floor(room.wager*.02*.75);save();$('mbody').innerHTML='<div class="stage" style="height:215px"><div class="coin3d '+(w==='F'?'v19FaceF':'v19FaceU')+' v19WinnerGlow"></div></div>'+resultBox(won,w+' WINS',room.wager)},2550)}
 function cpuDiceStart(){$('mbody').innerHTML='<div class="wager">LOCKED WAGER<br><strong>'+fmt(room.wager)+' FLIP</strong></div>'+diceStage()+'<div class="status">You roll first.</div><button class="rollBtn ready" onclick="cpuRoll1()">PRESS TO ROLL 2 DICE</button>'}
 function cpuRoll1(){
   const a=[diceVal(),diceVal()];
