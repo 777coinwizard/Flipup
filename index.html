@@ -72,155 +72,40 @@ button,input{font:inherit}button{-webkit-tap-highlight-color:transparent}.wrap{m
 }
 
 
-/* ===== V12 MIAMI NEON 3D DICE ===== */
+/* ===== V13B CLEAN NEON GAME ART ===== */
 .diceStage{
-  min-height:330px;
-  border:1px solid rgba(67,220,255,.28);
-  border-radius:20px;
-  background:
-    radial-gradient(circle at 50% 20%,rgba(255,75,216,.10),transparent 32%),
-    radial-gradient(circle at 50% 75%,rgba(67,220,255,.08),transparent 36%),
-    linear-gradient(180deg,#0b1230,#06091b 78%);
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:18px;
-  padding:18px;
-  margin-top:10px;
-  perspective:1100px;
-  overflow:hidden;
-  position:relative;
+  min-height:330px;display:grid;grid-template-columns:1fr 1fr;gap:16px;padding:18px;margin-top:10px;
+  border:1px solid rgba(67,220,255,.26);border-radius:19px;
+  background:radial-gradient(circle at 20% 18%,rgba(255,76,214,.10),transparent 28%),radial-gradient(circle at 82% 72%,rgba(67,220,255,.10),transparent 30%),linear-gradient(180deg,#0a102d,#06091d);
+  perspective:1100px;overflow:hidden;position:relative
 }
-.diceStage:before{
-  content:"";
-  position:absolute;left:7%;right:7%;bottom:26px;height:34px;border-radius:50%;
-  background:radial-gradient(ellipse,rgba(67,220,255,.22),rgba(255,75,216,.08) 45%,transparent 70%);
-  filter:blur(16px);
-}
-.diceBlock{
-  text-align:center;
-  border:1px solid rgba(255,255,255,.06);
-  border-radius:16px;
-  padding:16px 12px 14px;
-  background:linear-gradient(180deg,rgba(7,12,33,.72),rgba(5,9,26,.52));
-  position:relative;
-  overflow:hidden;
-}
-.diceBlock:after{
-  content:"";position:absolute;inset:0;pointer-events:none;
-  background:linear-gradient(130deg,transparent 30%,rgba(255,255,255,.035) 48%,transparent 67%);
-}
-.dicePair{
-  display:flex;justify-content:center;align-items:center;gap:16px;
-  min-height:150px;
-  perspective:1000px;
-}
-.die3d{
-  width:78px;height:78px;
-  position:relative;
-  transform-style:preserve-3d;
-  transform:rotateX(-18deg) rotateY(24deg);
-  filter:drop-shadow(0 12px 18px rgba(0,0,0,.45));
-}
-.die3d.rollA{animation:miamiRollA 1.65s cubic-bezier(.16,.74,.18,1)}
-.die3d.rollB{animation:miamiRollB 1.65s cubic-bezier(.16,.74,.18,1)}
-.dieFace{
-  position:absolute;
-  width:78px;height:78px;
-  border-radius:18px;
-  border:1px solid rgba(255,255,255,.24);
-  background:
-    radial-gradient(circle at 28% 23%,rgba(255,255,255,.15),transparent 28%),
-    linear-gradient(145deg,#1b255a,#0a0f2f 58%,#090b22);
-  box-shadow:
-    inset 0 0 18px rgba(116,140,255,.22),
-    inset 0 0 0 1px rgba(255,255,255,.03),
-    0 0 18px rgba(67,220,255,.12);
-  display:grid;
-  place-items:center;
-  color:#f7f9ff;
-  overflow:hidden;
-}
-.dieFace:before{
-  content:"";position:absolute;inset:0;
-  background:linear-gradient(130deg,transparent 25%,rgba(255,255,255,.06) 47%,transparent 66%);
-}
-.dieFace.front{transform:translateZ(39px)}
-.dieFace.back{transform:rotateY(180deg) translateZ(39px)}
-.dieFace.right{transform:rotateY(90deg) translateZ(39px)}
-.dieFace.left{transform:rotateY(-90deg) translateZ(39px)}
-.dieFace.top{transform:rotateX(90deg) translateZ(39px)}
-.dieFace.bottom{transform:rotateX(-90deg) translateZ(39px)}
+.diceBlock{border:1px solid rgba(255,255,255,.07);border-radius:15px;background:rgba(5,9,28,.56);padding:14px;text-align:center}
+.dicePair{display:flex;justify-content:center;align-items:center;gap:18px;min-height:150px;perspective:1000px}
+.cube{width:76px;height:76px;position:relative;transform-style:preserve-3d;transform:rotateX(-18deg) rotateY(28deg);filter:drop-shadow(0 15px 20px rgba(0,0,0,.42))}
+.cube.rollingA{animation:cubeRollA 1.65s cubic-bezier(.14,.72,.18,1)}.cube.rollingB{animation:cubeRollB 1.65s cubic-bezier(.14,.72,.18,1)}
+.cubeFace{position:absolute;width:76px;height:76px;border-radius:16px;display:grid;place-items:center;background:radial-gradient(circle at 28% 22%,rgba(255,255,255,.14),transparent 24%),linear-gradient(145deg,#202a66,#0b1032 62%,#080b22);border:1px solid rgba(255,255,255,.26);box-shadow:inset 0 0 18px rgba(111,135,255,.24),0 0 15px rgba(68,220,255,.10)}
+.cf-front{transform:translateZ(38px)}.cf-back{transform:rotateY(180deg) translateZ(38px)}.cf-right{transform:rotateY(90deg) translateZ(38px)}.cf-left{transform:rotateY(-90deg) translateZ(38px)}.cf-top{transform:rotateX(90deg) translateZ(38px)}.cf-bottom{transform:rotateX(-90deg) translateZ(38px)}
+.pips{width:50px;height:50px;display:grid;grid-template:repeat(3,1fr)/repeat(3,1fr)}
+.pip{width:10px;height:10px;border-radius:50%;align-self:center;justify-self:center;background:#e5fbff;box-shadow:0 0 7px #43dcff,0 0 13px rgba(255,75,216,.50)}
+.p11{grid-area:2/2}.p21{grid-area:1/1}.p22{grid-area:3/3}.p31{grid-area:1/1}.p32{grid-area:2/2}.p33{grid-area:3/3}.p41{grid-area:1/1}.p42{grid-area:1/3}.p43{grid-area:3/1}.p44{grid-area:3/3}.p51{grid-area:1/1}.p52{grid-area:1/3}.p53{grid-area:2/2}.p54{grid-area:3/1}.p55{grid-area:3/3}
+.dieLogo{width:42px;height:42px;border-radius:50%;position:relative;background:radial-gradient(circle at 30% 24%,#fff 0 4%,transparent 5%),radial-gradient(circle at center,#11162f 0 41%,#080d22 42% 49%,transparent 50%),conic-gradient(from 215deg,#ff55d8,#a761ff 38%,#45dcff 72%,#7bf5ba 91%,#ff55d8);border:1px solid rgba(255,255,255,.36);box-shadow:0 0 12px rgba(255,75,216,.55),0 0 22px rgba(67,220,255,.45)}
+.dieLogo:before{content:"";position:absolute;width:17px;height:17px;border:2px solid #fff;border-left-color:transparent;border-radius:50%;left:11px;top:10px;transform:rotate(35deg);box-shadow:0 0 8px rgba(255,255,255,.5)}.dieLogo:after{content:"↗";position:absolute;right:5px;bottom:4px;font-size:10px;font-weight:1000;color:#fff;text-shadow:0 0 8px #43dcff}
+@keyframes cubeRollA{0%{transform:translateY(0) rotateX(-18deg) rotateY(28deg)}22%{transform:translateY(-62px) rotateX(300deg) rotateY(430deg) rotateZ(120deg) scale(1.08)}58%{transform:translateY(-18px) rotateX(700deg) rotateY(860deg) rotateZ(310deg) scale(1.03)}78%{transform:translateY(8px) rotateX(920deg) rotateY(1120deg) rotateZ(430deg) scale(.98)}100%{transform:translateY(0) rotateX(1062deg) rotateY(1468deg) rotateZ(540deg)}}
+@keyframes cubeRollB{0%{transform:translateY(0) rotateX(-18deg) rotateY(28deg)}22%{transform:translateY(-52px) rotateX(-330deg) rotateY(390deg) rotateZ(-130deg) scale(1.09)}58%{transform:translateY(-14px) rotateX(-740deg) rotateY(820deg) rotateZ(-330deg) scale(1.03)}78%{transform:translateY(9px) rotateX(-960deg) rotateY(1080deg) rotateZ(-440deg) scale(.98)}100%{transform:translateY(0) rotateX(-1098deg) rotateY(1468deg) rotateZ(-540deg)}}
+.diceScore{font-size:11px;font-weight:1000;color:#dce7ff;margin-top:9px}
 
-.pipGrid{width:54px;height:54px;display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:repeat(3,1fr);position:relative;z-index:2}
-.pip{width:10px;height:10px;border-radius:50%;align-self:center;justify-self:center;background:linear-gradient(#e7fbff,#7ce8ff);box-shadow:0 0 8px rgba(67,220,255,.9),0 0 14px rgba(255,75,216,.45)}
-.p1{grid-column:2;grid-row:2}.p2a{grid-column:1;grid-row:1}.p2b{grid-column:3;grid-row:3}
-.p3a{grid-column:1;grid-row:1}.p3b{grid-column:2;grid-row:2}.p3c{grid-column:3;grid-row:3}
-.p4a{grid-column:1;grid-row:1}.p4b{grid-column:3;grid-row:1}.p4c{grid-column:1;grid-row:3}.p4d{grid-column:3;grid-row:3}
-.p5a{grid-column:1;grid-row:1}.p5b{grid-column:3;grid-row:1}.p5c{grid-column:2;grid-row:2}.p5d{grid-column:1;grid-row:3}.p5e{grid-column:3;grid-row:3}
-
-.fuEmblem{
-  width:42px;height:42px;border-radius:50%;
-  display:grid;place-items:center;
-  position:relative;z-index:3;
-  background:
-    radial-gradient(circle at 31% 24%,rgba(255,255,255,.95) 0 4%,transparent 5%),
-    radial-gradient(circle at center,#11162f 0 41%,#080d22 42% 49%,transparent 50%),
-    conic-gradient(from 215deg,#ff55d8,#a761ff 38%,#45dcff 72%,#7bf5ba 91%,#ff55d8);
-  border:1px solid rgba(255,255,255,.34);
-  box-shadow:0 0 12px rgba(255,75,216,.50),0 0 20px rgba(67,220,255,.40),inset 0 0 12px rgba(255,255,255,.08);
-}
-.fuEmblem:before{
-  content:"";
-  width:17px;height:17px;
-  border-radius:50%;
-  border:2px solid #f6f8ff;
-  border-left-color:transparent;
-  transform:rotate(35deg);
-  box-shadow:0 0 8px rgba(255,255,255,.55);
-}
-.fuEmblem:after{
-  content:"↗";
-  position:absolute;
-  font-size:10px;font-weight:1000;
-  color:#f7f9ff;
-  right:6px;bottom:5px;
-  text-shadow:0 0 8px rgba(67,220,255,.8);
-}
-
-@keyframes miamiRollA{
-  0%{transform:translateY(0) rotateX(-18deg) rotateY(24deg) rotateZ(0) scale(1)}
-  18%{transform:translateY(-58px) rotateX(240deg) rotateY(320deg) rotateZ(80deg) scale(1.08)}
-  44%{transform:translateY(-24px) rotateX(520deg) rotateY(650deg) rotateZ(220deg) scale(1.04)}
-  66%{transform:translateY(10px) rotateX(760deg) rotateY(920deg) rotateZ(360deg) scale(.98)}
-  82%{transform:translateY(-7px) rotateX(880deg) rotateY(1060deg) rotateZ(430deg) scale(1.01)}
-  100%{transform:translateY(0) rotateX(900deg) rotateY(1080deg) rotateZ(450deg) scale(1)}
-}
-@keyframes miamiRollB{
-  0%{transform:translateY(0) rotateX(-20deg) rotateY(-22deg) rotateZ(0) scale(1)}
-  18%{transform:translateY(-48px) rotateX(-260deg) rotateY(300deg) rotateZ(-100deg) scale(1.09)}
-  44%{transform:translateY(-18px) rotateX(-560deg) rotateY(620deg) rotateZ(-240deg) scale(1.04)}
-  66%{transform:translateY(12px) rotateX(-780deg) rotateY(900deg) rotateZ(-380deg) scale(.98)}
-  82%{transform:translateY(-5px) rotateX(-900deg) rotateY(1040deg) rotateZ(-440deg) scale(1.01)}
-  100%{transform:translateY(0) rotateX(-900deg) rotateY(1080deg) rotateZ(-450deg) scale(1)}
-}
-.die3d.settle{animation:dieSettle .55s ease}
-@keyframes dieSettle{
-  0%{transform:translateY(-8px) rotateX(-10deg) rotateY(18deg) scale(1.03)}
-  55%{transform:translateY(5px) rotateX(-18deg) rotateY(24deg) scale(.985)}
-  100%{transform:translateY(0) rotateX(-18deg) rotateY(24deg) scale(1)}
-}
-.diceScore{margin-top:9px;font-size:11px;font-weight:1000;color:#d8e2ff;letter-spacing:.2px}
-@media(max-width:700px){
-  .diceStage{grid-template-columns:1fr;min-height:0}
-  .die3d{width:72px;height:72px}
-  .dieFace{width:72px;height:72px}
-  .dieFace.front{transform:translateZ(36px)}
-  .dieFace.back{transform:rotateY(180deg) translateZ(36px)}
-  .dieFace.right{transform:rotateY(90deg) translateZ(36px)}
-  .dieFace.left{transform:rotateY(-90deg) translateZ(36px)}
-  .dieFace.top{transform:rotateX(90deg) translateZ(36px)}
-  .dieFace.bottom{transform:rotateX(-90deg) translateZ(36px)}
-}
+.rpsStage{height:260px;border:1px solid rgba(89,102,191,.45);border-radius:18px;background:radial-gradient(circle,#17205a,#070a20 72%);position:relative;overflow:hidden;margin-top:10px}
+.rpsVector{position:absolute;top:63px;width:108px;height:108px;filter:drop-shadow(0 0 14px rgba(120,90,255,.55))}
+.rpsVector.left{left:24px}.rpsVector.right{right:24px;transform:scaleX(-1)}.rpsVector svg{width:100%;height:100%;overflow:visible}
+.neonStroke{fill:none;stroke:#58e6ff;stroke-width:6;stroke-linecap:round;stroke-linejoin:round;filter:drop-shadow(0 0 5px #43dcff) drop-shadow(0 0 9px #ff4bd8)}
+.neonFill{fill:rgba(145,96,255,.13);stroke:#ff65df;stroke-width:5;stroke-linejoin:round;filter:drop-shadow(0 0 5px #ff4bd8)}
+.rpsVector.rock{animation:vectorRock 1.05s cubic-bezier(.2,.75,.2,1)}.rpsVector.paper{animation:vectorPaper 1.05s cubic-bezier(.2,.75,.2,1)}.rpsVector.scissors{animation:vectorScissors 1.05s cubic-bezier(.2,.75,.2,1)}
+@keyframes vectorRock{0%{transform:translateY(-65px) rotate(-15deg) scale(.72)}62%{transform:translateY(14px) rotate(8deg) scale(1.19)}100%{transform:translateY(0)}}@keyframes vectorPaper{0%{transform:translateX(-78px) rotate(-28deg) scale(.8)}60%{transform:translateX(30px) rotate(14deg) scale(1.15)}100%{transform:translateX(0)}}@keyframes vectorScissors{0%{transform:translateY(-62px) rotate(-34deg) scale(.78)}42%{transform:translateY(18px) rotate(28deg) scale(1.2)}68%{transform:translateY(-8px) rotate(-10deg)}100%{transform:translateY(0)}}
+.rpsVector.right.rock{animation-name:vectorRockR}.rpsVector.right.paper{animation-name:vectorPaperR}.rpsVector.right.scissors{animation-name:vectorScissorsR}
+@keyframes vectorRockR{0%{transform:scaleX(-1) translateY(-65px) rotate(-15deg) scale(.72)}62%{transform:scaleX(-1) translateY(14px) rotate(8deg) scale(1.19)}100%{transform:scaleX(-1) translateY(0) scale(1)}}@keyframes vectorPaperR{0%{transform:scaleX(-1) translateX(-78px) rotate(-28deg) scale(.8)}60%{transform:scaleX(-1) translateX(30px) rotate(14deg) scale(1.15)}100%{transform:scaleX(-1) translateX(0) rotate(0) scale(1)}}@keyframes vectorScissorsR{0%{transform:scaleX(-1) translateY(-62px) rotate(-34deg) scale(.78)}42%{transform:scaleX(-1) translateY(18px) rotate(28deg) scale(1.2)}68%{transform:scaleX(-1) translateY(-8px) rotate(-10deg)}100%{transform:scaleX(-1) translateY(0) rotate(0)}}
+.rpsVs{position:absolute;inset:0;display:grid;place-items:center;font-size:20px;font-weight:1000;color:#ff65df;text-shadow:0 0 14px #ff4bd8}
+.rpsCut{position:absolute;left:50%;top:49%;width:150px;height:3px;margin-left:-75px;background:linear-gradient(90deg,transparent,#fff,transparent);opacity:0;transform:rotate(-30deg);filter:drop-shadow(0 0 7px #fff)}.rpsCut.show{animation:cutFlash .55s ease}@keyframes cutFlash{0%{opacity:0;transform:rotate(-30deg) scaleX(.2)}45%{opacity:1;transform:rotate(-30deg) scaleX(1.3)}100%{opacity:0;transform:rotate(-30deg) scaleX(1.7)}}
+@media(max-width:700px){.diceStage{grid-template-columns:1fr}.cube{width:70px;height:70px}.cubeFace{width:70px;height:70px}.cf-front{transform:translateZ(35px)}.cf-back{transform:rotateY(180deg) translateZ(35px)}.cf-right{transform:rotateY(90deg) translateZ(35px)}.cf-left{transform:rotateY(-90deg) translateZ(35px)}.cf-top{transform:rotateX(90deg) translateZ(35px)}.cf-bottom{transform:rotateX(-90deg) translateZ(35px)}}
 
 </style>
 </head>
@@ -241,8 +126,8 @@ button,input{font:inherit}button{-webkit-tap-highlight-color:transparent}.wrap{m
 <div class="sectionHead"><div><h2 style="margin:0">GAME SELECTION</h2><div class="sub">FIND GAME searches only active players with the same game and exact wager.</div></div><div class="queueTag">PUBLIC QUEUE</div></div>
 <div class="games">
 <div class="game"><div class="fuIcon">FU</div><h3>F / U</h3><p>Choose F or U. Confirm the selection. The coin lands and glows on the winning face.</p><div class="gameActions"><button class="gameBtn find" onclick="openMatch('flip','queue')">FIND GAME</button><button class="gameBtn cpu" onclick="openMatch('flip','cpu')">VS COMPUTER</button></div></div>
-<div class="game"><div class="ico">🎲</div><h3>DICE</h3><p>Two dice each. Player 1 rolls first, then Player 2. FU replaces 6; more FU faces wins, then highest total.</p><div class="gameActions"><button class="gameBtn find" onclick="openMatch('dice','queue')">FIND GAME</button><button class="gameBtn cpu" onclick="openMatch('dice','cpu')">VS COMPUTER</button></div></div>
-<div class="game"><div class="ico">✂️</div><h3>RPS</h3><p>Select, highlight, confirm, then watch rock smash, paper sweep, or scissors chop into the reveal.</p><div class="gameActions"><button class="gameBtn find" onclick="openMatch('rps','queue')">FIND GAME</button><button class="gameBtn cpu" onclick="openMatch('rps','cpu')">VS COMPUTER</button></div></div>
+<div class="game"><div class="fuIcon" style="border-radius:13px;font-size:19px">◆</div><h3>DICE</h3><p>Two dice each. Player 1 rolls first, then Player 2. FU replaces 6; more FU faces wins, then highest total.</p><div class="gameActions"><button class="gameBtn find" onclick="openMatch('dice','queue')">FIND GAME</button><button class="gameBtn cpu" onclick="openMatch('dice','cpu')">VS COMPUTER</button></div></div>
+<div class="game"><div class="fuIcon" style="border-radius:13px;font-size:10px">RPS</div><h3>RPS</h3><p>Select, highlight, confirm, then watch rock smash, paper sweep, or scissors chop into the reveal.</p><div class="gameActions"><button class="gameBtn find" onclick="openMatch('rps','queue')">FIND GAME</button><button class="gameBtn cpu" onclick="openMatch('rps','cpu')">VS COMPUTER</button></div></div>
 </div>
 </section>
 </div>
@@ -298,46 +183,16 @@ function diceLabel(v){return Number(v)===6?'FU':String(v)}
 function diceScore(pair){const vals=pair.map(Number),fu=vals.filter(v=>v===6).length,total=vals.reduce((a,v)=>a+v,0);return {fu,total}}
 function comparePairs(a,b){const A=diceScore(a),B=diceScore(b);if(A.fu!==B.fu)return A.fu>B.fu?1:-1;if(A.total!==B.total)return A.total>B.total?1:-1;return 0}
 function pairText(p){return p.map(diceLabel).join(' + ')}
+function pipMarkup(n){const cls={1:['p11'],2:['p21','p22'],3:['p31','p32','p33'],4:['p41','p42','p43','p44'],5:['p51','p52','p53','p54','p55']};return '<div class="pips">'+(cls[n]||[]).map(c=>'<i class="pip '+c+'"></i>').join('')+'</div>'}
+function faceMarkup(n){return Number(n)===6?'<div class="dieLogo" aria-label="FU emblem"></div>':pipMarkup(Number(n))}
+function cubeMarkup(frontValue,rolling=false,variant='A'){const front=frontValue==='?'?1:Number(frontValue);const other=[1,2,3,4,5,6].filter(v=>v!==front);const vals=[front,other[0],other[1],other[2],other[3],other[4]];return '<div class="cube '+(rolling?(variant==='A'?'rollingA':'rollingB'):'')+'"><div class="cubeFace cf-front">'+faceMarkup(vals[0])+'</div><div class="cubeFace cf-back">'+faceMarkup(vals[1])+'</div><div class="cubeFace cf-right">'+faceMarkup(vals[2])+'</div><div class="cubeFace cf-left">'+faceMarkup(vals[3])+'</div><div class="cubeFace cf-top">'+faceMarkup(vals[4])+'</div><div class="cubeFace cf-bottom">'+faceMarkup(vals[5])+'</div></div>'}
+function diceStage(a=['?','?'],b=['?','?'],ra=false,rb=false){return '<div class="diceStage"><div class="diceBlock"><div class="sub" style="margin-bottom:9px">PLAYER 1</div><div class="dicePair">'+cubeMarkup(a[0],ra,'A')+cubeMarkup(a[1],ra,'B')+'</div>'+(a[0]!=='?'?'<div class="diceScore">'+pairText(a)+'</div>':'')+'</div><div class="diceBlock"><div class="sub" style="margin-bottom:9px">PLAYER 2</div><div class="dicePair">'+cubeMarkup(b[0],rb,'B')+cubeMarkup(b[1],rb,'A')+'</div>'+(b[0]!=='?'?'<div class="diceScore">'+pairText(b)+'</div>':'')+'</div></div>'}
+function parseDice(v){if(!v||!String(v).startsWith('DICE:'))return null;const p=String(v).slice(5).split(',').map(Number);return p.length===2?p:null}
 
-function pips(n){
-  const map={
-    1:['p1'],
-    2:['p2a','p2b'],
-    3:['p3a','p3b','p3c'],
-    4:['p4a','p4b','p4c','p4d'],
-    5:['p5a','p5b','p5c','p5d','p5e']
-  };
-  return '<div class="pipGrid">'+(map[n]||[]).map(c=>'<i class="pip '+c+'"></i>').join('')+'</div>';
-}
-function faceContent(n){
-  return Number(n)===6?'<div class="fuEmblem" aria-label="FU logo"></div>':pips(Number(n));
-}
-function die3dMarkup(v,roll=false,variant='A'){
-  const vals=[v,2,3,4,5,6];
-  return '<div class="die3d '+(roll?(variant==='A'?'rollA':'rollB'):'settle')+'">'+
-    '<div class="dieFace front">'+faceContent(vals[0])+'</div>'+
-    '<div class="dieFace back">'+faceContent(vals[1])+'</div>'+
-    '<div class="dieFace right">'+faceContent(vals[2])+'</div>'+
-    '<div class="dieFace left">'+faceContent(vals[3])+'</div>'+
-    '<div class="dieFace top">'+faceContent(vals[4])+'</div>'+
-    '<div class="dieFace bottom">'+faceContent(vals[5])+'</div>'+
-  '</div>';
-}
-function diceStage(a=['?','?'],b=['?','?'],ra=false,rb=false){
-  const a0=a[0]==='?'?1:a[0],a1=a[1]==='?'?2:a[1],b0=b[0]==='?'?3:b[0],b1=b[1]==='?'?4:b[1];
-  return '<div class="diceStage">'+
-    '<div class="diceBlock"><div class="sub" style="margin-bottom:10px">PLAYER 1</div><div class="dicePair">'+
-      die3dMarkup(a0,ra,'A')+die3dMarkup(a1,ra,'B')+
-    '</div>'+(a[0]!=='?'?'<div class="diceScore">'+pairText(a)+'</div>':'')+'</div>'+
-    '<div class="diceBlock"><div class="sub" style="margin-bottom:10px">PLAYER 2</div><div class="dicePair">'+
-      die3dMarkup(b0,rb,'B')+die3dMarkup(b1,rb,'A')+
-    '</div>'+(b[0]!=='?'?'<div class="diceScore">'+pairText(b)+'</div>':'')+'</div>'+
-  '</div>';
-}
 // RPS
-function rpsEmoji(v){return v==='ROCK'?'🪨':v==='PAPER'?'🖐️':'✂️'}
 function rpsClass(v){return v==='ROCK'?'rock':v==='PAPER'?'paper':'scissors'}
-function rpsStage(a,b){return '<div class="rpsStage"><div class="rpsObj left '+rpsClass(a)+'">'+rpsEmoji(a)+'</div><div class="vs">VS</div><div class="rpsObj right '+rpsClass(b)+'">'+rpsEmoji(b)+'</div></div>'}
+function rpsArt(v){if(v==='ROCK')return '<svg viewBox="0 0 100 100" aria-label="rock"><path class="neonFill" d="M20 65 L16 48 Q18 35 29 32 L35 21 Q42 15 50 22 L58 18 Q67 18 70 28 L78 31 Q87 35 86 47 L83 67 Q79 81 64 84 L38 84 Q25 81 20 65Z"/><path class="neonStroke" d="M31 54 L31 37 M43 52 L43 29 M56 52 L56 27 M69 55 L69 36"/></svg>';if(v==='PAPER')return '<svg viewBox="0 0 100 100" aria-label="paper"><path class="neonFill" d="M29 82 Q17 73 18 59 L20 34 Q21 26 27 27 Q33 27 33 35 L33 17 Q34 9 40 10 Q46 10 46 18 L46 14 Q47 7 53 9 Q58 10 58 17 L58 15 Q60 10 65 12 Q70 14 69 21 L68 39 L75 32 Q82 27 87 32 Q91 37 85 43 L72 60 Q65 82 45 86Z"/><path class="neonStroke" d="M33 35 L33 57 M46 18 L46 57 M58 17 L58 57 M68 39 L66 57"/></svg>';return '<svg viewBox="0 0 100 100" aria-label="scissors"><circle class="neonFill" cx="30" cy="72" r="13"/><circle class="neonFill" cx="59" cy="72" r="13"/><path class="neonStroke" d="M38 63 L79 20 M51 63 L22 22 M47 52 L79 82"/></svg>'}
+function rpsStage(a,b){return '<div class="rpsStage"><div class="rpsVector left '+rpsClass(a)+'">'+rpsArt(a)+'</div><div class="rpsVs">VS</div><div class="rpsVector right '+rpsClass(b)+'">'+rpsArt(b)+'</div><div class="rpsCut '+((a==='SCISSORS'||b==='SCISSORS')?'show':'')+'"></div></div>'}
 
 // CPU
 function startCPU(type,w){balance-=w;save();room={id:'cpu-'+Date.now(),game_type:type,wager:w,player1:playerName,player2:'COMPUTER'};role='player1';pendingChoice=null;if(type==='flip')cpuFlip();else if(type==='dice')cpuDiceStart();else cpuRPS()}
@@ -354,7 +209,7 @@ function confirmCPUFlip(){
 function cpuDiceStart(){$('mbody').innerHTML='<div class="wager">LOCKED WAGER<br><strong>'+fmt(room.wager)+' FLIP</strong></div>'+diceStage()+'<div class="status">You roll first.</div><button class="rollBtn ready" onclick="cpuRoll1()">PRESS TO ROLL 2 DICE</button>'}
 function cpuRoll1(){const a=[diceVal(),diceVal()];room.player1_choice='DICE:'+a.join(',');$('mbody').innerHTML=diceStage(['?','?'],['?','?'],true,false)+'<div class="status">ROLLING…</div>';setTimeout(()=>{$('mbody').innerHTML=diceStage(a,['?','?'])+'<div class="status">You rolled '+pairText(a)+'. Computer rolls next.</div>';setTimeout(()=>cpuRoll2(a),650)},1500)}
 function cpuRoll2(a){const b=[diceVal(),diceVal()];$('mbody').innerHTML=diceStage(a,['?','?'],false,true)+'<div class="status">COMPUTER ROLLING…</div>';setTimeout(()=>{const c=comparePairs(a,b);if(c===0){$('mbody').innerHTML=diceStage(a,b)+'<div class="out">TIE — ROLL AGAIN</div>';setTimeout(cpuDiceStart,900);return}const won=c>0;if(won)balance+=room.wager*2;burned+=Math.floor(room.wager*.02*.75);save();$('mbody').innerHTML=diceStage(a,b)+resultBox(won,'YOU '+pairText(a)+' • CPU '+pairText(b),room.wager)},1500)}
-function cpuRPS(){$('mbody').innerHTML='<div class="wager">LOCKED WAGER<br><strong>'+fmt(room.wager)+' FLIP</strong></div>'+selectionUI('cpuRPS',[{v:'ROCK',label:'🪨 ROCK'},{v:'PAPER',label:'🖐️ PAPER'},{v:'SCISSORS',label:'✂️ SCISSORS'}],'confirmCPURPS()')}
+function cpuRPS(){$('mbody').innerHTML='<div class="wager">LOCKED WAGER<br><strong>'+fmt(room.wager)+' FLIP</strong></div>'+selectionUI('cpuRPS',[{v:'ROCK',label:'ROCK'},{v:'PAPER',label:'PAPER'},{v:'SCISSORS',label:'SCISSORS'}],'confirmCPURPS()')}
 function confirmCPURPS(){if(!pendingChoice)return;const v=pendingChoice,arr=['ROCK','PAPER','SCISSORS'],c=arr[Math.floor(Math.random()*3)],beats={ROCK:'SCISSORS',PAPER:'ROCK',SCISSORS:'PAPER'};pendingChoice=null;$('mbody').innerHTML=rpsStage(v,c)+'<div class="status">REVEALING…</div>';setTimeout(()=>{if(v===c){$('mbody').innerHTML=rpsStage(v,c)+'<div class="out">TIE — PICK AGAIN</div>';setTimeout(cpuRPS,800);return}const won=beats[v]===c;if(won)balance+=room.wager*2;burned+=Math.floor(room.wager*.02*.75);save();$('mbody').innerHTML=rpsStage(v,c)+resultBox(won,v+' vs '+c,room.wager)},1050)}
 
 // ACTIVE QUEUE
@@ -402,7 +257,7 @@ function flipMatch(r){
 }
 async function confirmFlipP1(){if(!pendingChoice)return;const v=pendingChoice;pendingChoice=null;await sb.from('games').update({player1_choice:v}).eq('id',room.id);setTimeout(refreshRoom,100)}
 async function confirmFlipP2(){const assigned=room.player1_choice==='F'?'U':'F';await sb.from('games').update({player2_choice:assigned}).eq('id',room.id);setTimeout(refreshRoom,100)}
-function rpsMatch(r){if(myChoice(r))return '<div class="rpsStage"><div class="vs">MOVE CONFIRMED</div></div><div class="status">Waiting for opponent…</div>';return '<div class="rpsStage"><div class="vs">SELECT YOUR MOVE</div></div>'+selectionUI('mpRPS',[{v:'ROCK',label:'🪨 ROCK'},{v:'PAPER',label:'🖐️ PAPER'},{v:'SCISSORS',label:'✂️ SCISSORS'}],'confirmRPS()')}
+function rpsMatch(r){if(myChoice(r))return '<div class="rpsStage"><div class="vs">MOVE CONFIRMED</div></div><div class="status">Waiting for opponent…</div>';return '<div class="rpsStage"><div class="vs">SELECT YOUR MOVE</div></div>'+selectionUI('mpRPS',[{v:'ROCK',label:'ROCK'},{v:'PAPER',label:'PAPER'},{v:'SCISSORS',label:'SCISSORS'}],'confirmRPS()')}
 async function confirmRPS(){if(!pendingChoice)return;const v=pendingChoice;pendingChoice=null;const col=role==='player1'?'player1_choice':'player2_choice';await sb.from('games').update({[col]:v}).eq('id',room.id);setTimeout(refreshRoom,100)}
 function diceMatch(r){const a=parseDice(r.player1_choice),b=parseDice(r.player2_choice);if(role==='player1'){if(!a)return diceStage()+ '<div class="status">Your turn — roll both dice.</div><button class="rollBtn ready" onclick="rollDiceMatch()">PRESS TO ROLL 2 DICE</button>';if(!b)return diceStage(a,['?','?'])+'<div class="status">You rolled '+pairText(a)+'. Waiting for Player 2.</div>';return diceStage(a,b)}else{if(!a)return diceStage()+ '<div class="status">Player 1 rolls first.</div>';if(!b)return diceStage(a,['?','?'])+'<div class="status">Your turn — Player 1 rolled '+pairText(a)+'.</div><button class="rollBtn ready" onclick="rollDiceMatch()">PRESS TO ROLL 2 DICE</button>';return diceStage(a,b)}}
 async function rollDiceMatch(){const vals=[diceVal(),diceVal()],col=role==='player1'?'player1_choice':'player2_choice';$('mbody').innerHTML=diceStage(['?','?'],['?','?'],role==='player1',role==='player2')+'<div class="status">ROLLING…</div>';setTimeout(async()=>{await sb.from('games').update({[col]:'DICE:'+vals.join(',')}).eq('id',room.id);setTimeout(refreshRoom,100)},1500)}
