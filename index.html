@@ -1088,6 +1088,39 @@ button,input{font:inherit}button{-webkit-tap-highlight-color:transparent}.wrap{m
   .weaponShape{height:168px!important}
 }
 
+
+/* ===== V25 RELIABILITY + FULL WEAPONS + 10S 1V1 TIMERS ===== */
+.weaponPickVisual{
+  height:190px!important;padding:8px!important;
+  background:radial-gradient(circle at center,rgba(67,220,255,.12),transparent 42%),linear-gradient(180deg,#0b1230,#060a20)!important;
+}
+.weaponPickVisual img.duelPhoto{
+  display:block!important;width:100%!important;height:100%!important;
+  object-fit:contain!important;object-position:center!important;
+  transform:none!important;
+  filter:saturate(1.14) contrast(1.06) brightness(1.03) drop-shadow(0 0 10px rgba(67,220,255,.20))!important;
+}
+.weaponPickCard.selected .weaponPickVisual img.duelPhoto{transform:scale(1.02)!important}
+.weaponShape{display:grid!important;place-items:center!important;padding:8px!important}
+.weaponShape img{width:100%!important;height:100%!important;object-fit:contain!important;object-position:center!important}
+.weaponShape.right{transform:none!important}
+.weaponShape.right img{transform:none!important}
+
+.turnClock{
+  margin-top:10px;padding:10px 12px;border-radius:12px;
+  display:flex;align-items:center;justify-content:center;gap:8px;
+  border:1px solid rgba(90,108,211,.40);
+  background:linear-gradient(180deg,#0a1230,#070b21);
+  color:#dce8ff;font-size:10px;font-weight:1000
+}
+.turnClock b{font-size:21px;color:#fff;text-shadow:0 0 10px rgba(67,220,255,.65)}
+.turnClock.urgent b{color:#ff7ee4;text-shadow:0 0 12px rgba(255,75,216,.85)}
+.commitBadge{
+  margin-top:8px;padding:8px 10px;border-radius:11px;text-align:center;
+  border:1px solid rgba(82,255,140,.18);background:rgba(82,255,140,.045);
+  color:#91fdb6;font-size:9px;font-weight:1000
+}
+
 </style>
 </head>
 <body>
@@ -1124,9 +1157,29 @@ let liveSide=null,liveBet=null,resolving=false;
 let liveRoundId=Math.floor(Date.now()/LIVE_ROUND_MS);
 let lastResolvedRound=null;
 let sb=null,room=null,role=null,ch=null,mode=null,currentType=null,playerName=localStorage.getItem('fu_name')||'',pendingChoice=null,selectedStake=1000;
-let searchTimer=null,searchPoll=null,searching=false,matchLocked=false,flipPickTimer=null,flipAutoAssigning=false,activeFlipAnimationRoom=null;
+let searchTimer=null,searchPoll=null,searching=false,matchLocked=false,flipPickTimer=null,flipAutoAssigning=false,activeFlipAnimationRoom=null,gameTurnTimer=null;
 
 function save(){localStorage.setItem('fu_bal',balance);localStorage.setItem('fu_burn',burned);$('bal').textContent=fmt(balance)+' FLIP';$('burn').textContent=fmt(burned)}
+function getCommitments(){
+  try{return JSON.parse(localStorage.getItem('fu_committed_games')||'[]')}catch(e){return []}
+}
+function saveCommitments(rows){localStorage.setItem('fu_committed_games',JSON.stringify(rows||[]))}
+function addCommitment(r,myRole){
+  const rows=getCommitments().filter(x=>String(x.id)!==String(r.id));
+  rows.push({id:r.id,role:myRole,player:playerName,wager:Number(r.wager),game_type:r.game_type,room_code:r.room_code||''});
+  saveCommitments(rows)
+}
+function removeCommitment(id){saveCommitments(getCommitments().filter(x=>String(x.id)!==String(id)))}
+function commitmentFor(id){return getCommitments().find(x=>String(x.id)===String(id))||null}
+function clearTurnTimer(){if(gameTurnTimer){clearInterval(gameTurnTimer);gameTurnTimer=null}}
+function secondsFromTimestamp(ts,seconds=10){
+  const start=Date.parse(ts||'');if(!Number.isFinite(start))return seconds;
+  return Math.max(0,Math.ceil((start+seconds*1000-Date.now())/1000))
+}
+function turnClockMarkup(seconds,label){
+  return '<div class="turnClock '+(seconds<=3?'urgent':'')+'" id="turnClock"><span>'+label+'</span><b>'+seconds+'s</b></div>'
+}
+
 function resetTestBalance(){
   balance=100000;
   localStorage.setItem('fu_bal',String(balance));
@@ -1244,6 +1297,7 @@ function openM(){$('modal').classList.add('show')}
 async function closeModal(){
   await cancelSearch();
   if(flipPickTimer){clearInterval(flipPickTimer);flipPickTimer=null}
+  clearTurnTimer();
   activeFlipAnimationRoom=null;flipAutoAssigning=false;
   if(ch&&sb){try{await sb.removeChannel(ch)}catch(e){}}
   ch=null;room=null;role=null;pendingChoice=null;matchLocked=false;
@@ -1722,7 +1776,16 @@ function startHeartbeat(){stopHeartbeat();searchTimer=setInterval(async()=>{if(s
 function stopHeartbeat(){if(searchTimer){clearInterval(searchTimer);searchTimer=null}}
 function startSearchPoll(){if(searchPoll)clearInterval(searchPoll);searchPoll=setInterval(async()=>{if(!searching||!room)return;const {data}=await sb.from('games').select('*').eq('id',room.id).single();if(data&&data.status==='active'&&data.player2){room=data;searching=false;stopHeartbeat();clearInterval(searchPoll);searchPoll=null;await lockMatchOnce(room);await transitionToMatch(room)}},1800)}
 async function cancelSearch(){stopHeartbeat();if(searchPoll){clearInterval(searchPoll);searchPoll=null}if(searching&&room&&role==='player1'&&room.status==='searching'&&sb){try{await sb.from('games').update({status:'cancelled'}).eq('id',room.id).eq('status','searching')}catch(e){}}searching=false}
-async function lockMatchOnce(r){const k='matchlocked_'+r.id;if(localStorage.getItem(k))return;if(balance<Number(r.wager)){alert('Not enough TEST FLIP anymore.');return}balance-=Number(r.wager);localStorage.setItem(k,'1');localStorage.setItem('settlelock_'+r.id,'1');save()}
+async function lockMatchOnce(r){
+  const k='matchlocked_'+r.id;
+  if(localStorage.getItem(k)){addCommitment(r,role);return}
+  if(balance<Number(r.wager)){alert('Not enough TEST FLIP anymore.');return}
+  balance-=Number(r.wager);
+  localStorage.setItem(k,'1');
+  localStorage.setItem('settlelock_'+r.id,'1');
+  addCommitment(r,role);
+  save()
+}
 async function transitionToMatch(r){searching=false;stopHeartbeat();if(searchPoll){clearInterval(searchPoll);searchPoll=null}foundScene(role==='player1'?r.player2:r.player1);await new Promise(res=>setTimeout(res,1050));enteringScene();await new Promise(res=>setTimeout(res,850));renderRoom()}
 function subscribeRoom(c){if(ch)sb.removeChannel(ch);ch=sb.channel('queue-'+c).on('postgres_changes',{event:'UPDATE',schema:'public',table:'games',filter:'room_code=eq.'+c},async p=>{room=p.new;if(room.status==='active'&&searching){await lockMatchOnce(room);await transitionToMatch(room);return}renderRoom();maybeResolve();settle()}).subscribe()}
 
@@ -1735,8 +1798,8 @@ function flipChooserRole(r){return (hashText(String(r.room_code||r.id)+':chooser
 function flipWinnerForRoom(r){return (hashText(String(r.room_code||r.id)+':winner')&1)===0?'F':'U'}
 function flipPickSeconds(r){
   const started=Date.parse(r.created_at||'');
-  if(!Number.isFinite(started))return 15;
-  return Math.max(0,Math.ceil((started+15000-Date.now())/1000))
+  if(!Number.isFinite(started))return 10;
+  return Math.max(0,Math.ceil((started+10000-Date.now())/1000))
 }
 function flipSideForRole(r,whichRole){return whichRole==='player1'?r.player1_choice:r.player2_choice}
 function flipPickTimerMarkup(r){
@@ -1805,6 +1868,65 @@ function armFlipRound(r){
   else armFlipPickClock(r)
 }
 
+
+function deterministicWeapon(r,whichRole){
+  const vals=['AXE','LANCE','SWORD'];
+  return vals[hashText(String(r.room_code||r.id)+':'+whichRole+':weapon')%3]
+}
+function deterministicDicePair(r,whichRole){
+  const h=hashText(String(r.room_code||r.id)+':'+whichRole+':dice');
+  return [1+(h%6),1+((h>>>5)%6)]
+}
+async function autoFillDuelTimeout(r){
+  if(!r||r.result)return;
+  const patch={};
+  if(!r.player1_choice)patch.player1_choice=deterministicWeapon(r,'player1');
+  if(!r.player2_choice)patch.player2_choice=deterministicWeapon(r,'player2');
+  if(Object.keys(patch).length){
+    await sb.from('games').update(patch).eq('id',r.id).is('result',null);
+    setTimeout(refreshRoom,100)
+  }
+}
+async function autoFillDiceTimeout(r){
+  if(!r||r.result)return;
+  if(!r.player1_choice){
+    const a=deterministicDicePair(r,'player1');
+    await sb.from('games').update({player1_choice:'DICE:'+a.join(','),created_at:new Date().toISOString()}).eq('id',r.id).is('result',null);
+    setTimeout(refreshRoom,100);return
+  }
+  if(!r.player2_choice){
+    const b=deterministicDicePair(r,'player2');
+    await sb.from('games').update({player2_choice:'DICE:'+b.join(',')}).eq('id',r.id).is('result',null);
+    setTimeout(refreshRoom,100)
+  }
+}
+function armGenericTurnTimer(r){
+  clearTurnTimer();
+  if(!r||r.result)return;
+
+  if(r.game_type==='duel'&&(!r.player1_choice||!r.player2_choice)){
+    const tick=()=>{
+      if(!room||room.id!==r.id){clearTurnTimer();return}
+      const secs=secondsFromTimestamp(room.created_at,10),el=$('turnClock');
+      if(el){el.classList.toggle('urgent',secs<=3);const b=el.querySelector('b');if(b)b.textContent=secs+'s'}
+      if(secs<=0){clearTurnTimer();autoFillDuelTimeout(room)}
+    };
+    tick();gameTurnTimer=setInterval(tick,250)
+  }
+
+  if(r.game_type==='dice'){
+    const a=parseDice(r.player1_choice),b=parseDice(r.player2_choice);
+    if(a&&b)return;
+    const tick=()=>{
+      if(!room||room.id!==r.id){clearTurnTimer();return}
+      const secs=secondsFromTimestamp(room.created_at,10),el=$('turnClock');
+      if(el){el.classList.toggle('urgent',secs<=3);const b=el.querySelector('b');if(b)b.textContent=secs+'s'}
+      if(secs<=0){clearTurnTimer();autoFillDiceTimeout(room)}
+    };
+    tick();gameTurnTimer=setInterval(tick,250)
+  }
+}
+
 // MATCH UI
 function myChoice(r){return role==='player1'?r.player1_choice:r.player2_choice}
 function renderRoom(){
@@ -1819,7 +1941,8 @@ function renderRoom(){
   else if(r.game_type==='dice')h+=diceMatch(r);
   else h+=weaponMatch(r);
   $('mbody').innerHTML=h;
-  if(r.game_type==='flip'&&!r.result)setTimeout(()=>armFlipRound(r),0)
+  if(r.game_type==='flip'&&!r.result)setTimeout(()=>armFlipRound(r),0);
+  if((r.game_type==='duel'||r.game_type==='dice')&&!r.result)setTimeout(()=>armGenericTurnTimer(r),0)
 }
 function flipMatch(r){
   if(r.player1_choice&&r.player2_choice){
@@ -1839,24 +1962,25 @@ function flipMatch(r){
 function weaponMatch(r){
   const myCol=role==='player1'?'player1_choice':'player2_choice';
   const oppCol=role==='player1'?'player2_choice':'player1_choice';
-  const mine=r[myCol],opp=r[oppCol];
+  const mine=r[myCol],opp=r[oppCol],secs=secondsFromTimestamp(r.created_at,10);
+  const timer=turnClockMarkup(secs,'SELECT WEAPON');
 
   if(mine&&opp){
     return weaponStage(r.player1_choice,r.player2_choice)+
+      '<div class="commitBadge">MATCH COMMITTED • YOU CAN CLOSE THIS WINDOW</div>'+
       '<div class="status">DUEL IN PROGRESS…</div>'
   }
-
   if(mine){
-    return '<div class="selectionBanner">WEAPON LOCKED: '+mine+'</div>'+
+    return timer+
+      '<div class="selectionBanner">WEAPON LOCKED: '+mine+'</div>'+
       '<div class="weaponPickGrid">'+weaponPickCard(mine,mine,'noopWeapon')+'</div>'+
-      '<div class="status">Waiting for opponent to lock a weapon…</div>'+
-      weaponRules()
+      '<div class="commitBadge">STAKE COMMITTED • RESULT RECOVERS AFTER RECONNECT</div>'+
+      '<div class="status">Waiting for opponent…</div>'+weaponRules()
   }
-
-  return '<div class="selectionBanner">'+(pendingChoice?'SELECTED: '+pendingChoice:'PICK YOUR WEAPON')+'</div>'+
-    weaponPicker(pendingChoice,'pickMPWeaponPending')+
-    weaponRules()+
-    '<div class="weaponSelectionHint">'+(pendingChoice?'Confirm '+pendingChoice+' to lock it.':'Tap a weapon card to select it.')+'</div>'+
+  return timer+
+    '<div class="selectionBanner">'+(pendingChoice?'SELECTED: '+pendingChoice:'PICK YOUR WEAPON')+'</div>'+
+    weaponPicker(pendingChoice,'pickMPWeaponPending')+weaponRules()+
+    '<div class="weaponSelectionHint">'+(pendingChoice?'Confirm '+pendingChoice+' to lock it.':'Choose within 10 seconds. Timeout = automatic selection.')+'</div>'+
     '<button class="confirmBtn '+(pendingChoice?'ready':'')+'" '+(!pendingChoice?'disabled':'')+' onclick="confirmMPWeapon()">CONFIRM '+(pendingChoice||'WEAPON')+'</button>'
 }
 function noopWeapon(){}
@@ -1872,15 +1996,41 @@ async function confirmMPWeapon(){
   await sb.from('games').update({[col]:v}).eq('id',room.id);
   setTimeout(refreshRoom,100)
 }
-function diceMatch(r){const a=parseDice(r.player1_choice),b=parseDice(r.player2_choice);if(role==='player1'){if(!a)return diceStage()+ '<div class="status">Your turn — roll both dice.</div><button class="rollBtn ready" onclick="rollDiceMatch()">PRESS TO ROLL 2 DICE</button>';if(!b)return diceStage(a,['?','?'])+'<div class="status">You rolled '+pairText(a)+'. Waiting for Player 2.</div>';return diceStage(a,b)}else{if(!a)return diceStage()+ '<div class="status">Player 1 rolls first.</div>';if(!b)return diceStage(a,['?','?'])+'<div class="status">Your turn — Player 1 rolled '+pairText(a)+'.</div><button class="rollBtn ready" onclick="rollDiceMatch()">PRESS TO ROLL 2 DICE</button>';return diceStage(a,b)}}
+function diceMatch(r){
+  const a=parseDice(r.player1_choice),b=parseDice(r.player2_choice);
+  const secs=secondsFromTimestamp(r.created_at,10);
+  const timer=turnClockMarkup(secs,a?'PLAYER 2 ROLL':'PLAYER 1 ROLL');
+
+  if(role==='player1'){
+    if(!a)return timer+diceStage()+
+      '<div class="status">Your turn — roll within 10 seconds.</div>'+
+      '<button class="rollBtn ready" onclick="rollDiceMatch()">PRESS TO ROLL 2 DICE</button>';
+    if(!b)return timer+diceStage(a,['?','?'])+
+      '<div class="commitBadge">STAKE COMMITTED • RESULT SURVIVES DISCONNECT</div>'+
+      '<div class="status">You rolled '+pairText(a)+'. Waiting for Player 2.</div>';
+    return diceStage(a,b)
+  }else{
+    if(!a)return timer+diceStage()+
+      '<div class="commitBadge">STAKE COMMITTED • RESULT SURVIVES DISCONNECT</div>'+
+      '<div class="status">Player 1 rolls first.</div>';
+    if(!b)return timer+diceStage(a,['?','?'])+
+      '<div class="status">Your turn — roll within 10 seconds.</div>'+
+      '<button class="rollBtn ready" onclick="rollDiceMatch()">PRESS TO ROLL 2 DICE</button>';
+    return diceStage(a,b)
+  }
+}
 async function rollDiceMatch(){
   const vals=[diceVal(),diceVal()],col=role==='player1'?'player1_choice':'player2_choice';
   const a=role==='player1'?vals:(parseDice(room.player1_choice)||['?','?']);
   const b=role==='player2'?vals:['?','?'];
-  $('mbody').innerHTML='<div class="wager">LOCKED WAGER<br><strong>'+fmt(room.wager)+' FU EACH</strong></div>'+diceStage(a,b,role==='player1',role==='player2')+'<div class="status">ROLLING 3D DICE…</div>';
+  clearTurnTimer();
+  $('mbody').innerHTML='<div class="wager">LOCKED WAGER<br><strong>'+fmt(room.wager)+' FU EACH</strong></div>'+
+    diceStage(a,b,role==='player1',role==='player2')+'<div class="status">ROLLING 3D DICE…</div>';
   setTimeout(async()=>{
-    await sb.from('games').update({[col]:'DICE:'+vals.join(',')}).eq('id',room.id);
-    setTimeout(refreshRoom,120);
+    const patch={[col]:'DICE:'+vals.join(',')};
+    if(role==='player1')patch.created_at=new Date().toISOString();
+    await sb.from('games').update(patch).eq('id',room.id);
+    setTimeout(refreshRoom,120)
   },2750)
 }
 async function refreshRoom(){if(!room)return;const {data}=await sb.from('games').select('*').eq('id',room.id).single();if(data){room=data;renderRoom();maybeResolve();settle()}}
@@ -1896,20 +2046,100 @@ async function maybeResolve(){
     const a=parseDice(r.player1_choice),b=parseDice(r.player2_choice);
     if(a&&b){
       const c=comparePairs(a,b);
-      if(c===0){setTimeout(()=>sb.from('games').update({player1_choice:null,player2_choice:null}).eq('id',r.id),750);return}
+      if(c===0){setTimeout(()=>sb.from('games').update({player1_choice:null,player2_choice:null,created_at:new Date().toISOString()}).eq('id',r.id),750);return}
       setTimeout(()=>finish(pairText(a)+' vs '+pairText(b),c>0?r.player1:r.player2),500)
     }
   }else if(r.game_type==='duel'&&r.player1_choice&&r.player2_choice){
-    if(r.player1_choice===r.player2_choice){setTimeout(()=>sb.from('games').update({player1_choice:null,player2_choice:null}).eq('id',r.id),850);return}
+    if(r.player1_choice===r.player2_choice){setTimeout(()=>sb.from('games').update({player1_choice:null,player2_choice:null,created_at:new Date().toISOString()}).eq('id',r.id),850);return}
     const beats={AXE:'LANCE',LANCE:'SWORD',SWORD:'AXE'};
     setTimeout(()=>finish(r.player1_choice+' vs '+r.player2_choice,beats[r.player1_choice]===r.player2_choice?r.player1:r.player2),1500)
   }
 }
 async function finish(result,winner){const {data}=await sb.from('games').update({result,winner,status:'finished'}).eq('id',room.id).is('result',null).select().single();if(data){room=data;renderRoom();settle()}}
-function settle(){if(!room||!room.result)return;const k='settled_'+room.id;if(localStorage.getItem(k)||!localStorage.getItem('settlelock_'+room.id))return;if(room.winner===playerName)balance+=Number(room.wager)*2;burned+=Math.floor(Number(room.wager)*.02*.75);localStorage.setItem(k,'1');localStorage.removeItem('settlelock_'+room.id);save()}
+function settleGameRecord(r,commit=null){
+  if(!r||!r.result)return false;
+  const k='settled_'+r.id;
+  if(localStorage.getItem(k))return true;
+  if(!localStorage.getItem('settlelock_'+r.id)&&!commit)return false;
+  const myPlayer=commit?commit.player:playerName;
+  if(r.winner===myPlayer)balance+=Number(r.wager)*2;
+  burned+=Math.floor(Number(r.wager)*.02*.75);
+  localStorage.setItem(k,'1');
+  localStorage.removeItem('settlelock_'+r.id);
+  removeCommitment(r.id);
+  save();
+  return true
+}
+function settle(){
+  if(!room||!room.result)return;
+  settleGameRecord(room,commitmentFor(room.id))
+}
 
-document.addEventListener('visibilitychange',()=>{if(!document.hidden&&room&&sb)refreshRoom()});
-(function(){const s=document.createElement('script');s.src='https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2';s.async=true;s.onload=()=>{try{sb=window.supabase.createClient(SUPA_URL,SUPA_KEY)}catch(e){}};document.head.appendChild(s)})();
+async function resolveGameRecord(r){
+  if(!r||r.result||r.status!=='active')return r;
+
+  if(r.game_type==='flip'&&r.player1_choice&&r.player2_choice){
+    const w=flipWinnerForRoom(r),winner=r.player1_choice===w?r.player1:r.player2;
+    const {data}=await sb.from('games').update({result:w+' WINS',winner,status:'finished'}).eq('id',r.id).is('result',null).select().single();
+    return data||r
+  }
+
+  if(r.game_type==='duel'){
+    if(!r.player1_choice||!r.player2_choice){
+      if(secondsFromTimestamp(r.created_at,10)<=0){
+        const patch={};
+        if(!r.player1_choice)patch.player1_choice=deterministicWeapon(r,'player1');
+        if(!r.player2_choice)patch.player2_choice=deterministicWeapon(r,'player2');
+        const {data}=await sb.from('games').update(patch).eq('id',r.id).select().single();
+        r=data||r
+      }else return r
+    }
+    if(r.player1_choice&&r.player2_choice){
+      if(r.player1_choice===r.player2_choice)return r;
+      const beats={AXE:'LANCE',LANCE:'SWORD',SWORD:'AXE'};
+      const winner=beats[r.player1_choice]===r.player2_choice?r.player1:r.player2;
+      const {data}=await sb.from('games').update({result:r.player1_choice+' vs '+r.player2_choice,winner,status:'finished'}).eq('id',r.id).is('result',null).select().single();
+      return data||r
+    }
+  }
+
+  if(r.game_type==='dice'){
+    let a=parseDice(r.player1_choice),b=parseDice(r.player2_choice);
+    if(!a&&secondsFromTimestamp(r.created_at,10)<=0){
+      a=deterministicDicePair(r,'player1');
+      const {data}=await sb.from('games').update({player1_choice:'DICE:'+a.join(','),created_at:new Date().toISOString()}).eq('id',r.id).select().single();
+      return data||r
+    }
+    if(a&&!b&&secondsFromTimestamp(r.created_at,10)<=0){
+      b=deterministicDicePair(r,'player2');
+      const {data}=await sb.from('games').update({player2_choice:'DICE:'+b.join(',')}).eq('id',r.id).select().single();
+      r=data||r
+    }
+    a=parseDice(r.player1_choice);b=parseDice(r.player2_choice);
+    if(a&&b){
+      const c=comparePairs(a,b);
+      if(c===0)return r;
+      const winner=c>0?r.player1:r.player2;
+      const {data}=await sb.from('games').update({result:pairText(a)+' vs '+pairText(b),winner,status:'finished'}).eq('id',r.id).is('result',null).select().single();
+      return data||r
+    }
+  }
+  return r
+}
+async function recoverCommittedGames(){
+  if(!sb)return;
+  for(const c of getCommitments()){
+    try{
+      const {data:r}=await sb.from('games').select('*').eq('id',c.id).single();
+      if(!r)continue;
+      let latest=r;
+      if(!latest.result)latest=await resolveGameRecord(latest);
+      if(latest&&latest.result)settleGameRecord(latest,c)
+    }catch(e){}
+  }
+}
+document.addEventListener('visibilitychange',()=>{if(!document.hidden&&sb){if(room)refreshRoom();recoverCommittedGames()}});
+(function(){const s=document.createElement('script');s.src='https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2';s.async=true;s.onload=()=>{try{sb=window.supabase.createClient(SUPA_URL,SUPA_KEY);setTimeout(recoverCommittedGames,500)}catch(e){}};document.head.appendChild(s)})();
 </script>
 </body>
 </html>
